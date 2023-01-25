@@ -1,0 +1,70 @@
+sensor:
+  #Laadpaal 01 - NLALLEGO0134921    
+  - platform: rest
+    name: NextCharge 01 - NLALLEGO0134921
+    scan_interval: 300
+    resource: !secret nextcharge_resource_url01
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    json_attributes_path: "$.stations[0].connectors[0]"
+    json_attributes:
+      - idConnector
+      - status
+      - powerMax
+      - physicalReference
+    value_template: "{{ value_json.status }}" 
+
+    #Laadpaal 01 - Payment Info - NLALLEGO0134921   
+  - platform: rest
+    name: NextCharge 01 - Payment - NLALLEGO0134921
+    scan_interval: 300
+    resource: !secret nextcharge_resource_url01
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    json_attributes_path: "$.stations[0].paymentSchemes[1]"
+    json_attributes:
+      - feeChargeNow-1
+      - priceUnit-1
+      - feeChargeNow
+      - priceUnit
+      - connectorId
+    value_template: "{{ value_json.status }}"  
+
+  #Laadpaal 02 - NLALLEGO0134922
+  - platform: rest
+    name: NextCharge 02 - NLALLEGO0134922
+    scan_interval: 300
+    resource: !secret nextcharge_resource_url01
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    json_attributes_path: "$.stations[0].connectors[1]"
+    json_attributes:
+      - idConnector
+      - status
+      - powerMax
+      - physicalReference
+    value_template: "{{ value_json.status }}"    
+    
+    #Laadpaal 02 - Payment Info - NLALLEGO0134922       
+  - platform: rest
+    name: NextCharge 02 - Payment - NLALLEGO0134922
+    scan_interval: 300
+    resource: !secret nextcharge_resource_url01
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    json_attributes_path: "$.stations[0].paymentSchemes[0]"
+    json_attributes:
+      - feeChargeNow-1
+      - priceUnit-1
+      - feeChargeNow
+      - priceUnit
+      - connectorId
+    value_template: "{{ value_json.status }}"    

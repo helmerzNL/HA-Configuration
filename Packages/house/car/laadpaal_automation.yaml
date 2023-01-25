@@ -1,0 +1,91 @@
+#Laadpaal - NLALLEGO0134922
+automation laadpaal_nlallego0134922_configureer_status:
+  alias: Laadpaal - NLALLEGO0134922 - Configureer Status
+  description: ""
+  trigger:
+    - platform: template
+      value_template: |-
+        {{state_attr('sensor.nextcharge_02_nlallego0134922',
+        'status')}}
+    - platform: homeassistant
+      event: start
+    - platform: time_pattern
+      minutes: "30"      
+  condition: []
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sensor.nextcharge_02_nlallego0134922
+              attribute: status
+              state: occupied
+          sequence:
+            - service: input_select.select_option
+              data:
+                option: Bezet
+              target:
+                entity_id: input_select.status_laadpaal_nlallego0134922
+        - conditions:
+            - condition: state
+              entity_id: sensor.nextcharge_02_nlallego0134922
+              attribute: status
+              state: available
+          sequence:
+            - service: input_select.select_option
+              data:
+                option: Beschikbaar
+              target:
+                entity_id: input_select.status_laadpaal_nlallego0134922
+      default:
+        - service: input_select.select_option
+          data:
+            option: Onbekend
+          target:
+            entity_id: input_select.status_laadpaal_nlallego0134922
+  mode: single
+
+#Laadpaal - NLALLEGO0134921
+automation laadpaal_nlallego0134921_configureer_status:
+  alias: Laadpaal - NLALLEGO0134921 - Configureer Status
+  description: ""
+  trigger:
+    - platform: template
+      value_template: |-
+        {{state_attr('sensor.nextcharge_01_nlallego0134921',
+        'status')}}
+    - platform: homeassistant
+      event: start
+    - platform: time_pattern
+      minutes: "30"           
+  condition: []
+  action:
+    - choose:
+        - conditions:
+            - condition: state
+              entity_id: sensor.nextcharge_01_nlallego0134921
+              attribute: status
+              state: occupied
+          sequence:
+            - service: input_select.select_option
+              data:
+                option: Bezet
+              target:
+                entity_id: input_select.status_laadpaal_nlallego0134921
+        - conditions:
+            - condition: state
+              entity_id: sensor.nextcharge_01_nlallego0134921
+              attribute: status
+              state: available
+          sequence:
+            - service: input_select.select_option
+              data:
+                option: Beschikbaar
+              target:
+                entity_id: input_select.status_laadpaal_nlallego0134921
+      default:
+        - service: input_select.select_option
+          data:
+            option: Onbekend
+          target:
+            entity_id: input_select.status_laadpaal_nlallego0134921
+  mode: single

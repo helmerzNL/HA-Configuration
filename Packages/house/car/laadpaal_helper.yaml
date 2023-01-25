@@ -1,0 +1,20 @@
+input_select:
+#Laadpaal Sensors
+  status_laadpaal_nlallego0134922:
+    name: Laadpaal Status - NLALLEGO0134922
+    options:
+      - Beschikbaar
+      - Bezet
+      - Onbekend
+    initial: Onbekend
+    icon: mdi:ev-station
+  status_laadpaal_nlallego0134921:
+    name: Laadpaal Status - NLALLEGO0134921
+    options:
+      - Beschikbaar
+      - Bezet
+      - Onbekend
+    initial: Onbekend
+    icon: mdi:ev-station
+
+    

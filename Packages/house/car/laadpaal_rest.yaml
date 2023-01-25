@@ -3,7 +3,9 @@ sensor:
   - platform: rest
     name: NextCharge 01 - NLALLEGO0134921
     scan_interval: 300
-    resource: !secret nextcharge_resource_url01
+    # Go to https://nextcharge.app/ to lookup the charging poles you would like to monitor
+    # Go to the Developer mode in your browser (F12 in Edge) and lookup the REST API Url and paste at the resource location in all the REST sensors below (I used a random location in Amsterdam as an example)
+    resource: https://nextcharge.webapp.goelectricstations.com/apis/v1_19/getFullStations?lon1=5.001869201660157&lon2=5.104522705078126&lat1=52.31603477280898&lat2=52.36323148534417&plugs=&providers=&hotels=0&restaurants=0&nextcharge=only&status=&access=&evtype=&priceRate=&powerMin=&trafficLayer=false&satellite=false&defaultFilter=false&filterIsReady=true&userId=&favorites=0&userCountry=NL&owner=ITGES&idGroupProvider=
     method: GET
     headers:
       User-Agent: Home Assistant
@@ -20,7 +22,7 @@ sensor:
   - platform: rest
     name: NextCharge 01 - Payment - NLALLEGO0134921
     scan_interval: 300
-    resource: !secret nextcharge_resource_url01
+    resource: https://nextcharge.webapp.goelectricstations.com/apis/v1_19/getFullStations?lon1=5.001869201660157&lon2=5.104522705078126&lat1=52.31603477280898&lat2=52.36323148534417&plugs=&providers=&hotels=0&restaurants=0&nextcharge=only&status=&access=&evtype=&priceRate=&powerMin=&trafficLayer=false&satellite=false&defaultFilter=false&filterIsReady=true&userId=&favorites=0&userCountry=NL&owner=ITGES&idGroupProvider=
     method: GET
     headers:
       User-Agent: Home Assistant
@@ -38,7 +40,7 @@ sensor:
   - platform: rest
     name: NextCharge 02 - NLALLEGO0134922
     scan_interval: 300
-    resource: !secret nextcharge_resource_url01
+    resource: https://nextcharge.webapp.goelectricstations.com/apis/v1_19/getFullStations?lon1=5.001869201660157&lon2=5.104522705078126&lat1=52.31603477280898&lat2=52.36323148534417&plugs=&providers=&hotels=0&restaurants=0&nextcharge=only&status=&access=&evtype=&priceRate=&powerMin=&trafficLayer=false&satellite=false&defaultFilter=false&filterIsReady=true&userId=&favorites=0&userCountry=NL&owner=ITGES&idGroupProvider=
     method: GET
     headers:
       User-Agent: Home Assistant
@@ -55,7 +57,7 @@ sensor:
   - platform: rest
     name: NextCharge 02 - Payment - NLALLEGO0134922
     scan_interval: 300
-    resource: !secret nextcharge_resource_url01
+    resource: https://nextcharge.webapp.goelectricstations.com/apis/v1_19/getFullStations?lon1=5.001869201660157&lon2=5.104522705078126&lat1=52.31603477280898&lat2=52.36323148534417&plugs=&providers=&hotels=0&restaurants=0&nextcharge=only&status=&access=&evtype=&priceRate=&powerMin=&trafficLayer=false&satellite=false&defaultFilter=false&filterIsReady=true&userId=&favorites=0&userCountry=NL&owner=ITGES&idGroupProvider=
     method: GET
     headers:
       User-Agent: Home Assistant

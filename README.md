@@ -9,6 +9,7 @@ My public HA creations
 - [My public HA Creations](#my-public-ha-creations)
   - [Table of contents](#table-of-contents)
   - [Background](#background)
+  - [Charging Pole](#charging-pole)
 
 
 ___

@@ -5,7 +5,7 @@ cards:
   - type: horizontal-stack
     cards:
       - type: custom:mushroom-template-card
-        primary: Kerkweg 36 - 01
+        primary: Laadpaal - 01
         secondary: >-
           {{states('input_select.status_laadpaal_nlallego0134921')}}
 
@@ -57,7 +57,7 @@ cards:
         multiline_secondary: true
         entity: input_select.status_laadpaal_nlallego0134921
       - type: custom:mushroom-template-card
-        primary: Kerkweg 36 - 02
+        primary: Laadpaal - 02
         secondary: >-
           {{states('input_select.status_laadpaal_nlallego0134922')}}
 

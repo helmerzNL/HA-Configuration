@@ -1,0 +1,96 @@
+type: vertical-stack
+cards:
+  - type: custom:mushroom-title-card
+    title: ''
+    subtitle: Energieverbruik Vandaag
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Gas
+        secondary: '{{ states(''sensor.gasverbruik_vandaag'') | round(1) }} m3'
+        icon: mdi:fire
+        entity: sensor.gasverbruik_vandaag
+        tap_action:
+          action: navigate
+          navigation_path: /dashboard-wk/energie
+        hold_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        fill_container: true
+        icon_color: red
+        card_mod:
+          style:
+            mushroom-shape-icon$: |
+              ha-icon {
+                --icon-animation: boil 500ms infinite;
+              }
+              @keyframes boil {
+                0%, 100% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                10% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); clip-path: polygon(0 0, 66% 10%, 67% 30%, 88% 52%, 100% 100%, 0 100%); }
+                20% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                30% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                40% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                50% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                60% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                70% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                80% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+                90% { transform: translate({{ range(-20, 20) | random / 10 }}px, {{ range(-20, 20) | random / 10 }}px) rotate({{ range(-15, 15) | random }}deg); }
+              }
+      - type: custom:mushroom-template-card
+        primary: Water
+        secondary: '{{ states(''sensor.waterverbruik_vandaag'') | round(0)}} L'
+        icon: mdi:water-pump
+        icon_color: light-blue
+        entity: sensor.waterverbruik_vandaag
+        fill_container: true
+        tap_action:
+          action: navigate
+          navigation_path: energie
+        hold_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        card_mod:
+          style:
+            mushroom-shape-icon$: |
+              ha-icon {
+                --icon-animation: drip 2s infinite; 
+              }
+              @keyframes drip {
+                0%, 100% { clip-path: inset(0 0 0 0); }
+                15%, 85% { clip-path: polygon(0 0, 100% 0, 100% 57%, 64% 57%, 64% 100%, 0 100%); }
+              }
+      - type: custom:mushroom-template-card
+        primary: Stroom
+        secondary: '{{ states(''sensor.stroomverbruik_vandaag'') | round(1)}} kWh'
+        icon: mdi:lightning-bolt
+        entity: sensor.stroomverbruik_vandaag
+        icon_color: green
+        tap_action:
+          action: navigate
+          navigation_path: energie
+        fill_container: true
+        hold_action:
+          action: more-info
+        double_tap_action:
+          action: none
+        card_mod:
+          style:
+            mushroom-shape-icon$: |
+              ha-icon {
+                --icon-animation: charge 1s linear infinite;
+              }
+              @keyframes charge {
+                0%, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100% { transform: translate(0, 0); }
+                5% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                15% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                25% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                35% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                45% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                55% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                65% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                75% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                85% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+                95% { transform: translate({{ range(-10, 10) | random / 10 }}px, {{ range(-10, 10) | random / 10 }}px); }
+              }

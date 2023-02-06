@@ -1,0 +1,24 @@
+automation template_sonos_notification:
+      alias: Sonos - Audible Notification Template v1
+      description: Template Audible Notification
+      trigger:
+      #Please define your own trigger (webhook below is just a random example)
+        - platform: webhook
+          webhook_id: "-7D8SmIGry7U-hjtjg4y4yfgjfgj"
+      condition: []
+      action:
+        - service: script.sonos_audio_notificatie_v20
+          data:
+            #Variables below are being used when launching the script
+            #The Media_Player which is used to play the tts
+            media_player_entity: media_player.werkkamer_sonos
+            #Het volume dat wordt ingesteld op de speaker voordat het afspelen begint.
+            message_volume: 0.15
+            #Message that will be used for the anouncement.
+            message: This is an example sentence that is used.
+            #The timeout used before the sonos_restore action will be started
+            message_timeout_hours: 0
+            message_timeout_minutes: 0
+            message_timeout_seconds: 4
+            message_timeout_milliseconds: 0
+      mode: single

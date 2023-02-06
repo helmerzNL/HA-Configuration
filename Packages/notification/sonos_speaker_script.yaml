@@ -1,13 +1,15 @@
 script:
-
   sonos_audio_notificatie_v20:
     alias: Sonos - Audio Notificatie v2.0
     sequence:
+        #snapshot whatever is playing on the Sonos speaker (so it can be restored afterwards)
       - service: sonos.snapshot
         data:
           with_group: true
           entity_id: "{{media_player_entity}}"
       - if:
+            #If the Apple TV (or other TV device) is using the Sonos for audio output, you want the Apple TV                  
+            #(or other tv device) to pause before Sonos will broadcast the notification.
           - condition: state
             entity_id: media_player.atv_woonkamer
             state: playing
@@ -18,9 +20,12 @@ script:
             entity_id: media_player.woonkamer_sonos
             attribute: source
             state: TV
+            #Check if the targeted media_player_entity is the Sonos speaker in the living room.
           - condition: template
             value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
         then:
+            #If the TV is playing, pause ATV and continue with the script (and turn on boolean, 
+            #required for resume action at the end of the script).
           - service: media_player.media_pause
             data: {}
             target:
@@ -29,29 +34,37 @@ script:
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+        #Unjoin the targeted Sonos speaker from the group (so broadcast will only play on the 
+        #targete Sonos speaker.
       - service: media_player.unjoin
         data: {}
         target:
           entity_id: "{{media_player_entity}}"
+        #Configure the volume as defined in the automation 
       - service: media_player.volume_set
         data:
           volume_level: "{{message_volume}}"
         target:
           entity_id: "{{media_player_entity}}"
+        #I've used Microsoft TTS, but you can use any TTS here.
       - service: tts.microsoft_say
         data:
           cache: false
           entity_id: "{{media_player_entity}}"
           message: "{{message}}"
+        #Define a delay to wait before the sonos.restore service will kick in (otherwise the tts 
+        #will not be completed 
       - delay:
           hours: "{{message_timeout_hours}}"
           minutes: "{{message_timeout_minutes}}"
           seconds: "{{message_timeout_seconds}}"
           milliseconds: "{{message_timeout_milliseconds}}"
+        #Restore whatever was playing on the Sonos speaker before the broadcast started 
       - service: sonos.restore
         data:
           with_group: true
           entity_id: "{{media_player_entity}}"
+        #If ATV (or other TV device) was playing, resume playing and turn boolean off again. 
       - if:
           - condition: state
             entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing

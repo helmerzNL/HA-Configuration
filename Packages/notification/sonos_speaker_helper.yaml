@@ -1,0 +1,6 @@
+input_boolean:
+#Sonos - Is Apple TV Playing?
+#Helper needed for ATV (or other TV device) to resume playing.
+  sonos_audio_notificatie_apple_tv_playing:
+    name: Sonos - Is Apple TV Playing?
+    icon: mdi:speaker-wireless

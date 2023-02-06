@@ -7,6 +7,7 @@ script:
         data:
           with_group: true
           entity_id: "{{media_player_entity}}"
+      ##REMOVE START - IF YOU DON'T HAVE A SONOS SOUNDBAR YOU CAN REMOVE THIS PART 
       - if:
             #If the Apple TV (or other TV device) is using the Sonos for audio output, you want the Apple TV                  
             #(or other tv device) to pause before Sonos will broadcast the notification.
@@ -34,6 +35,7 @@ script:
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+      ##REMOVE END - IF YOU DON'T HAVE A SONOS SOUNDBAR 
         #Unjoin the targeted Sonos speaker from the group (so broadcast will only play on the 
         #targete Sonos speaker.
       - service: media_player.unjoin
@@ -65,6 +67,7 @@ script:
           with_group: true
           entity_id: "{{media_player_entity}}"
         #If ATV (or other TV device) was playing, resume playing and turn boolean off again. 
+      ##REMOVE START - IF YOU DON'T HAVE A SONOS SOUNDBAR YOU CAN REMOVE THIS PART 
       - if:
           - condition: state
             entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
@@ -78,5 +81,6 @@ script:
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+      ##REMOVE END - IF YOU DON'T HAVE A SONOS SOUNDBAR  
     icon: mdi:speaker-message
     mode: restart

@@ -50,6 +50,8 @@ You can use the script by using my Automation example, which you can find [here]
 - message_timeout_hours: *0*
 - message_timeout_minutes: *0*
 - message_timeout_seconds: *4*
-- message_timeout_milliseconds: *0*
+- message_timeout_milliseconds: *0* 
 
 *Note: The message_timeout is **required**, if you use Sonos speakers and don't use the timeout, the script (or automation) executes the next task right away and you don't hear the TTS* 
+
+When u have an Apple TV (or other media player) using the Sonos speaker for audio output, you will also need the [Helper](/Packages/notification/sonos_speaker_helper.yaml). If you don't have this setup (and you don't use one of the Sonos soundbars), you can remove the part in the script that checks (and sets) the input_boolean (marked with *##REMOVE - IF YOU DON'T HAVE A SONOS SOUNDBAR*).

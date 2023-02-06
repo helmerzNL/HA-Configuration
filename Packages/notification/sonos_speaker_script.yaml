@@ -1,0 +1,69 @@
+script:
+
+  sonos_audio_notificatie_v20:
+    alias: Sonos - Audio Notificatie v2.0
+    sequence:
+      - service: sonos.snapshot
+        data:
+          with_group: true
+          entity_id: "{{media_player_entity}}"
+      - if:
+          - condition: state
+            entity_id: media_player.atv_woonkamer
+            state: playing
+          - condition: state
+            entity_id: media_player.woonkamer_sonos
+            state: playing
+          - condition: state
+            entity_id: media_player.woonkamer_sonos
+            attribute: source
+            state: TV
+          - condition: template
+            value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+        then:
+          - service: media_player.media_pause
+            data: {}
+            target:
+              entity_id: media_player.atv_woonkamer
+          - service: input_boolean.turn_on
+            data: {}
+            target:
+              entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+      - service: media_player.unjoin
+        data: {}
+        target:
+          entity_id: "{{media_player_entity}}"
+      - service: media_player.volume_set
+        data:
+          volume_level: "{{message_volume}}"
+        target:
+          entity_id: "{{media_player_entity}}"
+      - service: tts.microsoft_say
+        data:
+          cache: false
+          entity_id: "{{media_player_entity}}"
+          message: "{{message}}"
+      - delay:
+          hours: "{{message_timeout_hours}}"
+          minutes: "{{message_timeout_minutes}}"
+          seconds: "{{message_timeout_seconds}}"
+          milliseconds: "{{message_timeout_milliseconds}}"
+      - service: sonos.restore
+        data:
+          with_group: true
+          entity_id: "{{media_player_entity}}"
+      - if:
+          - condition: state
+            entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+            state: "on"
+        then:
+          - service: media_player.media_play_pause
+            data: {}
+            target:
+              entity_id: media_player.atv_woonkamer
+          - service: input_boolean.turn_off
+            data: {}
+            target:
+              entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+    icon: mdi:speaker-message
+    mode: restart

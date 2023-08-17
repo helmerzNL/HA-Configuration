@@ -10,7 +10,7 @@ My public HA creations
   - [Table of contents](#table-of-contents)
   - [Background](#background)
   - [Charging Pole](#charging-pole)
-  - [Sonos Notification v5](#sonos-notifications)
+  - [Sonos Notification v5](#sonos-notification)
 
 
 ___

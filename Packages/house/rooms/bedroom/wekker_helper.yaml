@@ -1,0 +1,41 @@
+input_datetime:
+#Wekker - iPhone
+  wekker_iphone:
+    name: Wekker iPhone
+    has_date: false
+    has_time: true
+    icon: mdi:alarm
+  wekker_sonos_week:
+    name: Wekker Sonos Week
+    has_date: false
+    has_time: true
+    icon: mdi:calendar
+  wekker_sonos_weekend:
+    name: Wekker Sonos Weekend
+    has_date: false
+    has_time: true
+    icon: mdi:calendar
+  wekker_sonos_travel:
+    name: Wekker Sonos Travel
+    has_date: false
+    has_time: true
+    icon: mdi:calendar
+
+#Configure Sonos Alarm
+input_boolean :
+  wakeup_enabled:
+    name: "Wake-up lights"
+    initial: on
+    icon: mdi:theme-light-dark
+  wakeup_travel:
+    name: "Enable Wake-up on travel days"
+    initial: off # I disable the system on default on travel days
+    icon: mdi:calendar-blank    
+  wakeup_weekend:
+    name: "Enable Wake-up on weekends"
+    initial: off # I disable the system on default on weekends
+    icon: mdi:calendar-blank
+  wekker_iphone_enabled:
+    name: "Wekker iPhone AAN"
+    initial: off # Initial turned off
+    icon: mdi:alarm

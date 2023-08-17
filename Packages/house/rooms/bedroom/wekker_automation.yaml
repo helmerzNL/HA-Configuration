@@ -1,0 +1,260 @@
+automation slaapkamer_wekker_iphone_helmer
+  alias: Slaapkamer - iOS Alarm - Update HA Alarm Tijd
+  description: >-
+    Werkt in combinatie met Apple Shortcut. Zodra iOS Alarm (met de naam Wekker)
+    is gewijzigd, wordt de Trigger helper van deze automation gewijzigd waardoor
+    deze automation wordt gestart.
+  trigger:
+    - platform: state
+      entity_id:
+        - input_datetime.wekker_iphone_helmer
+      to: null
+      id: configure_alarm
+    - platform: state
+      entity_id:
+        - input_boolean.wekker_iphone_helmer_enabled
+      to: "off"
+      id: alam_off
+  condition:
+    - condition: state
+      entity_id: sensor.iPhone_ssid
+      state: Silence of the LANs
+  action:
+    - choose:
+        - conditions:
+            - condition: time
+              weekday:
+                - mon
+                - tue
+                - wed
+                - thu
+                - sun
+          sequence:
+            - service: input_datetime.set_datetime
+              data:
+                time: "{{ states(\"input_datetime.wekker_iphone_helmer\")}}"
+              target:
+                entity_id: input_datetime.wakeup_time_week
+            - service: switch.turn_on
+              data: {}
+              target:
+                entity_id: switch.slaapkamer_helmer_sonos_alarm_week
+            - service: input_boolean.turn_on
+              data: {}
+              target:
+                entity_id: input_boolean.wekker_iphone_helmer_enabled
+            - service: script.notificatie_iphone_v3
+              data:
+                notify_phone: iphone_helmer
+                message_phone_body: >-
+                  Wekker gaat morgenochtend om {{
+                  states("input_datetime.wekker_iphone_helmer")}}
+                message_phone_title: Wekker Ingeschakeld
+                message_phone_tag: wekker_aan
+                message_phone_group: wekker
+                message_phone_persistent: true
+                message_tts_priority: false
+        - conditions:
+            - condition: time
+              weekday:
+                - fri
+                - sat
+          sequence:
+            - service: input_datetime.set_datetime
+              data:
+                time: "{{ states(\"input_datetime.wekker_iphone_helmer\")}}"
+              target:
+                entity_id: input_datetime.wakeup_time_weekend
+            - service: switch.turn_on
+              data: {}
+              target:
+                entity_id: switch.slaapkamer_helmer_sonos_alarm_weekend
+            - service: input_boolean.turn_on
+              data: {}
+              target:
+                entity_id: input_boolean.wekker_iphone_helmer_enabled
+            - service: script.notificatie_iphone_v3
+              data:
+                notify_phone: iphone_helmer
+                message_phone_body: >-
+                  Wekker gaat morgenochtend om {{
+                  states("input_datetime.wekker_iphone_helmer")}}
+                message_phone_title: Wekker Ingeschakeld
+                message_phone_tag: wekker_aan
+                message_phone_group: wekker
+                message_phone_persistent: true
+    - choose:
+        - conditions:
+            - condition: time
+              weekday:
+                - mon
+                - tue
+                - wed
+                - thu
+                - sun
+            - condition: trigger
+              id:
+                - alam_off
+          sequence:
+            - service: switch.turn_off
+              data: {}
+              target:
+                entity_id: switch.slaapkamer_helmer_sonos_alarm_week
+            - service: media_player.media_pause
+              data: {}
+              target:
+                entity_id: media_player.slaapkamer_helmer_sonos
+            - service: light.turn_off
+              data: {}
+              target:
+                entity_id: light.slaapkamer_bedlamp_helmer
+            - service: script.notificatie_iphone_v3
+              data:
+                notify_phone: iphone_helmer
+                message_phone_body: Wekker is uitgeschakeld.
+                message_phone_title: Wekker Uitgeschakeld
+                message_phone_tag: wekker_uit
+                message_phone_group: wekker
+                message_phone_persistent: true
+        - conditions:
+            - condition: time
+              weekday:
+                - fri
+                - sat
+            - condition: trigger
+              id:
+                - alam_off
+          sequence:
+            - service: switch.turn_off
+              data: {}
+              target:
+                entity_id: switch.slaapkamer_helmer_sonos_alarm_weekend
+            - service: media_player.media_pause
+              data: {}
+              target:
+                entity_id: media_player.slaapkamer_helmer_sonos
+            - service: light.turn_off
+              data: {}
+              target:
+                entity_id: light.slaapkamer_bedlamp_helmer
+            - service: script.notificatie_iphone_v3
+              data:
+                notify_phone: iphone_helmer
+                message_phone_body: Wekker is uitgeschakeld.
+                message_phone_title: Wekker Uitgeschakeld
+                message_phone_tag: wekker_uit
+                message_phone_group: wekker
+                message_phone_persistent: true
+  mode: single
+automation sonos_configureer_alarm_week_day_v2:
+  alias: Sonos - Configureer Alarm Week Day v2
+  description: Configureer de tijd voor het genoemde Alarm.
+  mode: single
+  trigger:
+    - platform: state
+      entity_id:
+        - input_datetime.wekker_sonos_week
+  condition: []
+  action:
+    - service: sonos.update_alarm
+      data:
+        alarm_id: >-
+          {{  state_attr('switch.slaapkamer_helmer_sonos_alarm_week', 'alarm_id')
+          }}
+        volume: 0.12
+        time: "{{ states('input_datetime.wekker_sonos_week') }}"
+      target:
+        entity_id: media_player.slaapkamer_helmer_sonos
+     
+automation sonos_configureer_alarm_weekend_day_v3:
+  alias: Sonos - Configureer Alarm Weekend Day v3
+  description: Configureer de tijd voor het genoemde Alarm.
+  mode: singles
+  trigger:
+    - platform: state
+      entity_id:
+        - input_datetime.wekker_sonos_weekend
+  condition: []
+  action:
+    - service: sonos.update_alarm
+      data:
+        alarm_id: >-
+          {{  state_attr('switch.slaapkamer_helmer_sonos_alarm_weekend',
+          'alarm_id') }}
+        volume: 0.12
+        time: "{{ states('input_datetime.wekker_sonos_weekend') }}"
+      target:
+        entity_id: media_player.slaapkamer_helmer_sonos
+
+automation sonos_configureer_alarm_travel_day_v2:
+  alias: Sonos - Configureer Alarm Travel Day v2
+  description: Configureer de tijd voor het genoemde Alarm.
+  mode: single
+  trigger:
+    - platform: state
+      entity_id:
+        - input_datetime.wekker_sonos_travel
+  condition: []
+  action:
+    - service: sonos.update_alarm
+      data:
+        alarm_id: >-
+          {{  state_attr('switch.slaapkamer_helmer_sonos_alarm_travel',
+          'alarm_id') }}
+        volume: 0.12
+        time: "{{ states('input_datetime.wekker_sonos_travel') }}"
+      target:
+        entity_id: media_player.slaapkamer_helmer_sonos
+automation slaapkamer_wekker_helmer_weekdagen:
+  alias: Slaapkamer - Wekker Helmer - Weekdagen
+  description: Wekker op weekdagen
+  trigger:
+    - platform: time
+      at: input_datetime.wekker_sonos_week
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          weekday:
+            - mon
+            - tue
+            - wed
+            - thu
+            - fri
+        - condition: state
+          entity_id: switch.slaapkamer_helmer_sonos_alarm_week
+          state: "on"
+  action:
+    - service: light.turn_on
+      data:
+        brightness_pct: 25
+        transition: 240
+      target:
+        entity_id: light.slaapkamer_bedlamp_helmer
+  mode: single
+automation slaapkamer_wekker_helmer_weekend:
+  alias: Slaapkamer - Wekker Helmer - Weekend
+  description: Wekker op weekenddagen
+  mode: single  
+  trigger:
+    - platform: time
+      at: input_datetime.wekker_sonos_weekend
+  condition:
+    - condition: and
+      conditions:
+        - condition: time
+          weekday:
+            - sat
+            - sun
+        - condition: state
+          entity_id: switch.slaapkamer_helmer_sonos_alarm_weekend
+          state: "on"
+  action:
+    - service: light.turn_on
+      data:
+        brightness_pct: 25
+        transition: 240
+      target:
+        entity_id: light.slaapkamer_bedlamp_helmer
+
+

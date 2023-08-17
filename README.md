@@ -10,7 +10,7 @@ My public HA creations
   - [Table of contents](#table-of-contents)
   - [Background](#background)
   - [Charging Pole](#charging-pole)
-  - [Sonos Notification](#sonos-notifications)
+  - [Sonos Notification v5](#sonos-notifications)
 
 
 ___
@@ -42,16 +42,10 @@ I’ve been using Sonos speakers in my house quiet some time. In my early HA day
 
 You can use the script by using my Automation example, which you can find [here](/Packages/_templates/sonos_notification_example_automation.yaml). Customize the defined variables any way you like, they will be passed on (and used) in the script.
 
-**Variables**
+**Example**
+I've included an example [here](Packages/notification/sonos_service_example.yaml) that will give you an example of a service you could include in your own automations.
 
-- media_player_entity: media_player.*sonos_speaker*
-- message_volume: *0.15*
-- message: *This is an example sentence that is used.*
-- message_timeout_hours: *0*
-- message_timeout_minutes: *0*
-- message_timeout_seconds: *4*
-- message_timeout_milliseconds: *0* 
 
-*Note: The message_timeout is **required**, if you use Sonos speakers and don't use the timeout, the script (or automation) executes the next task right away and you don't hear the TTS* 
+*Note: I've included a few conditional actions that are used in combination with a Sonos soundbar and with a LG TV, which will show a toast message if the message has not priority. If you don't have a soundbar you can remove those actions.* 
 
-When u have an Apple TV (or other media player) using the Sonos speaker for audio output, you will also need the [Helper](/Packages/notification/sonos_speaker_helper.yaml). If you don't have this setup (and you don't use one of the Sonos soundbars), you can remove the part in the script that checks (and sets) the input_boolean (marked with *##REMOVE - IF YOU DON'T HAVE A SONOS SOUNDBAR*).
+When u have an Apple TV (or other media player) using the Sonos speaker for audio output, you will also need the [Helper](/Packages/notification/sonos_speaker_helper.yaml). If you don't have this setup (and you don't use one of the Sonos soundbars), you can remove the part in the script that checks (and sets) the input_boolean (marked with *##THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO*).

@@ -1,73 +1,103 @@
 script:
-  sonos_audio_notificatie_v20:
-    alias: Sonos - Audio Notificatie v2.0
+  sonos_audio_notificatie_v50:
+    alias: Sonos - Audio Notificatie v5
     sequence:
-        #snapshot whatever is playing on the Sonos speaker (so it can be restored afterwards)
-      - service: sonos.snapshot
-        data:
-          with_group: true
-          entity_id: "{{media_player_entity}}"
-      ##REMOVE START - IF YOU DON'T HAVE A SONOS SOUNDBAR YOU CAN REMOVE THIS PART 
+      #If the Apple TV (or other TV device) is using the Sonos for audio output, you want the Apple TV                  
+      #(or other tv device) to pause before Sonos will broadcast the notification, but only if the message has PRIORITY
+      #THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO
       - if:
-            #If the Apple TV (or other TV device) is using the Sonos for audio output, you want the Apple TV                  
-            #(or other tv device) to pause before Sonos will broadcast the notification.
-          - condition: state
-            entity_id: media_player.atv_woonkamer
-            state: playing
-          - condition: state
-            entity_id: media_player.woonkamer_sonos
-            state: playing
-          - condition: state
-            entity_id: media_player.woonkamer_sonos
-            attribute: source
-            state: TV
-            #Check if the targeted media_player_entity is the Sonos speaker in the living room.
-          - condition: template
-            value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: media_player.woonkamer_appletv
+                state: playing
+                enabled: true
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                state: playing
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                attribute: source
+                state: TV
+              - condition: template
+                value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+              - condition: template
+                value_template: "{{ message_tts_priority == true }}"
+                enabled: true
         then:
-            #If the TV is playing, pause ATV and continue with the script (and turn on boolean, 
-            #required for resume action at the end of the script).
+          #If the TV is playing, pause ATV and continue with the script (and turn on boolean, 
+          #required for resume action at the end of the script).
           - service: media_player.media_pause
             data: {}
+            enabled: true
             target:
-              entity_id: media_player.atv_woonkamer
+              entity_id: media_player.woonkamer_appletv
           - service: input_boolean.turn_on
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
-      ##REMOVE END - IF YOU DON'T HAVE A SONOS SOUNDBAR 
-        #Unjoin the targeted Sonos speaker from the group (so broadcast will only play on the 
-        #targete Sonos speaker.
-      - service: media_player.unjoin
-        data: {}
-        target:
-          entity_id: "{{media_player_entity}}"
-        #Configure the volume as defined in the automation 
-      - service: media_player.volume_set
-        data:
-          volume_level: "{{message_volume}}"
-        target:
-          entity_id: "{{media_player_entity}}"
-        #I've used Microsoft TTS, but you can use any TTS here.
-      - service: tts.microsoft_say
-        data:
-          cache: false
-          entity_id: "{{media_player_entity}}"
-          message: "{{message}}"
-        #Define a delay to wait before the sonos.restore service will kick in (otherwise the tts 
-        #will not be completed 
-      - delay:
-          hours: "{{message_timeout_hours}}"
-          minutes: "{{message_timeout_minutes}}"
-          seconds: "{{message_timeout_seconds}}"
-          milliseconds: "{{message_timeout_milliseconds}}"
-        #Restore whatever was playing on the Sonos speaker before the broadcast started 
-      - service: sonos.restore
-        data:
-          with_group: true
-          entity_id: "{{media_player_entity}}"
-        #If ATV (or other TV device) was playing, resume playing and turn boolean off again. 
-      ##REMOVE START - IF YOU DON'T HAVE A SONOS SOUNDBAR YOU CAN REMOVE THIS PART 
+        enabled: true
+      - if:
+        #If the message has NO PRIORITY it will show a push notification on the TV instead.
+        #THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO        
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: media_player.woonkamer_appletv
+                state: playing
+                enabled: false
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                state: playing
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                attribute: source
+                state: TV
+              - condition: template
+                value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+              - condition: template
+                value_template: "{{ message_tts_priority != true }}"
+        then:
+          - service: script.notificatie_lg_tv_1
+            data:
+              notify_tv: "{{notify_tv}}"
+              message_tv_body: "{{message_tv_body}}"
+          - service: script.turn_off
+            data: {}
+            target:
+              entity_id: script.sonos_audio_notificatie_v5
+        enabled: true
+      - if:
+        #If the Xbox is turned on, then always show a push notification on the TV. This could probably be merged with the previous action. 
+        #THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO        
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: media_player.woonkamer_tv
+                state: XBOX
+                enabled: true
+                attribute: source
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                state: playing
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                attribute: source
+                state: TV
+              - condition: template
+                value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+        then:
+          - service: script.notificatie_lg_tv_1
+            data:
+              notify_tv: "{{notify_tv}}"
+              message_tv_body: "{{message_tv_body}}"
+          - service: script.turn_off
+            data: {}
+            target:
+              entity_id: script.sonos_audio_notificatie_v5
+        enabled: true
+        #If the Apple TV Boolean (from one of the previous steps) was turned on, resume playing on the Apple TV.
+        #THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO        
       - if:
           - condition: state
             entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
@@ -76,11 +106,23 @@ script:
           - service: media_player.media_play_pause
             data: {}
             target:
-              entity_id: media_player.atv_woonkamer
+              entity_id: media_player.woonkamer_appletv
           - service: input_boolean.turn_off
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
-      ##REMOVE END - IF YOU DON'T HAVE A SONOS SOUNDBAR  
+      - if:
+        #Check if Voice Response is turned on for the specific speaker, this is done based on time of day or activity in a specific room
+        #If it is turned on, play the TTS, other wise don't play it.
+          - condition: template
+            value_template: "{{ (states(\"input_boolean.voice_response_\" ~ ruimte) == 'on') }}"
+        then:
+        #I've used Microsoft TTS, but you can use any TTS here.
+          - service: tts.microsoft_say
+            data:
+              cache: false
+              entity_id: "{{media_player_entity}}"
+              message: "{{message_tts_body}}"
     icon: mdi:speaker-message
-    mode: restart
+    mode: parallel
+    max: 10

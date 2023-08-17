@@ -1,0 +1,15 @@
+#Use the service below in your own automation to get a audible notification through your Sonos Speakers (combined with the script)
+service: script.sonos_audio_notificatie_v5
+data:
+  media_player_entity: media_player.werkkamer_helmer_sonos
+  ruimte: werkkamer_helmer
+  notify_phone: iphone_helmer
+  notify_tv: lg_tv_woonkamer
+  message_tts_body: >-
+    Dit is een test om te kijken of het werkt.
+  message_tv_body: Testbericht op LG 4
+  message_phone_body: Testbericht.
+  message_phone_title: Test
+  message_phone_tag: Test
+  message_phone_group: Test
+  message_tts_priority: false

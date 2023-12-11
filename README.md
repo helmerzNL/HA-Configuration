@@ -39,7 +39,7 @@ Now restart Home Assistant and create a card showing the created sensors.
 ![Laadpaal](./images/laadpaal01.png)
 
 ## Sonos Notification
-I’ve been using Sonos speakers in my house quiet some time. In my early HA days I used Node-red for those notifications. But I found the time to recreate them in native HA automations. [Here](/Packages/notification/sonos_speaker_script.yaml) you can find the latest iteration of the script. 
+I’ve been using Sonos speakers in my house quiet some time. In my early HA days I used Node-red for those notifications. But I found the time to recreate them in native HA automations. [Here](/Packages/notification/sonos_speaker_script_v6.yaml) you can find the latest iteration of the script. 
 
 You can use the script by using my Automation example, which you can find [here](/Packages/_templates/sonos_notification_example_automation.yaml). Customize the defined variables any way you like, they will be passed on (and used) in the script.
 

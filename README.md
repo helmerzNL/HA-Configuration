@@ -11,6 +11,7 @@ My public HA creations
   - [Background](#background)
   - [Charging Pole](#charging-pole)
   - [Sonos Notification v6](#sonos-notification)
+  - [iPhone Notification v6](#iphone-notification)
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
 
 

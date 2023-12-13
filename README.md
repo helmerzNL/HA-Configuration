@@ -54,10 +54,9 @@ When u have an Apple TV (or other media player) using the Sonos speaker for audi
 
 ## iPhone Notification
 Since we only use iPhones in our house, I have created a [iPhone Notification script](/Packages/notification/iphone_script_v6.yaml) (which probably also works with Android phones btw). You can just call this script from an automation and are then asked to fill out the Fields with options (of which some are required, others are optional). 
-One of the more interesting options, in my opinion, is the 'Wanneer Melden?' (Notify When?). This field gives you the option to only get an option when your device is in the 'Home' area. If you set this field to 'Away', you will get a notification whether you're at home or away. Comes in handy, when you are not at home and your spouse used the washing machine and receiving the 'washing machine is finished' notification does not make sense when you are not at home.
+One of the more interesting options, in my opinion, is the 'Wanneer Melden?' (Notify When?) field. This field gives you the option to only get an option when your device is in the 'Home' area. If you set this field to 'Away', you will get a notification whether you're at home or away. Comes in handy, when you are not at home and your spouse used the washing machine and receiving the 'washing machine is finished' notification does not make sense when you are not at home.
 
 If you want to edit those fields, just Edit the script (when you've imported it) and update them with your own values (like the phones per person, or the actionable notification options). I've also included the [ios_event automation](/Packages/iOS_notifications_and_actions/ios_action_-_bmw_-_lock_car-blink_lights-sound_horn.yaml) automation, which you can use as an example. You can configure those actions in the iPhone script and after selection them, the iOS_event automation will cick in and perform the tasks configured there.
-
 
 
 ![iOS Actionable](./images/ios_actionable01.jpeg)

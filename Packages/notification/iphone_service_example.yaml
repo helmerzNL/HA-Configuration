@@ -1,0 +1,27 @@
+service: script.notificatie_iphone_v6
+data:
+  action_phone_action_enabled: three
+  ruimte: Werkkamer Helmer
+  notify_phone: iphone_helmer
+  persoon: helmer
+  notify_location: home
+  message_phone_body: Your BMW is not locked!
+  message_phone_title: BMW
+  message_phone_tag: device_status
+  message_phone_group: device
+  message_phone_persistent: true
+  action_1_phone_single: BMW_I4_LOCK_CAR
+  action_1_phone_title: Lock car
+  action_1_phone_activationmode: background
+  action_1_phone_icon: sfsymbols:envelope.badge
+  action_1_phone_destructive: false
+  action_2_phone_single: BMW_I4_FLASH_LIGHT
+  action_2_phone_title: Flash lights
+  action_2_phone_activationmode: background
+  action_2_phone_icon: sfsymbols:lightbulb
+  action_2_phone_destructive: false
+  action_3_phone_single: BMW_I4_HORN_SOUND
+  action_3_phone_title: Sound Horn
+  action_3_phone_activationmode: background
+  action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+  action_3_phone_destructive: false

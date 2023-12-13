@@ -1,0 +1,64 @@
+alias: iOS Action - BMW - Lock Car - Blink Lights - Sound Horn
+description: Used in combination with the iPhone Notification script v6.
+trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: BMW_I4_LOCK_CAR
+    id: bmw_lock_car
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: BMW_I4_LOCK_CAR
+    id: bmw_lock_car
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: BMW_I4_FLASH_LIGHT
+    id: bmw_flash_light
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: BMW_I4_FLASH_LIGHT
+    id: bmw_flash_light
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: BMW_I4_HORN_SOUND
+    id: bmw_horn_sound
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: BMW_I4_HORN_SOUND
+    id: bmw_horn_sound
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - bmw_lock_car
+        sequence:
+          - service: lock.lock
+            data: {}
+            target:
+              entity_id: lock.i4_edrive40_lock
+      - conditions:
+          - condition: trigger
+            id:
+              - bmw_flash_light
+        sequence:
+          - service: button.press
+            data: {}
+            target:
+              entity_id: button.i4_edrive40_flash_lights
+      - conditions:
+          - condition: trigger
+            id:
+              - bmw_horn_sound
+        sequence:
+          - service: button.press
+            data: {}
+            target:
+              entity_id:
+                - button.i4_edrive40_sound_horn
+mode: single

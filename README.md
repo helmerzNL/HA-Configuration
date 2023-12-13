@@ -51,6 +51,14 @@ I've included an example [here](Packages/notification/sonos_service_example.yaml
 
 When u have an Apple TV (or other media player) using the Sonos speaker for audio output, you will also need the [Helper](/Packages/notification/sonos_speaker_helper.yaml). If you don't have this setup (and you don't use one of the Sonos soundbars), you can remove the part in the script that checks (and sets) the input_boolean (marked with *##THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO*).
 
+## iPhone Notification
+Since we only use iPhones in our house, I have created a [iPhone Notification script](/Packages/notification/iphone_script_v6.yaml) (which probably also works with Android phones btw). You can just call this script from an automation and are then asked to fill out the Fields with options (of which some are required, others are optional). If you want to edit those fields, just Edit the script (when you've imported it) and update them with your own values (like the phones per person, or the actionable notification options). I've also included the [ios_event automation](/Packages/iOS_notifications_and_actions/ios_action_-_bmw_-_lock_car-blink_lights-sound_horn.yaml) automation, which you can use as an example. You can configure those actions in the iPhone script and after selection them, the iOS_event automation will cick in and perform the tasks configured there.
+
+![iOS Actionable](./images/ios_actionable01.jpeg)
+
+**Example**
+I've had, again, included an example [here](/Packages/notification/iphone_service_example.yaml) that shows an example of a service that you could use in your automation.
+
 ## Integrate iOS Alarm with Home Assistant
 Would it be nice if you could just configure the alarm on your iPhone and when it is time to go to bed, that time automatically syncs to your HA instance. And then in the morning, when your iPhone alarm goes off, your Sonos speaker starts playing music and your Philips HUE lights slowly turns on (and/or any other device you want to activate when you wake up).
 

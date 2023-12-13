@@ -1,0 +1,510 @@
+alias: Notificatie - iPhone v6
+sequence:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ (action_phone_action_enabled == 'none') }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ (notify_location == 'home') }}"
+            then:
+              - if:
+                  - condition: template
+                    value_template: >-
+                      {{ (states("person." ~ persoon ~ "_doe") == 'home')
+                      }}
+                then:
+                  - service: notify.{{notify_phone}}
+                    data:
+                      message: "{{message_phone_body}}"
+                      title: "{{message_phone_title}}"
+                      data:
+                        tag: "{{message_phone_tag}}"
+                        group: "{{message_phone_group}}"
+            else:
+              - service: notify.{{notify_phone}}
+                data:
+                  message: "{{message_phone_body}}"
+                  title: "{{message_phone_title}}"
+                  data:
+                    tag: "{{message_phone_tag}}"
+                    group: "{{message_phone_group}}"
+      - conditions:
+          - condition: template
+            value_template: "{{ (action_phone_action_enabled == 'one') }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ (notify_location == 'home') }}"
+            then:
+              - if:
+                  - condition: template
+                    value_template: >-
+                      {{ (states("person." ~ persoon ~ "_doe") == 'home')
+                      }}
+                then:
+                  - service: notify.{{notify_phone}}
+                    data:
+                      message: "{{message_phone_body}}"
+                      title: "{{message_phone_title}}"
+                      data:
+                        tag: "{{message_phone_tag}}"
+                        group: "{{message_phone_group}}"
+                        persistent: "{{ message_phone_persistent }}"
+                        actions:
+                          - action: "{{ action_1_phone_single }}"
+                            activationmode: "{{ action_1_phone_activationmode }}"
+                            icon: "{{ action_1_phone_icon }}"
+                            destructive: "{{ action_1_phone_destructive }}"
+                            title: "{{ action_1_phone_title }}"
+                        push:
+                          sound:
+                            name: default
+                            critical: 0
+                            volume: 1
+            else:
+              - service: notify.{{notify_phone}}
+                data:
+                  message: "{{message_phone_body}}"
+                  title: "{{message_phone_title}}"
+                  data:
+                    tag: "{{message_phone_tag}}"
+                    group: "{{message_phone_group}}"
+                    persistent: "{{ message_phone_persistent }}"
+                    actions:
+                      - action: "{{ action_1_phone_single }}"
+                        activationmode: "{{ action_1_phone_activationmode }}"
+                        icon: "{{ action_1_phone_icon }}"
+                        destructive: "{{ action_1_phone_destructive }}"
+                        title: "{{ action_1_phone_title }}"
+                    push:
+                      sound:
+                        name: default
+                        critical: 0
+                        volume: 1
+      - conditions:
+          - condition: template
+            value_template: "{{ (action_phone_action_enabled == 'two') }}"
+        sequence:
+          - service: notify.{{notify_phone}}
+            data:
+              message: "{{message_phone_body}}"
+              title: "{{message_phone_title}}"
+              data:
+                tag: "{{message_phone_tag}}"
+                group: "{{message_phone_group}}"
+                persistent: "{{ message_phone_persistent }}"
+                actions:
+                  - action: "{{ action_1_phone_single }}"
+                    activationmode: "{{ action_1_phone_activationmode }}"
+                    icon: "{{ action_1_phone_icon }}"
+                    destructive: "{{ action_1_phone_destructive }}"
+                    title: "{{ action_1_phone_title }}"
+                  - action: "{{ action_2_phone_single }}"
+                    activationmode: "{{ action_2_phone_activationmode }}"
+                    icon: "{{ action_2_phone_icon }}"
+                    destructive: "{{ action_2_phone_destructive }}"
+                    title: "{{ action_2_phone_title }}"
+                push:
+                  sound:
+                    name: default
+                    critical: 0
+                    volume: 1
+            enabled: false
+          - if:
+              - condition: template
+                value_template: "{{ (notify_location == 'home') }}"
+            then:
+              - if:
+                  - condition: template
+                    value_template: >-
+                      {{ (states("person." ~ persoon ~ "_doe") == 'home')
+                      }}
+                then:
+                  - service: notify.{{notify_phone}}
+                    data:
+                      message: "{{message_phone_body}}"
+                      title: "{{message_phone_title}}"
+                      data:
+                        tag: "{{message_phone_tag}}"
+                        group: "{{message_phone_group}}"
+                        persistent: "{{ message_phone_persistent }}"
+                        actions:
+                          - action: "{{ action_1_phone_single }}"
+                            activationmode: "{{ action_1_phone_activationmode }}"
+                            icon: "{{ action_1_phone_icon }}"
+                            destructive: "{{ action_1_phone_destructive }}"
+                            title: "{{ action_1_phone_title }}"
+                          - action: "{{ action_2_phone_single }}"
+                            activationmode: "{{ action_2_phone_activationmode }}"
+                            icon: "{{ action_2_phone_icon }}"
+                            destructive: "{{ action_2_phone_destructive }}"
+                            title: "{{ action_2_phone_title }}"
+                        push:
+                          sound:
+                            name: default
+                            critical: 0
+                            volume: 1
+            else:
+              - service: notify.{{notify_phone}}
+                data:
+                  message: "{{message_phone_body}}"
+                  title: "{{message_phone_title}}"
+                  data:
+                    tag: "{{message_phone_tag}}"
+                    group: "{{message_phone_group}}"
+                    persistent: "{{ message_phone_persistent }}"
+                    actions:
+                      - action: "{{ action_1_phone_single }}"
+                        activationmode: "{{ action_1_phone_activationmode }}"
+                        icon: "{{ action_1_phone_icon }}"
+                        destructive: "{{ action_1_phone_destructive }}"
+                        title: "{{ action_1_phone_title }}"
+                      - action: "{{ action_2_phone_single }}"
+                        activationmode: "{{ action_2_phone_activationmode }}"
+                        icon: "{{ action_2_phone_icon }}"
+                        destructive: "{{ action_2_phone_destructive }}"
+                        title: "{{ action_2_phone_title }}"
+                    push:
+                      sound:
+                        name: default
+                        critical: 0
+                        volume: 1
+      - conditions:
+          - condition: template
+            value_template: "{{ (action_phone_action_enabled == 'three') }}"
+        sequence:
+          - service: notify.{{notify_phone}}
+            data:
+              message: "{{message_phone_body}}"
+              title: "{{message_phone_title}}"
+              data:
+                tag: "{{message_phone_tag}}"
+                group: "{{message_phone_group}}"
+                persistent: "{{ message_phone_persistent }}"
+                actions:
+                  - action: "{{ action_1_phone_single }}"
+                    activationmode: "{{ action_1_phone_activationmode }}"
+                    icon: "{{ action_1_phone_icon }}"
+                    destructive: "{{ action_1_phone_destructive }}"
+                    title: "{{ action_1_phone_title }}"
+                  - action: "{{ action_2_phone_single }}"
+                    activationmode: "{{ action_2_phone_activationmode }}"
+                    icon: "{{ action_2_phone_icon }}"
+                    destructive: "{{ action_2_phone_destructive }}"
+                    title: "{{ action_2_phone_title }}"
+                  - action: "{{ action_3_phone_single }}"
+                    activationmode: "{{ action_3_phone_activationmode }}"
+                    icon: "{{ action_3_phone_icon }}"
+                    destructive: "{{ action_3_phone_destructive }}"
+                    title: "{{ action_3_phone_title }}"
+                push:
+                  sound:
+                    name: default
+                    critical: 0
+                    volume: 1
+            enabled: false
+          - if:
+              - condition: template
+                value_template: "{{ (notify_location == 'home') }}"
+            then:
+              - if:
+                  - condition: template
+                    value_template: >-
+                      {{ (states("person." ~ persoon ~ "_doe") == 'home')
+                      }}
+                then:
+                  - service: notify.{{notify_phone}}
+                    data:
+                      message: "{{message_phone_body}}"
+                      title: "{{message_phone_title}}"
+                      data:
+                        tag: "{{message_phone_tag}}"
+                        group: "{{message_phone_group}}"
+                        persistent: "{{ message_phone_persistent }}"
+                        actions:
+                          - action: "{{ action_1_phone_single }}"
+                            activationmode: "{{ action_1_phone_activationmode }}"
+                            icon: "{{ action_1_phone_icon }}"
+                            destructive: "{{ action_1_phone_destructive }}"
+                            title: "{{ action_1_phone_title }}"
+                          - action: "{{ action_2_phone_single }}"
+                            activationmode: "{{ action_2_phone_activationmode }}"
+                            icon: "{{ action_2_phone_icon }}"
+                            destructive: "{{ action_2_phone_destructive }}"
+                            title: "{{ action_2_phone_title }}"
+                          - action: "{{ action_3_phone_single }}"
+                            activationmode: "{{ action_3_phone_activationmode }}"
+                            icon: "{{ action_3_phone_icon }}"
+                            destructive: "{{ action_3_phone_destructive }}"
+                            title: "{{ action_3_phone_title }}"
+                        push:
+                          sound:
+                            name: default
+                            critical: 0
+                            volume: 1
+            else:
+              - service: notify.{{notify_phone}}
+                data:
+                  message: "{{message_phone_body}}"
+                  title: "{{message_phone_title}}"
+                  data:
+                    tag: "{{message_phone_tag}}"
+                    group: "{{message_phone_group}}"
+                    persistent: "{{ message_phone_persistent }}"
+                    actions:
+                      - action: "{{ action_1_phone_single }}"
+                        activationmode: "{{ action_1_phone_activationmode }}"
+                        icon: "{{ action_1_phone_icon }}"
+                        destructive: "{{ action_1_phone_destructive }}"
+                        title: "{{ action_1_phone_title }}"
+                      - action: "{{ action_2_phone_single }}"
+                        activationmode: "{{ action_2_phone_activationmode }}"
+                        icon: "{{ action_2_phone_icon }}"
+                        destructive: "{{ action_2_phone_destructive }}"
+                        title: "{{ action_2_phone_title }}"
+                      - action: "{{ action_3_phone_single }}"
+                        activationmode: "{{ action_3_phone_activationmode }}"
+                        icon: "{{ action_3_phone_icon }}"
+                        destructive: "{{ action_3_phone_destructive }}"
+                        title: "{{ action_3_phone_title }}"
+                    push:
+                      sound:
+                        name: default
+                        critical: 0
+                        volume: 1
+    default:
+      - service: notify.{{notify_phone}}
+        data:
+          message: "{{message_phone_body}}"
+          title: "{{message_phone_title}}"
+          data:
+            tag: "{{message_phone_tag}}"
+            group: "{{message_phone_group}}"
+        enabled: true
+mode: parallel
+icon: phu:apple-iphone
+max: 6
+fields:
+  action_phone_action_enabled:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - none
+          - one
+          - two
+          - three
+    name: Phone Action Enabled
+    description: The number of response options.
+    default: none
+  ruimte:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - Woonkamer
+          - Werkkamer JohnDoe
+          - Werkkamer JaneDoe
+          - Keuken
+          - Badkamer
+          - Slaapkamer
+    name: Ruimte
+    required: false
+    description: Selecteer de ruimte waarvoor deze notificatie geldt.
+    default: Werkkamer JohnDoe
+  notify_phone:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - iphone_JohnDoe
+          - iphone_JaneDoe
+    name: Notify Device
+    description: >-
+      Selecteer het device (of de device group) waar de notificaties naartoe
+      gestuurd moeten worden.
+    required: true
+    default: iphone_JohnDoe
+  persoon:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - JohnDoe
+          - JaneDoe
+    name: Persoon
+    description: Voor wie is de melding?
+    required: true
+    default: JohnDoe
+  notify_location:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - home
+          - away
+    name: Wanneer melden?
+    description: >-
+      Wil je alleen een melding als je thuis (home) bent, of ook als je afwezig
+      (away) bent?
+    default: home
+    required: true
+  message_phone_body:
+    selector:
+      text: null
+    name: Message for Phone
+    description: Het bericht wat naar de telefoon gestuurd moet worden.
+    default: Dit is een bericht
+    required: true
+  message_phone_title:
+    selector:
+      text: null
+    name: Title for Phone
+    description: De titel voor het telefoon bericht.
+    default: Titel
+    required: true
+  message_phone_tag:
+    selector:
+      text: null
+    name: Message Tag for Phone
+    description: Dit is het label wat het bericht krijgt.
+    default: device_status
+    required: true
+  message_phone_group:
+    selector:
+      text: null
+    name: Message Group for Phone
+    description: Het bericht wordt gegroepeerd onder deze groep.
+    default: device
+    required: true
+  message_phone_persistent:
+    selector:
+      boolean: null
+    name: Persistent on Phone
+    required: true
+    default: true
+  action_1_phone_single:
+    selector:
+      text: null
+    name: Aktie 1 voor Actionable Notifcation
+    description: De te starten aktie voor de iOS Aktie
+    default: BMW_I4_LOCK_CAR
+    required: false
+  action_1_phone_title:
+    selector:
+      text: null
+    name: Aktie 1 - Naam
+    description: De naam voor de 1e iOS Aktie
+    default: BMW i4 op slot doen
+    required: false
+  action_1_phone_activationmode:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - foreground
+          - background
+    name: Aktie 1 - Actionmode
+    description: >-
+      Set to foreground to launch the app when tapped. Defaults to background
+      which just fires the event.
+    default: background
+    required: false
+  action_1_phone_icon:
+    selector:
+      text: null
+    name: Aktie 1 - ICON
+    description: Het icoon voor de iOS Aktie
+    default: sfsymbols:envelope.badge
+    required: false
+  action_1_phone_destructive:
+    selector:
+      boolean: null
+    name: Aktie 1 - Destructive
+    description: true to color the actions title red, indicating a destructive action.
+    default: false
+    required: false
+  action_2_phone_single:
+    selector:
+      text: null
+    name: Aktie 2 - Actionable Notifcation
+    description: De te starten aktie voor de iOS Aktie
+    default: BMW_I4_FLASH_LIGHT
+    required: false
+  action_2_phone_title:
+    selector:
+      text: null
+    name: Aktie 2 - Naam
+    description: De naam voor de iOS Aktie
+    default: Knipper lampen
+    required: false
+  action_2_phone_activationmode:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - foreground
+          - background
+    name: Aktie 2 - Actionmode
+    description: >-
+      Set to foreground to launch the app when tapped. Defaults to background
+      which just fires the event.
+    default: background
+    required: false
+  action_2_phone_icon:
+    selector:
+      text: null
+    name: Aktie 2 - icon
+    description: Het icoon voor de iOS Aktie
+    default: sfsymbols:lightbulb
+    required: false
+  action_2_phone_destructive:
+    selector:
+      boolean: null
+    name: Aktie 2 - Destructive
+    description: true to color the actions title red, indicating a destructive action.
+    default: false
+    required: false
+  action_3_phone_single:
+    selector:
+      text: null
+    name: Aktie 3 - Actionable Notifcation
+    description: De te starten aktie voor de iOS Aktie
+    default: BMW_I4_HORN_SOUND
+    required: false
+  action_3_phone_title:
+    selector:
+      text: null
+    name: Aktie 3 - Naam
+    description: De naam voor de iOS Aktie
+    default: Gebruik claxon
+    required: false
+  action_3_phone_activationmode:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - foreground
+          - background
+    name: Aktie 3 - Actionmode
+    description: >-
+      Set to foreground to launch the app when tapped. Defaults to background
+      which just fires the event.
+    default: background
+    required: false
+  action_3_phone_icon:
+    selector:
+      text: null
+    name: Aktie 3 - icon
+    description: Het icoon voor de iOS Aktie
+    default: sfsymbols:speaker.badge.exclamationmark
+    required: false
+  action_3_phone_destructive:
+    selector:
+      boolean: null
+    name: Aktie 3 - Destructive
+    description: true to color the actions title red, indicating a destructive action.
+    default: false
+    required: false

@@ -49,6 +49,7 @@ Besides these two integrations, it makes use of two of my notification scripts:
 * [iPhone Notification v6](/Packages/notification/iphone_script_v6.yaml)
 * [Sonos Notofication v6](/Packages/notification/sonos_speaker_script_v6.yaml)
 
+You can find the concept version of the scripts [here](/Packages/car/)
 
 *this is work in progress*
 

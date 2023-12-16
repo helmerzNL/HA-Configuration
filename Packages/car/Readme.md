@@ -1,7 +1,7 @@
 
 # Charge Reminder
 
-## Table of contents
+## TOC
 
 - [Charge Reminder](#charge-reminder)
     - [Calendar Integration](#calendar-integration)
@@ -34,3 +34,5 @@ You can use the script as-is for now. You can find the latest version [here](/Pa
 ## Thanks and contact
 
 Feel free to contact me if you have any questions.
+* [Threads](https://www.threads.net/@helmernl)
+* [BlueSky](https://)

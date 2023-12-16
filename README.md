@@ -10,7 +10,7 @@ My public HA creations
   - [Table of contents](#table-of-contents)
   - [Background](#background)
   - [Charging Pole](#charging-pole)
-  - [Charging Reminder](#charging-reminder)
+  - [Charge Reminder](#charge-reminder)
   - [Sonos Notification v6](#sonos-notification)
   - [iPhone Notification v6](#iphone-notification)
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
@@ -40,7 +40,7 @@ Now restart Home Assistant and create a card showing the created sensors.
 
 ![Laadpaal](./images/laadpaal01.png)
 
-## Charging Reminder
+## Charge Reminder
 Get a reminder when you don't have enough range in your (car) battery left to drive to your next appointment (and back home). To use this automation, there are a few requirements that need to be in place:
 * A calendar (I'm using the [Office 365 integration](https://rogerselwyn.github.io/O365-HomeAssistant/) through HACS) integrated in Home Assistant
 * The [Waze Travel Time](https://www.home-assistant.io/integrations/waze_travel_time) integration

@@ -45,6 +45,11 @@ Get a reminder when you don't have enough range in your (car) battery left to dr
 * A calendar (I'm using the [Office 365 integration](https://rogerselwyn.github.io/O365-HomeAssistant/) through HACS) integrated in Home Assistant
 * The [Waze Travel Time](https://www.home-assistant.io/integrations/waze_travel_time) integration
 
+Besides these two integrations, it makes use of two of my notification scripts:
+* [iPhone Notification v6](/Packages/notification/iphone_script_v6.yaml)
+* [Sonos Notofication v6](/Packages/notification/sonos_speaker_script_v6.yaml)
+
+
 *this is work in progress*
 
 

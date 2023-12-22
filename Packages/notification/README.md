@@ -61,9 +61,6 @@ You can use the script by using my Automation example, which you can find [here]
 
 ![Sonos Person Priority](/images/Sonos_notification_person_priority.png)
 
-**Example**
-I've included an example [here](Packages/notification/sonos_service_example.yaml) that will give you an example of a service you could include in your own automations.
-
 
 *Note: I've included a few conditional actions that are used in combination with a Sonos soundbar and with a LG TV, which will show a toast message if the message has not priority. If you don't have a soundbar you can remove those actions.* 
 

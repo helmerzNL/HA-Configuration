@@ -1,0 +1,74 @@
+template:
+  - binary_sensor:
+      - name: "Presence - Onbekend"
+        state: >
+          {{ "not_home" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Woonkamer"
+        state: >
+          {{ "woonkamer" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Slaapkamer"
+        state: >
+          {{ "slaapkamer" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Werkkamer JohnDoe"
+        state: >
+          {{ "werkkamer_JohnDoe" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Keuken"
+        state: >
+          {{ "keuken" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Werkkamer JaneDoe"
+        state: >
+          {{ "werkkamer_JaneDoe" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Bijkeuken"
+        state: >
+          {{ "bijkeuken" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30
+      - name: "Presence - Badkamer"
+        state: >
+          {{ "badkamer" in [
+            states('sensor.presence_apple_watch_JohnDoe'),
+            states('sensor.presence_apple_watch_JaneDoe'),
+            states('sensor.presence_iphone_JohnDoe'),
+            states('sensor.presence_iphone_JaneDoe') ] }}
+        delay_on: 5
+        delay_off: 30

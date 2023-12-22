@@ -1,0 +1,75 @@
+alias: ESPresense - Werkkamer JohnDoe Delay
+description: >-
+  Als er voor x tijd niemand meer aanwezig is in de ruimte, dan automation
+  starten.
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.presence_werkkamer_JohnDoe
+    to: "off"
+    for:
+      hours: 0
+      minutes: "{{ states('input_number.presense_werkkamer_JohnDoe_delay') | int }}"
+      seconds: 0
+condition:
+  - condition: state
+    entity_id: input_boolean.presense_werkkamer_JohnDoe_delay
+    state: "on"
+action:
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.werkkamer_alles
+  - if:
+      - condition: state
+        entity_id: remote.werkkamer_JohnDoe_xboxJohnDoe_remote
+        state: "on"
+    then:
+      - service: remote.turn_off
+        data: {}
+        target:
+          device_id: f7a8fa0873b4dfd4d197515bc58fbf57
+  - if:
+      - condition: state
+        entity_id: binary_sensor.werkkamer_JohnDoe_raam_links_opening
+        state: "on"
+    then:
+      - parallel:
+          - service: script.sonos_audio_notificatie_v7_person_priority
+            data:
+              media_room:
+                - Woonkamer
+                - Keuken
+              media_person: JohnDoe
+              media_person_priority: false
+              message_tv_body: Het raam in de werkkamer van JohnDoe staat nog open.
+              message_tts_pre_notify: true
+              message_tts_body: Het raam in de werkkamer van JohnDoe staat nog open.
+          - service: script.notificatie_iphone_v6
+            data:
+              action_phone_action_enabled: none
+              ruimte: Keuken
+              notify_phone: iphone_JohnDoe
+              persoon: JohnDoe
+              notify_location: away
+              message_phone_body: Het raam in de werkkamer van JohnDoe staat nog open.
+              message_phone_title: Raam WK JohnDoe
+              message_phone_tag: raam_wkJohnDoe
+              message_phone_group: raam
+              message_phone_persistent: true
+              action_1_phone_single: BMW_I4_LOCK_CAR
+              action_1_phone_title: BMW i4 op slot doen
+              action_1_phone_activationmode: background
+              action_1_phone_icon: sfsymbols:envelope.badge
+              action_1_phone_destructive: false
+              action_2_phone_single: BMW_I4_FLASH_LIGHT
+              action_2_phone_title: Knipper lampen
+              action_2_phone_activationmode: background
+              action_2_phone_icon: sfsymbols:lightbulb
+              action_2_phone_destructive: false
+              action_3_phone_single: BMW_I4_HORN_SOUND
+              action_3_phone_title: Gebruik claxon
+              action_3_phone_activationmode: background
+              action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+              action_3_phone_destructive: false
+mode: single

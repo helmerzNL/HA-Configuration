@@ -1,0 +1,105 @@
+alias: ESPresense - JohnDoe Room Change
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.presence_iphone_JohnDoe
+    from: werkkamer_JohnDoe
+    id: from-wk_JohnDoe
+  - platform: state
+    entity_id:
+      - sensor.presence_iphone_JohnDoe
+    from: woonkamer
+    id: from-woonkamer
+  - platform: state
+    entity_id:
+      - sensor.presence_iphone_JohnDoe
+    from: keuken
+    id: from-keuken
+  - platform: state
+    entity_id:
+      - sensor.presence_iphone_JohnDoe
+    from: slaapkamer
+    id: from-slaapkamer
+  - platform: state
+    entity_id:
+      - sensor.presence_iphone_JohnDoe
+    from: werkkamer_regina
+    id: from-wk_regina
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - from-slaapkamer
+        sequence:
+          - service: script.presense_update_previous_and_current_room
+            data:
+              previous_room: slaapkamer
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+          - service: script.presense_follow_music
+            data:
+              previous_room: slaapkamer_JohnDoe
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+      - conditions:
+          - condition: trigger
+            id:
+              - from-wk_JohnDoe
+        sequence:
+          - service: script.presense_update_previous_and_current_room
+            data:
+              previous_room: werkkamer_JohnDoe
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+          - service: script.presense_follow_music
+            data:
+              previous_room: werkkamer_JohnDoe
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+      - conditions:
+          - condition: trigger
+            id: from-woonkamer
+        sequence:
+          - service: script.presense_update_previous_and_current_room
+            data:
+              previous_room: woonkamer
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+          - service: script.presense_follow_music
+            data:
+              previous_room: woonkamer
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+      - conditions:
+          - condition: trigger
+            id: from-keuken
+        sequence:
+          - service: script.presense_update_previous_and_current_room
+            data:
+              previous_room: keuken
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+          - service: script.presense_follow_music
+            data:
+              previous_room: keuken
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+      - conditions:
+          - condition: trigger
+            id:
+              - from-wk_regina
+        sequence:
+          - service: script.presense_update_previous_and_current_room
+            data:
+              previous_room: werkkamer_regina
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+          - service: script.presense_follow_music
+            data:
+              previous_room: werkkamer_regina
+              current_room: "{{ states.sensor.presence_iphone_JohnDoe.state}}"
+              person: JohnDoe
+mode: restart

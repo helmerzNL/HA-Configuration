@@ -1,0 +1,25 @@
+sensor:
+  - platform: mqtt_room
+    name: "Presence - iPhone JohnDoe"
+    device_id: "iphone_JohnDoe"
+    state_topic: "espresense/devices/iphone_JohnDoe"
+    timeout: 5    
+    away_timeout: 120      
+  - platform: mqtt_room
+    name: "Presence - iPhone JaneDoe"
+    device_id: "iphone_JaneDoe"
+    state_topic: "espresense/devices/iphone_JaneDoe"
+    timeout: 5    
+    away_timeout: 120   
+
+#Template Presence Sensor
+  - platform: template
+    sensors:
+      presence_JohnDoe:
+        friendly_name: "Presence - JohnDoe"
+        value_template: >
+           {{ states('sensor.presence_iphone_JohnDoe') }}
+      presence_JaneDoe:
+        friendly_name: "Presence - JaneDoe"
+        value_template: >
+           {{ states('sensor.presence_iphone_JaneDoe') }}

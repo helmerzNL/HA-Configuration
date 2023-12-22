@@ -1,0 +1,30 @@
+alias: Presence - Woonkamer Delay
+description: >-
+  Als er voor x tijd niemand meer aanwezig is in de ruimte, dan automation
+  starten.
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.presence_woonkamer
+    to: "off"
+    for:
+      hours: 0
+      minutes: "{{ states('input_number.presense_woonkamer_delay') | int }}"
+      seconds: 0
+condition:
+  - condition: state
+    entity_id: input_boolean.presense_woonkamer_delay
+    state: "on"
+action:
+  - service: light.turn_off
+    data: {}
+    target:
+      area_id: woonkamer
+  - if:
+      - condition: state
+        entity_id: media_player.woonkamer_tv
+        state: "On"
+    then:
+      - service: script.woonkamer_appletv_sleep
+        data: {}
+mode: single

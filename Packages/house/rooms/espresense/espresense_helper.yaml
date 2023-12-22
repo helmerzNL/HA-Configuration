@@ -1,0 +1,95 @@
+input_select:
+#JohnDoe_Ruimte
+  current_room_JohnDoe:
+    name: Room - JohnDoe
+    options:
+      - not_home    
+      - onbekend
+      - werkkamer_JohnDoe
+      - woonkamer
+      - keuken
+      - werkkamer_JaneDoe
+      - slaapkamer
+      - bijkeuken
+      - badkamer
+    initial: onbekend
+    icon: mdi:home-account
+  previous_room_JohnDoe:
+    name: Room - JohnDoe
+    options:
+      - not_home
+      - onbekend
+      - werkkamer_JohnDoe
+      - woonkamer
+      - keuken
+      - werkkamer_JaneDoe
+      - slaapkamer
+      - bijkeuken
+      - badkamer
+    initial: onbekend
+    icon: mdi:home-account 
+  current_room_JaneDoe:
+    name: Room - JaneDoe
+    options:
+      - not_home    
+      - onbekend
+      - werkkamer_JohnDoe
+      - woonkamer
+      - keuken
+      - werkkamer_JaneDoe
+      - slaapkamer
+      - bijkeuken
+      - badkamer
+    initial: onbekend
+    icon: mdi:home-account
+  previous_room_JaneDoe:
+    name: Room - JaneDoe
+    options:
+      - not_home    
+      - onbekend
+      - werkkamer_JohnDoe
+      - woonkamer
+      - keuken
+      - werkkamer_JaneDoe
+      - slaapkamer
+      - bijkeuken
+      - badkamer
+    initial: onbekend
+    icon: mdi:home-account 
+
+input_boolean:
+#Follow Music   
+  presense_follow_music_JohnDoe:
+    name: Music - Follow JohnDoe
+    icon: mdi:music
+  presense_follow_music_JaneDoe:
+    name: Music - Follow JaneDoe
+    icon: mdi:music
+
+#Presence Slaapkamer, dan Motion UIT!
+  presense_slaapkamer_motion_off:
+    name: Presence Slaapkamer? Motion UIT
+    icon: mdi:motion-sensor
+    
+#Enable or Disable the Room Delay
+  presense_woonkamer_delay:
+    name: Woonkamer Vertraging
+    icon: mdi:sofa
+  presense_werkkamer_JohnDoe_delay:
+    name: Werkkamer JohnDoe Vertraging
+    icon: mdi:desk
+
+#Delay after which the room will turn off.
+input_number:
+  presense_woonkamer_delay:
+    name: Woonkamer Vertraging
+    initial: 30
+    min: 0
+    max: 120
+    step: 1
+  presense_werkkamer_JohnDoe_delay:
+    name: Werkkamer JohnDoe Vertraging
+    initial: 30
+    min: 0
+    max: 120
+    step: 1

@@ -1,9 +1,7 @@
 
 # Charge Reminder
 
-## TOC
-
-- [Charge Reminder](#charge-reminder)
+- Charge Reminder
     - [Calendar Integration](#calendar-integration)
     - [Sensor Templates](#sensor-template)
     - [Waze Travel Time Config](#waze-travel-time-config)

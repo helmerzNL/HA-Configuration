@@ -1,8 +1,6 @@
-# My public HA Creations
+# My HA Creations
 
-## Table of contents
-
-- [My public HA Creations](#my-public-ha-creations)
+- My HA Creations
   - [Background](#background)
   - [Charging Pole](#charging-pole)
   - [Charge Reminder](#charge-reminder)

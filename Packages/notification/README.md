@@ -1,7 +1,5 @@
 # Notification Scripts
 
-## Table of contents
-
 - My Notification Solutions
   - [General](#general)
   - [iPhone Notification](#iphone-notification)

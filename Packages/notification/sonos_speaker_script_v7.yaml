@@ -1,0 +1,378 @@
+alias: Sonos - Audio Notificatie v72
+sequence:
+  - if:
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: "{{ media_person_priority == true }}"
+          - condition: template
+            value_template: "{{ (states(\"sensor.presence_\" ~ media_person) != \"not_home\") }}"
+          - condition: or
+            conditions:
+              - condition: template
+                value_template: "{{ media_person == \"JohnDoe\" }}"
+              - condition: template
+                value_template: "{{ media_person == \"JaneDoe\" }}"
+    then:
+      - variables:
+          ruimte: |
+            {{ states("sensor.presence_" ~ media_person) }}
+          media_player_entity: >
+            {% set mediaplayer = states("sensor.presence_" ~ media_person) %} {%
+            if mediaplayer == 'badkamer' %} media_player.badkamer_sonos {% elif
+            mediaplayer == 'keuken' %} media_player.keuken_sonos {% elif
+            mediaplayer == 'slaapkamer' %} media_player.slaapkamer_JohnDoe_sonos
+            {% elif mediaplayer == 'werkkamer_JohnDoe' %}
+            media_player.werkkamer_JohnDoe_sonos {% elif mediaplayer ==
+            'werkkamer_JohnDoe' %} media_player.werkkamer_JaneDoe_sonos {% elif
+            mediaplayer == 'woonkamer' %} media_player.woonkamer_sonos {% else
+            %} media_player.woonkamer_sonos {% endif %}        
+      - if:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: media_player.woonkamer_appletv
+                state: playing
+                enabled: true
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                state: playing
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                attribute: source
+                state: TV
+              - condition: template
+                value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+              - condition: template
+                value_template: "{{ message_tts_priority == true }}"
+                enabled: true
+        then:
+          - service: media_player.media_pause
+            data: {}
+            enabled: true
+            target:
+              entity_id: media_player.woonkamer_appletv
+          - service: input_boolean.turn_on
+            data: {}
+            target:
+              entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+        enabled: true
+      - if:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: media_player.woonkamer_appletv
+                state: playing
+                enabled: false
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                state: playing
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                attribute: source
+                state: TV
+              - condition: template
+                value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+              - condition: template
+                value_template: "{{ message_tts_priority != true }}"
+        then:
+          - service: script.notificatie_lg_tv_1
+            data:
+              notify_tv: "{{notify_tv}}"
+              message_tv_body: "{{message_tv_body}}"
+          - service: script.turn_off
+            data: {}
+            target:
+              entity_id: script.sonos_audio_notificatie_v6
+        enabled: true
+      - if:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: media_player.woonkamer_tv
+                state: XBOX
+                enabled: true
+                attribute: source
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                state: playing
+              - condition: state
+                entity_id: media_player.woonkamer_sonos
+                attribute: source
+                state: TV
+              - condition: template
+                value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+        then:
+          - service: script.notificatie_lg_tv_1
+            data:
+              notify_tv: "{{notify_tv}}"
+              message_tv_body: "{{message_tv_body}}"
+          - service: script.turn_off
+            data: {}
+            target:
+              entity_id: script.sonos_audio_notificatie_v5
+        enabled: true
+      - if:
+          - condition: state
+            entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+            state: "on"
+        then:
+          - service: media_player.media_play_pause
+            data: {}
+            target:
+              entity_id: media_player.woonkamer_appletv
+          - service: input_boolean.turn_off
+            data: {}
+            target:
+              entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+      - if:
+          - condition: template
+            value_template: "{{ (states(\"input_boolean.voice_response_\" ~ ruimte) == 'on') }}"
+        then:
+          - if:
+              - condition: template
+                value_template: |
+                  {{ message_tts_pre_notify == true }}
+            then:
+              - service: tts.microsoft_say
+                data:
+                  cache: false
+                  entity_id: "{{media_player_entity}}"
+                  message: Let op!
+              - delay:
+                  hours: 0
+                  minutes: 0
+                  seconds: 0
+                  milliseconds: 900
+          - service: tts.microsoft_say
+            data:
+              cache: false
+              entity_id: "{{media_player_entity}}"
+              message: "{{message_tts_body}}"
+    else:
+      - repeat:
+          sequence:
+            - variables:
+                ruimte: >
+                  {% set mediaruimte = repeat.item %} {% if mediaruimte ==
+                  'Badkamer' %} badkamer {% elif mediaruimte == 'Keuken' %}
+                  keuken {% elif mediaruimte == 'Slaapkamer' %}
+                  slaapkamer_JohnDoe {% elif mediaruimte == 'Werkkamer JohnDoe' %}
+                  werkkamer_JohnDoe {% elif mediaruimte == 'Werkkamer JaneDoe' %}
+                  werkkamer_JaneDoe {% elif mediaruimte == 'Woonkamer' %}
+                  woonkamer {% else %} woonkamer {% endif %}
+                media_player_entity: >
+                  {% set mediaplayer = repeat.item %} {% if mediaplayer ==
+                  'Badkamer' %} media_player.badkamer_sonos {% elif mediaplayer
+                  == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer
+                  == 'Slaapkamer' %} media_player.slaapkamer_JohnDoe_sonos {%
+                  elif mediaplayer == 'Werkkamer JohnDoe' %}
+                  media_player.werkkamer_JohnDoe_sonos {% elif mediaplayer ==
+                  'Werkkamer JaneDoe' %} media_player.werkkamer_JaneDoe_sonos {%
+                  elif mediaplayer == 'Woonkamer' %}
+                  media_player.woonkamer_sonos {% else %}
+                  media_player.woonkamer_sonos {% endif %}        
+            - if:
+                - condition: and
+                  conditions:
+                    - condition: state
+                      entity_id: media_player.woonkamer_appletv
+                      state: playing
+                      enabled: true
+                    - condition: state
+                      entity_id: media_player.woonkamer_sonos
+                      state: playing
+                    - condition: state
+                      entity_id: media_player.woonkamer_sonos
+                      attribute: source
+                      state: TV
+                    - condition: template
+                      value_template: >-
+                        {{ (media_player_entity ==
+                        'media_player.woonkamer_sonos') }}
+                    - condition: template
+                      value_template: "{{ message_tts_priority == true }}"
+                      enabled: true
+              then:
+                - service: media_player.media_pause
+                  data: {}
+                  enabled: true
+                  target:
+                    entity_id: media_player.woonkamer_appletv
+                - service: input_boolean.turn_on
+                  data: {}
+                  target:
+                    entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+              enabled: true
+            - if:
+                - condition: and
+                  conditions:
+                    - condition: state
+                      entity_id: media_player.woonkamer_appletv
+                      state: playing
+                      enabled: false
+                    - condition: state
+                      entity_id: media_player.woonkamer_sonos
+                      state: playing
+                    - condition: state
+                      entity_id: media_player.woonkamer_sonos
+                      attribute: source
+                      state: TV
+                    - condition: template
+                      value_template: >-
+                        {{ (media_player_entity ==
+                        'media_player.woonkamer_sonos') }}
+                    - condition: template
+                      value_template: "{{ message_tts_priority != true }}"
+              then:
+                - service: script.notificatie_lg_tv_1
+                  data:
+                    notify_tv: "{{notify_tv}}"
+                    message_tv_body: "{{message_tv_body}}"
+                - service: script.turn_off
+                  data: {}
+                  target:
+                    entity_id: script.sonos_audio_notificatie_v6
+              enabled: true
+            - if:
+                - condition: and
+                  conditions:
+                    - condition: state
+                      entity_id: media_player.woonkamer_tv
+                      state: XBOX
+                      enabled: true
+                      attribute: source
+                    - condition: state
+                      entity_id: media_player.woonkamer_sonos
+                      state: playing
+                    - condition: state
+                      entity_id: media_player.woonkamer_sonos
+                      attribute: source
+                      state: TV
+                    - condition: template
+                      value_template: >-
+                        {{ (media_player_entity ==
+                        'media_player.woonkamer_sonos') }}
+              then:
+                - service: script.notificatie_lg_tv_1
+                  data:
+                    notify_tv: "{{notify_tv}}"
+                    message_tv_body: "{{message_tv_body}}"
+                - service: script.turn_off
+                  data: {}
+                  target:
+                    entity_id: script.sonos_audio_notificatie_v5
+              enabled: true
+            - if:
+                - condition: state
+                  entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+                  state: "on"
+              then:
+                - service: media_player.media_play_pause
+                  data: {}
+                  target:
+                    entity_id: media_player.woonkamer_appletv
+                - service: input_boolean.turn_off
+                  data: {}
+                  target:
+                    entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+            - if:
+                - condition: template
+                  value_template: >-
+                    {{ (states("input_boolean.voice_response_" ~ ruimte) ==
+                    'on') }}
+              then:
+                - if:
+                    - condition: template
+                      value_template: |
+                        {{ message_tts_pre_notify == true }}
+                  then:
+                    - service: tts.microsoft_say
+                      data:
+                        cache: false
+                        entity_id: "{{media_player_entity}}"
+                        message: Let op!
+                    - delay:
+                        hours: 0
+                        minutes: 0
+                        seconds: 0
+                        milliseconds: 900
+                - service: tts.microsoft_say
+                  data:
+                    cache: false
+                    entity_id: "{{media_player_entity}}"
+                    message: "{{message_tts_body}}"
+          for_each: "{{media_room}}"
+icon: mdi:speaker-message
+mode: parallel
+max: 10
+fields:
+  media_room:
+    selector:
+      select:
+        options:
+          - Woonkamer
+          - Werkkamer JohnDoe
+          - Werkkamer JaneDoe
+          - Keuken
+          - Badkamer
+          - Slaapkamer
+        multiple: true
+    name: Which room?
+    description: In which room should the notification be played?
+    default: Woonkamer
+    required: true
+  media_person:
+    selector:
+      select:
+        options:
+          - JohnDoe
+          - JaneDoe
+          - Both
+          - None
+    name: Who needs to hear the message?
+    description: Who has to be in the room for the message to play through the speaker?
+    default: JohnDoe
+    required: true
+  media_person_priority:
+    selector:
+      boolean: {}
+    name: Person Priority?
+    description: >-
+      If you want the message to always play in the selected room, turn of this
+      option. By default the mesage is ONLY played in the room where the
+      selected person is detected, unless 'Both' or 'None' are selected.
+    default: true
+    required: true
+  message_tts_priority:
+    selector:
+      boolean: {}
+    name: Priority when TV is playing?
+    description: >-
+      If the message has Priority set to TRUE and the TV is playing, the audio
+      of the TV will be turned down and the notification will be played. If the
+      TV is turned off, this priority will ignored and the notification will be
+      played in the selected room.
+    required: false
+  message_tv_body:
+    selector:
+      text: null
+    name: Message (TV Body)
+    description: Which message will be displayed on the TV?
+    default: Example Message
+  message_tts_pre_notify:
+    selector:
+      boolean: {}
+    name: Pre-Notify?
+    description: >-
+      Does the notification needs to start with a 'LET OP' message, so people in
+      the room pay attention to the notification?
+    required: true
+    default: false
+  message_tts_body:
+    selector:
+      text: null
+    name: What should the notification say through TTS?
+    description: What should the notification say through TTS?
+    required: true
+    default: Dit is een testbericht.

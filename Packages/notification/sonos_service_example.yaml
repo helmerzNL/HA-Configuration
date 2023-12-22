@@ -1,7 +1,12 @@
 #Use the service below in your own automation to get a audible notification through your Sonos Speakers (combined with the script)
-service: script.sonos_audio_notificatie_v6
+service: script.sonos_audio_notificatie_v7
 data:
-  media_ruimte: Werkkamer JohnDoe
+  media_room:
+    - Woonkamer
+    - Werkkamer JohnDoe
+    - Badkamer
+  media_person: JohnDoe
+  media_person_priority: true
   message_tv_body: Example Message
   message_tts_pre_notify: false
-  message_tts_body: This is a test message.
+  message_tts_body: Example Message

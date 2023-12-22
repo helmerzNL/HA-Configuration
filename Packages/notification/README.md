@@ -9,7 +9,6 @@
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
   - [Buy Me A Coffee](#buy-me-a-coffee)
 
-
 ___
 
 ## General
@@ -20,7 +19,9 @@ I've created several notification scripts, so my Smart Home can deliver notifica
 * Push Notification - [Apple iOS](#iphone-notification)
 * Message - [Microsoft Teams](#MSTeams)
 
-Please note that all my scripts are delivers as-is, and probably need some adjustment or customization to get it working in your environment. If you really happy with the work I do, feel free to [Buy Me A Coffee](#buy-me-a-coffee).
+Please note that all my scripts are delivered as-is, and probably need some adjustment or customization to get them working in your environment. 
+
+If you really happy with the work I do, feel free to [Buy Me A Coffee](#buy-me-a-coffee).
 
 
 ## iPhone Notification
@@ -61,7 +62,6 @@ You can use the script by using my Automation example, which you can find [here]
 
 ![Sonos Person Priority](/images/Sonos_notification_person_priority.png)
 
-
 *Note: I've included a few conditional actions that are used in combination with a Sonos soundbar and with a LG TV, which will show a toast message if the message has not priority. If you don't have a soundbar you can remove those actions.* 
 
 When u have an Apple TV (or other media player) using the Sonos speaker for audio output, you will also need the [Helper](/Packages/notification/sonos_speaker_helper.yaml). If you don't have this setup (and you don't use one of the Sonos soundbars), you can remove the part in the script that checks (and sets) the input_boolean (marked with *THIS PART IS ONLY REQUIRED IF YOU HAVE A SONOS SOUNDBAR AND YOU USE IT FOR TV/XBOX/MEDIAPLAYER AUDIO*).
@@ -69,7 +69,7 @@ When u have an Apple TV (or other media player) using the Sonos speaker for audi
 
 ## Microsoft Teams
 
-*something for the future*
+*to be added in the future*
 
 Please let me know if you have any questions.
 

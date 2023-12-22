@@ -31,7 +31,7 @@ One of the more interesting options, in my opinion, is the 'Wanneer Melden?' (No
 If you want to edit those fields, just Edit the script (when you've imported it) and update them with your own values (like the phones per person, or the actionable notification options). I've also included the [ios_event automation](/Packages/iOS_notifications_and_actions/ios_action_-_bmw_-_lock_car-blink_lights-sound_horn.yaml) automation, which you can use as an example. You can configure those actions in the iPhone script and after selection them, the iOS_event automation will cick in and perform the tasks configured there.
 
 
-![iOS Actionable](./images/ios_actionable01.jpeg)
+![iOS Actionable](/images/ios_actionable01.jpeg)
 
 **Example**
 I've had, again, included an example [here](/Packages/notification/iphone_service_example.yaml) that shows an example of a service that you could use in your automation.

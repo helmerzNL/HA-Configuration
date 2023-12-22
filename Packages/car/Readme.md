@@ -36,3 +36,10 @@ You can use the script as-is for now. You can find the latest version [here](/Pa
 Feel free to contact me if you have any questions.
 * [Threads](https://www.threads.net/@helmernl)
 * [BlueSky](https://)
+
+
+## Buy me a Coffee
+
+If you would like to thank me and think I deserve a coffee, fee fry to by me one. Thanks a lot!
+
+<a href="https://www.buymeacoffee.com/HelmerNL" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>

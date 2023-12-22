@@ -7,6 +7,7 @@
   - [Charging Pole](#charging-pole)
   - [Charge Reminder](#charge-reminder)
   - [Notification Scripts](#notification-scripts)
+  - [Thanks](#thanks-and-contact)  
   - [Buy Me A Coffee](#buy-me-a-coffee)
 
 ___
@@ -51,7 +52,14 @@ I've created some custom iOS and Sonos notification scripts, which you can find 
 
 Please let me know if you have any questions.
 
+## Thanks and contact
+
+Feel free to contact me if you have any questions.
+* [Threads](https://www.threads.net/@helmernl)
+* [BlueSky](https://)
+
 ## Buy me a Coffee
 
 If you would like to thank me and think I deserve a coffee, fee fry to by me one. Thanks a lot!
+
 <a href="https://www.buymeacoffee.com/HelmerNL" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>

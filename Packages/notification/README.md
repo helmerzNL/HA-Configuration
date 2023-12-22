@@ -7,6 +7,7 @@
   - [iPhone Notification](#iphone-notification)
   - [Sonos Notification](#sonos-notification)
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
+  - [Thanks](#thanks-and-contact)  
   - [Buy Me A Coffee](#buy-me-a-coffee)
 
 ___
@@ -73,8 +74,14 @@ When u have an Apple TV (or other media player) using the Sonos speaker for audi
 
 Please let me know if you have any questions.
 
+## Thanks and contact
+
+Feel free to contact me if you have any questions.
+* [Threads](https://www.threads.net/@helmernl)
+* [BlueSky](https://)
 
 ## Buy me a Coffee
 
 If you would like to thank me and think I deserve a coffee, fee fry to by me one. Thanks a lot!
+
 <a href="https://www.buymeacoffee.com/HelmerNL" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>

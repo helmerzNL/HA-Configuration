@@ -35,7 +35,7 @@ You can use the script as-is for now. You can find the latest version [here](/Pa
 
 Feel free to contact me if you have any questions.
 * [Threads](https://www.threads.net/@helmernl)
-* [BlueSky](https://)
+* [Twitter](https://twitter.com/helmernl)
 
 
 ## Buy me a Coffee

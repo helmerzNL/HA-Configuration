@@ -56,7 +56,7 @@ Please let me know if you have any questions.
 
 Feel free to contact me if you have any questions.
 * [Threads](https://www.threads.net/@helmernl)
-* [BlueSky](https://)
+* [Twitter](https://twitter.com/helmernl)
 
 ## Buy me a Coffee
 

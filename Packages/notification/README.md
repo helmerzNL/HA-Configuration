@@ -2,12 +2,10 @@
 
 ## Table of contents
 
-- [My public HA Creations](#my-public-ha-creations)
+- My Notification Solutions
   - [General](#general)
   - [iPhone Notification](#iphone-notification)
-  - [Sonos Notification(#charge-reminder)
-  - [Sonos Notification v6](#sonos-notification)
-  - [iPhone Notification v6](#iphone-notification)
+  - [Sonos Notification](#sonos-notification)
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
   - [Buy Me A Coffee](#buy-me-a-coffee)
 
@@ -22,9 +20,7 @@ I've created several notification scripts, so my Smart Home can deliver notifica
 * Push Notification - [Apple iOS](#iphone-notification)
 * Message - [Microsoft Teams](#MSTeams)
 
-Please note that all my scripts are delivers as-is, and probably need some adjustment or customization to get it working in your environment. 
-
-If you have 
+Please note that all my scripts are delivers as-is, and probably need some adjustment or customization to get it working in your environment. If you really happy with the work I do, feel free to [Buy Me A Coffee](#buy-me-a-coffee).
 
 
 ## iPhone Notification
@@ -56,9 +52,14 @@ Please make sure you edit the Shortcuts to fit your needs:
 - Label -> Edit the label where the Shortcut is looking for, in my example I use *Wekker*
 
 ## Sonos Notification
-I’ve been using Sonos speakers in my house quiet some time. In my early HA days I used Node-red for those notifications. But I found the time to recreate them in native HA automations. [Here](/Packages/notification/sonos_speaker_script_v6.yaml) you can find the latest iteration of the script. 
+I’ve been using Sonos speakers in my house quiet some time, but with this Sonos Notification script I've made notifications a bit 'smarter'.
+To use all features, please make sure you have [ESPresense](https://espresense.com) configured/in use in your house, since the *person priority* part makes use of ESPresense. If you use another solution to track occupancy of a room, you probably have to make some adjustments to the script.
 
-You can use the script by using my Automation example, which you can find [here](/Packages/_templates/sonos_notification_example_automation.yaml). Customize the defined variables any way you like, they will be passed on (and used) in the script.
+[Here](/Packages/notification/sonos_speaker_script_v7.yaml) you can find the latest iteration of the script. 
+
+You can use the script by using my Automation example, which you can find [here](/Packages/_templates/sonos_notification_example_automation.yaml). When you call the script from an automation, you can just fill out the required fields. If you speaker/room configuration is different, you would need to adjust the script before you can use it obviously. 
+
+![Sonos Person Priority](/images/Sonos_notification_person_priority.png)
 
 **Example**
 I've included an example [here](Packages/notification/sonos_service_example.yaml) that will give you an example of a service you could include in your own automations.

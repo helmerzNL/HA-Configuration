@@ -9,6 +9,7 @@
   - [Sonos Notification v6](#sonos-notification)
   - [iPhone Notification v6](#iphone-notification)
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
+  - [Buy Me A Coffee](#buy-me-a-coffee)
 
 
 ___
@@ -77,6 +78,5 @@ Please let me know if you have any questions.
 
 ## Buy me a Coffee
 
-![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)
-
+If you would like to thank me and think I deserve a coffee, fee fry to by me one. Thanks a lot!
 <a href="https://www.buymeacoffee.com/HelmerNL" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>

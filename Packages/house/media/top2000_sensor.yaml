@@ -1,0 +1,62 @@
+sensor:
+# Create a new sensor met de volgende inhoud.
+# Top 2000 huidige song
+  - platform: rest
+    scan_interval: 60
+    name: Top 2000 - Huidige song - basic
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
+    json_attributes_path: "$.data.radioTrackPlays.data[0].radioTracks"
+    json_attributes:
+      - artist
+      - name
+      - coverUrl
+    value_template: "OK"
+
+  - platform: rest
+    scan_interval: 60
+    name: Top 2000 - Huidige song - extra
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
+    json_attributes_path: "$.data.radioTrackPlays.data[0].cmsChartEditionPositions"
+    json_attributes:
+      - position
+      - lastPosition
+      - totalPositions    
+    value_template: "OK"  
+
+  - platform: rest
+    scan_interval: 60
+    name: Top 2000 - Vorige song - basic
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
+    json_attributes_path: "$.data.radioTrackPlays.data[1].radioTracks"
+    json_attributes:
+      - artist
+      - name
+      - coverUrl
+    value_template: "OK"
+    
+  - platform: rest
+    scan_interval: 60
+    name: Top 2000 - Vprige song - extra
+    method: GET
+    headers:
+      User-Agent: Home Assistant
+      Content-Type: application/json
+    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
+    json_attributes_path: "$.data.radioTrackPlays.data[1].cmsChartEditionPositions"
+    json_attributes:
+      - position
+      - lastPosition
+      - totalPositions    
+    value_template: "OK"    

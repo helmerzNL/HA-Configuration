@@ -1,62 +1,74 @@
 sensor:
 # Create a new sensor met de volgende inhoud.
 # Top 2000 huidige song
-  - platform: rest
-    scan_interval: 60
-    name: Top 2000 - Huidige song - basic
-    method: GET
-    headers:
-      User-Agent: Home Assistant
-      Content-Type: application/json
-    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
-    json_attributes_path: "$.data.radioTrackPlays.data[0].radioTracks"
-    json_attributes:
-      - artist
-      - name
-      - coverUrl
-    value_template: "OK"
 
-  - platform: rest
-    scan_interval: 60
-    name: Top 2000 - Huidige song - extra
+rest:
+  - scan_interval: 60
     method: GET
     headers:
       User-Agent: Home Assistant
-      Content-Type: application/json
+      Content-Type: application/json  
     resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
-    json_attributes_path: "$.data.radioTrackPlays.data[0].cmsChartEditionPositions"
-    json_attributes:
-      - position
-      - lastPosition
-      - totalPositions    
-    value_template: "OK"  
-
-  - platform: rest
-    scan_interval: 60
-    name: Top 2000 - Vorige song - basic
-    method: GET
-    headers:
-      User-Agent: Home Assistant
-      Content-Type: application/json
-    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
-    json_attributes_path: "$.data.radioTrackPlays.data[1].radioTracks"
-    json_attributes:
-      - artist
-      - name
-      - coverUrl
-    value_template: "OK"
-    
-  - platform: rest
-    scan_interval: 60
-    name: Top 2000 - Vprige song - extra
-    method: GET
-    headers:
-      User-Agent: Home Assistant
-      Content-Type: application/json
-    resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
-    json_attributes_path: "$.data.radioTrackPlays.data[1].cmsChartEditionPositions"
-    json_attributes:
-      - position
-      - lastPosition
-      - totalPositions    
-    value_template: "OK"    
+    sensor:
+      - name: Top 2000 - Huidige song - basic
+        json_attributes_path: "$.data.radioTrackPlays.data[0].radioTracks"
+        json_attributes:
+          - artist
+          - name
+          - coverUrl              
+        value_template: "OK"              
+      - name: Top 2000 - Huidige song - extra
+        json_attributes_path: "$.data.radioTrackPlays.data[0].cmsChartEditionPositions"
+        json_attributes:
+          - position
+          - lastPosition
+          - totalPositions    
+        value_template: "OK"          
+      - name: Top 2000 - Vorige song - basic
+        json_attributes_path: "$.data.radioTrackPlays.data[1].radioTracks"
+        json_attributes:
+          - artist
+          - name
+          - coverUrl
+        value_template: "OK"        
+      - name: Top 2000 - Vorige song - extra
+        json_attributes_path: "$.data.radioTrackPlays.data[1].cmsChartEditionPositions"
+        json_attributes:
+          - position
+          - lastPosition
+          - totalPositions    
+        value_template: "OK"          
+      - name: Top 2000 - Huidige Programma
+        json_attributes_path: "$.data.radioBroadcasts.data[0]"
+        json_attributes:
+          - name
+          - from
+          - until
+        value_template: "OK"          
+      - name: Top 2000 - Huidige Programma Logo
+        json_attributes_path: "$.data.radioBroadcasts.data[0].radioPhotoAssets"
+        json_attributes:
+          - url
+        value_template: "OK"           
+      - name: Top 2000 - Huidige Presentator
+        json_attributes_path: "$.data.radioBroadcasts.data[0].radioPresenters[0]"
+        json_attributes:
+          - name
+        value_template: "OK"             
+      - name: Top 2000 - Volgende Programma
+        json_attributes_path: "$.data.upcomingBroadcasts.data[0]"
+        json_attributes:
+          - name
+          - from
+          - until
+        value_template: "OK"            
+      - name: Top 2000 - Volgende Programma Logo
+        json_attributes_path: "$.data.upcomingBroadcasts.data[0].radioPhotoAssets"
+        json_attributes:
+          - url
+        value_template: "OK"     
+      - name: Top 2000 - Volgende Presentator
+        json_attributes_path: "$.data.upcomingBroadcasts.data[0].radioPresenters[0]"
+        json_attributes:
+          - name
+        value_template: "OK"   

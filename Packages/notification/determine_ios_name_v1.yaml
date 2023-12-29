@@ -1,0 +1,26 @@
+alias: Determine iOS name v1
+sequence:
+  - variables:
+      iosdevice:
+        value: >
+          {% set iosdevice = notify_iosdevice %} {% if iosdevice == 'iPhone
+          JaneDoe' %} iphone_JaneDoe {% elif iosdevice == 'iPhone JohnDoe' %}
+          iphone_JohnDoe {% elif iosdevice == 'iPad Pro JohnDoe' %}
+          ipad_pro_JohnDoe  {% else %} all_JohnDoe {% endif %}     
+  - stop: Ready
+    response_variable: iosdevice
+mode: single
+icon: mdi:apple-ios
+fields:
+  notify_iosdevice:
+    selector:
+      select:
+        options:
+          - iPhone JohnDoe
+          - iPhone JaneDoe
+          - iPad Pro JohnDoe
+        multiple: false
+    name: Which device?
+    description: On which iOS device should the notification be played?
+    default: Werkkamer JaneDoe
+    required: false

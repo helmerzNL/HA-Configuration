@@ -1,0 +1,884 @@
+alias: Notification Script v10
+sequence:
+  - variables:
+      media_priority: >
+        {% set priority = state_attr("media_player.woonkamer_tv", "source") %}
+        {% if priority == 'XBOX' %} False {% else %} {{message_tts_priority}} {%
+        endif %}   
+  - repeat:
+      sequence:
+        - if:
+            - condition: template
+              value_template: "{{ repeat.item == \"Sonos Speaker\"}}"
+          then:
+            - if:
+                - condition: and
+                  conditions:
+                    - condition: template
+                      value_template: "{{ message_person_priority == true }}"
+                    - condition: template
+                      value_template: >-
+                        {{ (states("sensor.presence_" ~ message_person) !=
+                        "not_home") }}
+                    - condition: or
+                      conditions:
+                        - condition: template
+                          value_template: "{{ message_person == \"JohnDoe\" }}"
+                        - condition: template
+                          value_template: "{{ message_person == \"JaneDoe\" }}"
+              then:
+                - variables:
+                    ruimte: |
+                      {{ states("sensor.presence_" ~ message_person) }}
+                    media_player_entity: >
+                      {% set mediaplayer = states("sensor.presence_" ~
+                      message_person) %} {% if mediaplayer == 'badkamer' %}
+                      media_player.badkamer_sonos {% elif mediaplayer ==
+                      'keuken' %} media_player.keuken_sonos {% elif mediaplayer
+                      == 'slaapkamer' %} media_player.slaapkamer_JohnDoe_sonos {%
+                      elif mediaplayer == 'werkkamer_JohnDoe' %}
+                      media_player.werkkamer_JohnDoe_sonos {% elif mediaplayer ==
+                      'werkkamer_JohnDoe' %} media_player.werkkamer_JaneDoe_sonos
+                      {% elif mediaplayer == 'woonkamer' %}
+                      media_player.woonkamer_sonos {% else %}
+                      media_player.woonkamer_sonos {% endif %}        
+                - if:
+                    - condition: template
+                      value_template: >-
+                        {{ (media_player_entity ==
+                        'media_player.woonkamer_sonos') }}
+                  then:
+                    - if:
+                        - condition: and
+                          conditions:
+                            - condition: state
+                              entity_id: media_player.woonkamer_sonos
+                              state: playing
+                            - condition: state
+                              entity_id: media_player.woonkamer_sonos
+                              attribute: source
+                              state: TV
+                            - condition: template
+                              value_template: >-
+                                {{ (media_player_entity ==
+                                'media_player.woonkamer_sonos') }}
+                            - condition: or
+                              conditions:
+                                - condition: template
+                                  value_template: "{{ message_tts_priority != true }}"
+                                - condition: state
+                                  entity_id: media_player.woonkamer_tv
+                                  state: XBOX
+                                  enabled: true
+                                  attribute: source
+                      then:
+                        - service: script.notificatie_lg_tv_1
+                          data:
+                            notify_tv: "{{notify_tv}}"
+                            message_tv_body: "{{message_tv_body}}"
+                  enabled: true
+                - if:
+                    - condition: template
+                      value_template: >-
+                        {{ (states("input_boolean.voice_response_" ~ ruimte) ==
+                        'on') }}
+                    - condition: or
+                      conditions:
+                        - condition: and
+                          conditions:
+                            - condition: template
+                              value_template: "{{ media_priority == true }}"
+                            - condition: template
+                              value_template: >-
+                                {{ (media_player_entity ==
+                                'media_player.woonkamer_sonos') }}
+                        - condition: template
+                          value_template: >-
+                            {{ (media_player_entity !=
+                            'media_player.woonkamer_sonos') }}
+                        - condition: state
+                          entity_id: media_player.woonkamer_tv
+                          state: "off"
+                  then:
+                    - if:
+                        - condition: template
+                          value_template: |
+                            {{ message_tts_pre_notify == true }}
+                      then:
+                        - service: tts.microsoft_say
+                          data:
+                            cache: false
+                            entity_id: "{{media_player_entity}}"
+                            message: Let op!
+                        - delay:
+                            hours: 0
+                            minutes: 0
+                            seconds: 0
+                            milliseconds: 900
+                    - service: tts.microsoft_say
+                      data:
+                        cache: false
+                        entity_id: "{{media_player_entity}}"
+                        message: "{{message_tts_body}}"
+              else:
+                - repeat:
+                    sequence:
+                      - service: script.determine_speaker_name_v1
+                        data:
+                          media_room: "{{repeat.item}}"
+                        response_variable: sonos_speaker
+                        enabled: true
+                      - variables:
+                          ruimte: >
+                            {% set mediaruimte = repeat.item %} {% if
+                            mediaruimte == 'Badkamer' %} badkamer {% elif
+                            mediaruimte == 'Keuken' %} keuken {% elif
+                            mediaruimte == 'Slaapkamer' %} slaapkamer_JohnDoe {%
+                            elif mediaruimte == 'Werkkamer JohnDoe' %}
+                            werkkamer_JohnDoe {% elif mediaruimte == 'Werkkamer
+                            JaneDoe' %} werkkamer_JaneDoe {% elif mediaruimte ==
+                            'Woonkamer' %} woonkamer {% else %} woonkamer {%
+                            endif %}
+                          media_player_entity2: >
+                            {% set mediaplayer = repeat.item %} {% if
+                            mediaplayer == 'Badkamer' %}
+                            media_player.badkamer_sonos {% elif mediaplayer ==
+                            'Keuken' %} media_player.keuken_sonos {% elif
+                            mediaplayer == 'Slaapkamer' %}
+                            media_player.slaapkamer_JohnDoe_sonos {% elif
+                            mediaplayer == 'Werkkamer JohnDoe' %}
+                            media_player.werkkamer_JohnDoe_sonos {% elif
+                            mediaplayer == 'Werkkamer JaneDoe' %}
+                            media_player.werkkamer_JaneDoe_sonos {% elif
+                            mediaplayer == 'Woonkamer' %}
+                            media_player.woonkamer_sonos {% else %}
+                            media_player.woonkamer_sonos {% endif %}        
+                          media_player_entity: |
+                            {{ sonos_speaker.value }}
+                      - if:
+                          - condition: template
+                            value_template: >-
+                              {{ (media_player_entity ==
+                              'media_player.woonkamer_sonos') }}
+                        then:
+                          - if:
+                              - condition: and
+                                conditions:
+                                  - condition: state
+                                    entity_id: media_player.woonkamer_sonos
+                                    state: playing
+                                  - condition: state
+                                    entity_id: media_player.woonkamer_sonos
+                                    attribute: source
+                                    state: TV
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (media_player_entity ==
+                                      'media_player.woonkamer_sonos') }}
+                                  - condition: or
+                                    conditions:
+                                      - condition: template
+                                        value_template: "{{ message_tts_priority != true }}"
+                                      - condition: state
+                                        entity_id: media_player.woonkamer_tv
+                                        state: XBOX
+                                        enabled: true
+                                        attribute: source
+                            then:
+                              - service: script.notificatie_lg_tv_1
+                                data:
+                                  notify_tv: "{{notify_tv}}"
+                                  message_tv_body: "{{message_tv_body}}"
+                        enabled: true
+                      - if:
+                          - condition: template
+                            value_template: >-
+                              {{ (states("input_boolean.voice_response_" ~
+                              ruimte) == 'on') }}
+                          - condition: or
+                            conditions:
+                              - condition: and
+                                conditions:
+                                  - condition: template
+                                    value_template: "{{ media_priority == true }}"
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (media_player_entity ==
+                                      'media_player.woonkamer_sonos') }}
+                              - condition: template
+                                value_template: >-
+                                  {{ (media_player_entity !=
+                                  'media_player.woonkamer_sonos') }}
+                              - condition: state
+                                entity_id: media_player.woonkamer_tv
+                                state: "off"
+                        then:
+                          - if:
+                              - condition: template
+                                value_template: |
+                                  {{ message_tts_pre_notify == true }}
+                            then:
+                              - service: tts.microsoft_say
+                                data:
+                                  cache: false
+                                  entity_id: "{{media_player_entity}}"
+                                  message: Let op!
+                              - delay:
+                                  hours: 0
+                                  minutes: 0
+                                  seconds: 0
+                                  milliseconds: 900
+                          - service: tts.microsoft_say
+                            data:
+                              cache: false
+                              entity_id: "{{media_player_entity}}"
+                              message: "{{message_tts_body}}"
+                    for_each: "{{message_room}}"
+        - if:
+            - condition: template
+              value_template: "{{ repeat.item == \"iPhone\"}}"
+          then:
+            - service: script.notificatie_iphone_v6
+              data:
+                action_phone_action_enabled: none
+                ruimte: Werkkamer JohnDoe
+                notify_phone: iphone_JohnDoe
+                persoon: JohnDoe
+                notify_location: away
+                message_phone_body: iPhone
+                message_phone_tag: notify_device_iphone
+                message_phone_group: notify_device
+                message_phone_persistent: true
+                action_1_phone_single: BMW_I4_LOCK_CAR
+                action_1_phone_title: BMW i4 op slot doen
+                action_1_phone_activationmode: background
+                action_1_phone_icon: sfsymbols:envelope.badge
+                action_1_phone_destructive: false
+                action_2_phone_single: BMW_I4_FLASH_LIGHT
+                action_2_phone_title: Knipper lampen
+                action_2_phone_activationmode: background
+                action_2_phone_icon: sfsymbols:lightbulb
+                action_2_phone_destructive: false
+                action_3_phone_single: BMW_I4_HORN_SOUND
+                action_3_phone_title: Gebruik claxon
+                action_3_phone_activationmode: background
+                action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+                action_3_phone_destructive: false
+                message_phone_title: Phone
+              enabled: false
+            - repeat:
+                sequence:
+                  - service: script.determine_ios_name_v1
+                    data:
+                      notify_iosdevice: "{{repeat.item}}"
+                    response_variable: iosdevice
+                  - choose:
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ (action_phone_action_enabled == 'none') }}"
+                        sequence:
+                          - if:
+                              - condition: template
+                                value_template: "{{ (notify_location == 'home') }}"
+                            then:
+                              - if:
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (states("person." ~ message_person ~
+                                      "_zandbergen") == 'home') }}
+                                then:
+                                  - service: notify.{{iosdevice.value}}
+                                    data:
+                                      message: "{{message_phone_body}}"
+                                      title: "{{message_phone_title}}"
+                                      data:
+                                        tag: "{{message_phone_tag}}"
+                                        group: "{{message_phone_group}}"
+                            else:
+                              - service: notify.{{iosdevice.value}}
+                                data:
+                                  message: "{{message_phone_body}}"
+                                  title: "{{message_phone_title}}"
+                                  data:
+                                    tag: "{{message_phone_tag}}"
+                                    group: "{{message_phone_group}}"
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ (action_phone_action_enabled == 'one') }}"
+                        sequence:
+                          - if:
+                              - condition: template
+                                value_template: "{{ (notify_location == 'home') }}"
+                            then:
+                              - if:
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (states("person." ~ message_person ~
+                                      "_zandbergen") == 'home') }}
+                                then:
+                                  - service: notify.{{iosdevice.value}}
+                                    data:
+                                      message: "{{message_phone_body}}"
+                                      title: "{{message_phone_title}}"
+                                      data:
+                                        tag: "{{message_phone_tag}}"
+                                        group: "{{message_phone_group}}"
+                                        persistent: "{{ message_phone_persistent }}"
+                                        actions:
+                                          - action: "{{ action_1_phone_single }}"
+                                            activationmode: "{{ action_1_phone_activationmode }}"
+                                            icon: "{{ action_1_phone_icon }}"
+                                            destructive: "{{ action_1_phone_destructive }}"
+                                            title: "{{ action_1_phone_title }}"
+                                        push:
+                                          sound:
+                                            name: default
+                                            critical: 0
+                                            volume: 1
+                            else:
+                              - service: notify.{{iosdevice.value}}
+                                data:
+                                  message: "{{message_phone_body}}"
+                                  title: "{{message_phone_title}}"
+                                  data:
+                                    tag: "{{message_phone_tag}}"
+                                    group: "{{message_phone_group}}"
+                                    persistent: "{{ message_phone_persistent }}"
+                                    actions:
+                                      - action: "{{ action_1_phone_single }}"
+                                        activationmode: "{{ action_1_phone_activationmode }}"
+                                        icon: "{{ action_1_phone_icon }}"
+                                        destructive: "{{ action_1_phone_destructive }}"
+                                        title: "{{ action_1_phone_title }}"
+                                    push:
+                                      sound:
+                                        name: default
+                                        critical: 0
+                                        volume: 1
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ (action_phone_action_enabled == 'two') }}"
+                        sequence:
+                          - service: notify.{{iosdevice.value}}
+                            data:
+                              message: "{{message_phone_body}}"
+                              title: "{{message_phone_title}}"
+                              data:
+                                tag: "{{message_phone_tag}}"
+                                group: "{{message_phone_group}}"
+                                persistent: "{{ message_phone_persistent }}"
+                                actions:
+                                  - action: "{{ action_1_phone_single }}"
+                                    activationmode: "{{ action_1_phone_activationmode }}"
+                                    icon: "{{ action_1_phone_icon }}"
+                                    destructive: "{{ action_1_phone_destructive }}"
+                                    title: "{{ action_1_phone_title }}"
+                                  - action: "{{ action_2_phone_single }}"
+                                    activationmode: "{{ action_2_phone_activationmode }}"
+                                    icon: "{{ action_2_phone_icon }}"
+                                    destructive: "{{ action_2_phone_destructive }}"
+                                    title: "{{ action_2_phone_title }}"
+                                push:
+                                  sound:
+                                    name: default
+                                    critical: 0
+                                    volume: 1
+                            enabled: false
+                          - if:
+                              - condition: template
+                                value_template: "{{ (notify_location == 'home') }}"
+                            then:
+                              - if:
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (states("person." ~ message_person ~
+                                      "_zandbergen") == 'home') }}
+                                then:
+                                  - service: notify.{{iosdevice.value}}
+                                    data:
+                                      message: "{{message_phone_body}}"
+                                      title: "{{message_phone_title}}"
+                                      data:
+                                        tag: "{{message_phone_tag}}"
+                                        group: "{{message_phone_group}}"
+                                        persistent: "{{ message_phone_persistent }}"
+                                        actions:
+                                          - action: "{{ action_1_phone_single }}"
+                                            activationmode: "{{ action_1_phone_activationmode }}"
+                                            icon: "{{ action_1_phone_icon }}"
+                                            destructive: "{{ action_1_phone_destructive }}"
+                                            title: "{{ action_1_phone_title }}"
+                                          - action: "{{ action_2_phone_single }}"
+                                            activationmode: "{{ action_2_phone_activationmode }}"
+                                            icon: "{{ action_2_phone_icon }}"
+                                            destructive: "{{ action_2_phone_destructive }}"
+                                            title: "{{ action_2_phone_title }}"
+                                        push:
+                                          sound:
+                                            name: default
+                                            critical: 0
+                                            volume: 1
+                            else:
+                              - service: notify.{{iosdevice.value}}
+                                data:
+                                  message: "{{message_phone_body}}"
+                                  title: "{{message_phone_title}}"
+                                  data:
+                                    tag: "{{message_phone_tag}}"
+                                    group: "{{message_phone_group}}"
+                                    persistent: "{{ message_phone_persistent }}"
+                                    actions:
+                                      - action: "{{ action_1_phone_single }}"
+                                        activationmode: "{{ action_1_phone_activationmode }}"
+                                        icon: "{{ action_1_phone_icon }}"
+                                        destructive: "{{ action_1_phone_destructive }}"
+                                        title: "{{ action_1_phone_title }}"
+                                      - action: "{{ action_2_phone_single }}"
+                                        activationmode: "{{ action_2_phone_activationmode }}"
+                                        icon: "{{ action_2_phone_icon }}"
+                                        destructive: "{{ action_2_phone_destructive }}"
+                                        title: "{{ action_2_phone_title }}"
+                                    push:
+                                      sound:
+                                        name: default
+                                        critical: 0
+                                        volume: 1
+                      - conditions:
+                          - condition: template
+                            value_template: "{{ (action_phone_action_enabled == 'three') }}"
+                        sequence:
+                          - service: notify.{{iosdevice.value}}
+                            data:
+                              message: "{{message_phone_body}}"
+                              title: "{{message_phone_title}}"
+                              data:
+                                tag: "{{message_phone_tag}}"
+                                group: "{{message_phone_group}}"
+                                persistent: "{{ message_phone_persistent }}"
+                                actions:
+                                  - action: "{{ action_1_phone_single }}"
+                                    activationmode: "{{ action_1_phone_activationmode }}"
+                                    icon: "{{ action_1_phone_icon }}"
+                                    destructive: "{{ action_1_phone_destructive }}"
+                                    title: "{{ action_1_phone_title }}"
+                                  - action: "{{ action_2_phone_single }}"
+                                    activationmode: "{{ action_2_phone_activationmode }}"
+                                    icon: "{{ action_2_phone_icon }}"
+                                    destructive: "{{ action_2_phone_destructive }}"
+                                    title: "{{ action_2_phone_title }}"
+                                  - action: "{{ action_3_phone_single }}"
+                                    activationmode: "{{ action_3_phone_activationmode }}"
+                                    icon: "{{ action_3_phone_icon }}"
+                                    destructive: "{{ action_3_phone_destructive }}"
+                                    title: "{{ action_3_phone_title }}"
+                                push:
+                                  sound:
+                                    name: default
+                                    critical: 0
+                                    volume: 1
+                            enabled: false
+                          - if:
+                              - condition: template
+                                value_template: "{{ (notify_location == 'home') }}"
+                            then:
+                              - if:
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (states("person." ~ message_person ~
+                                      "_zandbergen") == 'home') }}
+                                then:
+                                  - service: notify.{{iosdevice.value}}
+                                    data:
+                                      message: "{{message_phone_body}}"
+                                      title: "{{message_phone_title}}"
+                                      data:
+                                        tag: "{{message_phone_tag}}"
+                                        group: "{{message_phone_group}}"
+                                        persistent: "{{ message_phone_persistent }}"
+                                        actions:
+                                          - action: "{{ action_1_phone_single }}"
+                                            activationmode: "{{ action_1_phone_activationmode }}"
+                                            icon: "{{ action_1_phone_icon }}"
+                                            destructive: "{{ action_1_phone_destructive }}"
+                                            title: "{{ action_1_phone_title }}"
+                                          - action: "{{ action_2_phone_single }}"
+                                            activationmode: "{{ action_2_phone_activationmode }}"
+                                            icon: "{{ action_2_phone_icon }}"
+                                            destructive: "{{ action_2_phone_destructive }}"
+                                            title: "{{ action_2_phone_title }}"
+                                          - action: "{{ action_3_phone_single }}"
+                                            activationmode: "{{ action_3_phone_activationmode }}"
+                                            icon: "{{ action_3_phone_icon }}"
+                                            destructive: "{{ action_3_phone_destructive }}"
+                                            title: "{{ action_3_phone_title }}"
+                                        push:
+                                          sound:
+                                            name: default
+                                            critical: 0
+                                            volume: 1
+                            else:
+                              - service: notify.{{iosdevice.value}}
+                                data:
+                                  message: "{{message_phone_body}}"
+                                  title: "{{message_phone_title}}"
+                                  data:
+                                    tag: "{{message_phone_tag}}"
+                                    group: "{{message_phone_group}}"
+                                    persistent: "{{ message_phone_persistent }}"
+                                    actions:
+                                      - action: "{{ action_1_phone_single }}"
+                                        activationmode: "{{ action_1_phone_activationmode }}"
+                                        icon: "{{ action_1_phone_icon }}"
+                                        destructive: "{{ action_1_phone_destructive }}"
+                                        title: "{{ action_1_phone_title }}"
+                                      - action: "{{ action_2_phone_single }}"
+                                        activationmode: "{{ action_2_phone_activationmode }}"
+                                        icon: "{{ action_2_phone_icon }}"
+                                        destructive: "{{ action_2_phone_destructive }}"
+                                        title: "{{ action_2_phone_title }}"
+                                      - action: "{{ action_3_phone_single }}"
+                                        activationmode: "{{ action_3_phone_activationmode }}"
+                                        icon: "{{ action_3_phone_icon }}"
+                                        destructive: "{{ action_3_phone_destructive }}"
+                                        title: "{{ action_3_phone_title }}"
+                                    push:
+                                      sound:
+                                        name: default
+                                        critical: 0
+                                        volume: 1
+                    default:
+                      - service: notify.{{iosdevice.value}}
+                        data:
+                          message: "{{message_phone_body}}"
+                          title: "{{message_phone_title}}"
+                          data:
+                            tag: "{{message_phone_tag}}"
+                            group: "{{message_phone_group}}"
+                        enabled: true
+                for_each: "{{notify_phone}}"
+        - if:
+            - condition: template
+              value_template: "{{ repeat.item == \"TV Toast\"}}"
+          then:
+            - service: script.notificatie_iphone_v6
+              data:
+                action_phone_action_enabled: none
+                ruimte: Werkkamer JohnDoe
+                notify_phone: iphone_JohnDoe
+                persoon: JohnDoe
+                notify_location: away
+                message_phone_title: TV Toast
+                message_phone_tag: notify_device_tvtoast
+                message_phone_group: notify_device
+                message_phone_persistent: true
+                action_1_phone_single: BMW_I4_LOCK_CAR
+                action_1_phone_title: BMW i4 op slot doen
+                action_1_phone_activationmode: background
+                action_1_phone_icon: sfsymbols:envelope.badge
+                action_1_phone_destructive: false
+                action_2_phone_single: BMW_I4_FLASH_LIGHT
+                action_2_phone_title: Knipper lampen
+                action_2_phone_activationmode: background
+                action_2_phone_icon: sfsymbols:lightbulb
+                action_2_phone_destructive: false
+                action_3_phone_single: BMW_I4_HORN_SOUND
+                action_3_phone_title: Gebruik claxon
+                action_3_phone_activationmode: background
+                action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+                action_3_phone_destructive: false
+                message_phone_body: TV Toast
+      for_each: "{{notify_device}}"
+icon: mdi:alert-decagram
+mode: parallel
+max: 10
+fields:
+  notify_device:
+    selector:
+      select:
+        options:
+          - Sonos Speaker
+          - iPhone
+          - TV Toast
+          - MS Teams
+        multiple: true
+    name: Notify following devices
+    description: Select the devices you want to use for notifications
+    default: iPhone
+    required: true
+  message_room:
+    selector:
+      select:
+        options:
+          - Woonkamer
+          - Werkkamer JohnDoe
+          - Werkkamer JaneDoe
+          - Keuken
+          - Badkamer
+          - Slaapkamer
+        multiple: true
+    name: Which room?
+    description: Which is room is the notification for (you can select multiple rooms)?
+    default: Woonkamer
+    required: true
+  message_person:
+    selector:
+      select:
+        options:
+          - JohnDoe
+          - JaneDoe
+        multiple: true
+    name: Who needs to hear the message?
+    description: >-
+      Who has to be in the room for the message to play through the speaker?
+      (when Person-Priority is selected)
+    default: JohnDoe
+    required: true
+  message_person_priority:
+    selector:
+      boolean: {}
+    name: Person Priority?
+    description: >-
+      If you want the message to always play in the selected room, turn of this
+      option. By default the mesage is ONLY played in the room where the
+      selected person is detected, unless 'Both' or 'None' are selected.
+    default: true
+    required: true
+  message_tts_priority:
+    selector:
+      boolean: {}
+    name: Priority when TV is playing?
+    description: >-
+      If the message has Priority set to TRUE and the TV is playing, the audio
+      of the TV will be turned down and the notification will be played. If the
+      TV is turned off, this priority will ignored and the notification will be
+      played in the selected room.
+    required: false
+  message_tv_body:
+    selector:
+      text: null
+    name: Message (TV Body)
+    description: Which message will be displayed on the TV?
+    default: Example Message
+  notify_tv:
+    selector:
+      select:
+        options:
+          - lg_tv_woonkamer
+    name: Notify TV
+    description: Notify through which TV?
+    required: true
+    default: lg_tv_woonkamer
+  message_tts_pre_notify:
+    selector:
+      boolean: {}
+    name: Pre-Notify?
+    description: >-
+      Does the notification needs to start with a 'LET OP' message, so people in
+      the room pay attention to the notification?
+    required: true
+    default: false
+  message_tts_body:
+    selector:
+      text: null
+    name: What should the notification say through TTS?
+    description: What should the notification say through TTS?
+    required: true
+    default: Dit is een testbericht.
+  action_phone_action_enabled:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - none
+          - one
+          - two
+          - three
+    name: Phone Action Enabled
+    description: The number of response options.
+    default: none
+  notify_phone:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - iPhone JohnDoe
+          - iPhone JaneDoe
+          - iPad Pro JohnDoe
+        multiple: true
+    name: Notify Device
+    description: >-
+      Selecteer het device (of de device group) waar de notificaties naartoe
+      gestuurd moeten worden.
+    required: true
+    default:
+      - iPhone JohnDoe
+  notify_location:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - home
+          - away
+    name: Wanneer melden?
+    description: >-
+      Wil je alleen een melding als je thuis (home) bent, of ook als je afwezig
+      (away) bent?
+    default: home
+    required: true
+  message_phone_body:
+    selector:
+      text: null
+    name: Message for Phone
+    description: Het bericht wat naar de telefoon gestuurd moet worden.
+    default: Dit is een bericht
+    required: true
+  message_phone_title:
+    selector:
+      text: null
+    name: Title for Phone
+    description: De titel voor het telefoon bericht.
+    default: Titel
+    required: true
+  message_phone_tag:
+    selector:
+      text: null
+    name: Message Tag for Phone
+    description: Dit is het label wat het bericht krijgt.
+    default: device_status
+    required: true
+  message_phone_group:
+    selector:
+      text: null
+    name: Message Group for Phone
+    description: Het bericht wordt gegroepeerd onder deze groep.
+    default: device
+    required: true
+  message_phone_persistent:
+    selector:
+      boolean: null
+    name: Persistent on Phone
+    required: true
+    default: true
+  action_1_phone_single:
+    selector:
+      text: null
+    name: Aktie 1 voor Actionable Notifcation
+    description: De te starten aktie voor de iOS Aktie
+    default: BMW_I4_LOCK_CAR
+    required: false
+  action_1_phone_title:
+    selector:
+      text: null
+    name: Aktie 1 - Naam
+    description: De naam voor de 1e iOS Aktie
+    default: BMW i4 op slot doen
+    required: false
+  action_1_phone_activationmode:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - foreground
+          - background
+    name: Aktie 1 - Actionmode
+    description: >-
+      Set to foreground to launch the app when tapped. Defaults to background
+      which just fires the event.
+    default: background
+    required: false
+  action_1_phone_icon:
+    selector:
+      text: null
+    name: Aktie 1 - ICON
+    description: Het icoon voor de iOS Aktie
+    default: sfsymbols:envelope.badge
+    required: false
+  action_1_phone_destructive:
+    selector:
+      boolean: null
+    name: Aktie 1 - Destructive
+    description: true to color the actions title red, indicating a destructive action.
+    default: false
+    required: false
+  action_2_phone_single:
+    selector:
+      text: null
+    name: Aktie 2 - Actionable Notifcation
+    description: De te starten aktie voor de iOS Aktie
+    default: BMW_I4_FLASH_LIGHT
+    required: false
+  action_2_phone_title:
+    selector:
+      text: null
+    name: Aktie 2 - Naam
+    description: De naam voor de iOS Aktie
+    default: Knipper lampen
+    required: false
+  action_2_phone_activationmode:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - foreground
+          - background
+    name: Aktie 2 - Actionmode
+    description: >-
+      Set to foreground to launch the app when tapped. Defaults to background
+      which just fires the event.
+    default: background
+    required: false
+  action_2_phone_icon:
+    selector:
+      text: null
+    name: Aktie 2 - icon
+    description: Het icoon voor de iOS Aktie
+    default: sfsymbols:lightbulb
+    required: false
+  action_2_phone_destructive:
+    selector:
+      boolean: null
+    name: Aktie 2 - Destructive
+    description: true to color the actions title red, indicating a destructive action.
+    default: false
+    required: false
+  action_3_phone_single:
+    selector:
+      text: null
+    name: Aktie 3 - Actionable Notifcation
+    description: De te starten aktie voor de iOS Aktie
+    default: BMW_I4_HORN_SOUND
+    required: false
+  action_3_phone_title:
+    selector:
+      text: null
+    name: Aktie 3 - Naam
+    description: De naam voor de iOS Aktie
+    default: Gebruik claxon
+    required: false
+  action_3_phone_activationmode:
+    selector:
+      select:
+        mode: dropdown
+        options:
+          - foreground
+          - background
+    name: Aktie 3 - Actionmode
+    description: >-
+      Set to foreground to launch the app when tapped. Defaults to background
+      which just fires the event.
+    default: background
+    required: false
+  action_3_phone_icon:
+    selector:
+      text: null
+    name: Aktie 3 - icon
+    description: Het icoon voor de iOS Aktie
+    default: sfsymbols:speaker.badge.exclamationmark
+    required: false
+  action_3_phone_destructive:
+    selector:
+      boolean: null
+    name: Aktie 3 - Destructive
+    description: true to color the actions title red, indicating a destructive action.
+    default: false
+    required: false

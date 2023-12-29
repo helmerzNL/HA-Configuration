@@ -1,5 +1,10 @@
-alias: Sonos - Audio Notificatie v72
+alias: Sonos - Audio Notificatie v7 (with Person Priority)
 sequence:
+  - variables:
+      media_priority: >
+        {% set priority = state_attr("media_player.woonkamer_tv", "source") %}
+        {% if priority == 'XBOX' %} False {% else %} {{message_tts_priority}} {%
+        endif %}   
   - if:
       - condition: and
         conditions:
@@ -56,7 +61,7 @@ sequence:
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
-        enabled: true
+        enabled: false
       - if:
           - condition: and
             conditions:
@@ -67,24 +72,49 @@ sequence:
               - condition: state
                 entity_id: media_player.woonkamer_sonos
                 state: playing
+                enabled: false
               - condition: state
                 entity_id: media_player.woonkamer_sonos
                 attribute: source
                 state: TV
               - condition: template
                 value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+                enabled: false
               - condition: template
                 value_template: "{{ message_tts_priority != true }}"
+                enabled: false
         then:
-          - service: script.notificatie_lg_tv_1
-            data:
-              notify_tv: "{{notify_tv}}"
-              message_tv_body: "{{message_tv_body}}"
           - service: script.turn_off
             data: {}
             target:
               entity_id: script.sonos_audio_notificatie_v6
-        enabled: true
+            enabled: false
+          - if:
+              - condition: and
+                conditions:
+                  - condition: state
+                    entity_id: media_player.woonkamer_appletv
+                    state: playing
+                    enabled: false
+                  - condition: state
+                    entity_id: media_player.woonkamer_sonos
+                    state: playing
+                  - condition: state
+                    entity_id: media_player.woonkamer_sonos
+                    attribute: source
+                    state: TV
+                  - condition: template
+                    value_template: >-
+                      {{ (media_player_entity == 'media_player.woonkamer_sonos')
+                      }}
+                  - condition: template
+                    value_template: "{{ message_tts_priority != true }}"
+            then:
+              - service: script.notificatie_lg_tv_1
+                data:
+                  notify_tv: "{{notify_tv}}"
+                  message_tv_body: "{{message_tv_body}}"
+        enabled: false
       - if:
           - condition: and
             conditions:
@@ -111,7 +141,7 @@ sequence:
             data: {}
             target:
               entity_id: script.sonos_audio_notificatie_v5
-        enabled: true
+        enabled: false
       - if:
           - condition: state
             entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
@@ -125,6 +155,7 @@ sequence:
             data: {}
             target:
               entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+        enabled: false
       - if:
           - condition: template
             value_template: "{{ (states(\"input_boolean.voice_response_\" ~ ruimte) == 'on') }}"
@@ -149,9 +180,87 @@ sequence:
               cache: false
               entity_id: "{{media_player_entity}}"
               message: "{{message_tts_body}}"
+        enabled: false
+      - if:
+          - condition: template
+            value_template: "{{ (media_player_entity == 'media_player.woonkamer_sonos') }}"
+        then:
+          - if:
+              - condition: and
+                conditions:
+                  - condition: state
+                    entity_id: media_player.woonkamer_sonos
+                    state: playing
+                  - condition: state
+                    entity_id: media_player.woonkamer_sonos
+                    attribute: source
+                    state: TV
+                  - condition: template
+                    value_template: >-
+                      {{ (media_player_entity == 'media_player.woonkamer_sonos')
+                      }}
+                  - condition: or
+                    conditions:
+                      - condition: template
+                        value_template: "{{ message_tts_priority != true }}"
+                      - condition: state
+                        entity_id: media_player.woonkamer_tv
+                        state: XBOX
+                        enabled: true
+                        attribute: source
+            then:
+              - service: script.notificatie_lg_tv_1
+                data:
+                  notify_tv: "{{notify_tv}}"
+                  message_tv_body: "{{message_tv_body}}"
+        enabled: true
+      - if:
+          - condition: template
+            value_template: "{{ (states(\"input_boolean.voice_response_\" ~ ruimte) == 'on') }}"
+          - condition: or
+            conditions:
+              - condition: and
+                conditions:
+                  - condition: template
+                    value_template: "{{ media_priority == true }}"
+                  - condition: template
+                    value_template: >-
+                      {{ (media_player_entity == 'media_player.woonkamer_sonos')
+                      }}
+              - condition: template
+                value_template: "{{ (media_player_entity != 'media_player.woonkamer_sonos') }}"
+              - condition: state
+                entity_id: media_player.woonkamer_tv
+                state: "off"
+        then:
+          - if:
+              - condition: template
+                value_template: |
+                  {{ message_tts_pre_notify == true }}
+            then:
+              - service: tts.microsoft_say
+                data:
+                  cache: false
+                  entity_id: "{{media_player_entity}}"
+                  message: Let op!
+              - delay:
+                  hours: 0
+                  minutes: 0
+                  seconds: 0
+                  milliseconds: 900
+          - service: tts.microsoft_say
+            data:
+              cache: false
+              entity_id: "{{media_player_entity}}"
+              message: "{{message_tts_body}}"
     else:
       - repeat:
           sequence:
+            - service: script.sonos_determine_speaker_name
+              data:
+                media_room: "{{repeat.item}}"
+              response_variable: sonos_speaker
+              enabled: true
             - variables:
                 ruimte: >
                   {% set mediaruimte = repeat.item %} {% if mediaruimte ==
@@ -161,7 +270,7 @@ sequence:
                   werkkamer_JohnDoe {% elif mediaruimte == 'Werkkamer JaneDoe' %}
                   werkkamer_JaneDoe {% elif mediaruimte == 'Woonkamer' %}
                   woonkamer {% else %} woonkamer {% endif %}
-                media_player_entity: >
+                media_player_entity2: >
                   {% set mediaplayer = repeat.item %} {% if mediaplayer ==
                   'Badkamer' %} media_player.badkamer_sonos {% elif mediaplayer
                   == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer
@@ -172,115 +281,65 @@ sequence:
                   elif mediaplayer == 'Woonkamer' %}
                   media_player.woonkamer_sonos {% else %}
                   media_player.woonkamer_sonos {% endif %}        
+                media_player_entity: |
+                  {{ sonos_speaker.value }}
             - if:
-                - condition: and
-                  conditions:
-                    - condition: state
-                      entity_id: media_player.woonkamer_appletv
-                      state: playing
-                      enabled: true
-                    - condition: state
-                      entity_id: media_player.woonkamer_sonos
-                      state: playing
-                    - condition: state
-                      entity_id: media_player.woonkamer_sonos
-                      attribute: source
-                      state: TV
-                    - condition: template
-                      value_template: >-
-                        {{ (media_player_entity ==
-                        'media_player.woonkamer_sonos') }}
-                    - condition: template
-                      value_template: "{{ message_tts_priority == true }}"
-                      enabled: true
+                - condition: template
+                  value_template: >-
+                    {{ (media_player_entity == 'media_player.woonkamer_sonos')
+                    }}
               then:
-                - service: media_player.media_pause
-                  data: {}
-                  enabled: true
-                  target:
-                    entity_id: media_player.woonkamer_appletv
-                - service: input_boolean.turn_on
-                  data: {}
-                  target:
-                    entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
+                - if:
+                    - condition: and
+                      conditions:
+                        - condition: state
+                          entity_id: media_player.woonkamer_sonos
+                          state: playing
+                        - condition: state
+                          entity_id: media_player.woonkamer_sonos
+                          attribute: source
+                          state: TV
+                        - condition: template
+                          value_template: >-
+                            {{ (media_player_entity ==
+                            'media_player.woonkamer_sonos') }}
+                        - condition: or
+                          conditions:
+                            - condition: template
+                              value_template: "{{ message_tts_priority != true }}"
+                            - condition: state
+                              entity_id: media_player.woonkamer_tv
+                              state: XBOX
+                              enabled: true
+                              attribute: source
+                  then:
+                    - service: script.notificatie_lg_tv_1
+                      data:
+                        notify_tv: "{{notify_tv}}"
+                        message_tv_body: "{{message_tv_body}}"
               enabled: true
-            - if:
-                - condition: and
-                  conditions:
-                    - condition: state
-                      entity_id: media_player.woonkamer_appletv
-                      state: playing
-                      enabled: false
-                    - condition: state
-                      entity_id: media_player.woonkamer_sonos
-                      state: playing
-                    - condition: state
-                      entity_id: media_player.woonkamer_sonos
-                      attribute: source
-                      state: TV
-                    - condition: template
-                      value_template: >-
-                        {{ (media_player_entity ==
-                        'media_player.woonkamer_sonos') }}
-                    - condition: template
-                      value_template: "{{ message_tts_priority != true }}"
-              then:
-                - service: script.notificatie_lg_tv_1
-                  data:
-                    notify_tv: "{{notify_tv}}"
-                    message_tv_body: "{{message_tv_body}}"
-                - service: script.turn_off
-                  data: {}
-                  target:
-                    entity_id: script.sonos_audio_notificatie_v6
-              enabled: true
-            - if:
-                - condition: and
-                  conditions:
-                    - condition: state
-                      entity_id: media_player.woonkamer_tv
-                      state: XBOX
-                      enabled: true
-                      attribute: source
-                    - condition: state
-                      entity_id: media_player.woonkamer_sonos
-                      state: playing
-                    - condition: state
-                      entity_id: media_player.woonkamer_sonos
-                      attribute: source
-                      state: TV
-                    - condition: template
-                      value_template: >-
-                        {{ (media_player_entity ==
-                        'media_player.woonkamer_sonos') }}
-              then:
-                - service: script.notificatie_lg_tv_1
-                  data:
-                    notify_tv: "{{notify_tv}}"
-                    message_tv_body: "{{message_tv_body}}"
-                - service: script.turn_off
-                  data: {}
-                  target:
-                    entity_id: script.sonos_audio_notificatie_v5
-              enabled: true
-            - if:
-                - condition: state
-                  entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
-                  state: "on"
-              then:
-                - service: media_player.media_play_pause
-                  data: {}
-                  target:
-                    entity_id: media_player.woonkamer_appletv
-                - service: input_boolean.turn_off
-                  data: {}
-                  target:
-                    entity_id: input_boolean.sonos_audio_notificatie_apple_tv_playing
             - if:
                 - condition: template
                   value_template: >-
                     {{ (states("input_boolean.voice_response_" ~ ruimte) ==
                     'on') }}
+                - condition: or
+                  conditions:
+                    - condition: and
+                      conditions:
+                        - condition: template
+                          value_template: "{{ media_priority == true }}"
+                        - condition: template
+                          value_template: >-
+                            {{ (media_player_entity ==
+                            'media_player.woonkamer_sonos') }}
+                    - condition: template
+                      value_template: >-
+                        {{ (media_player_entity !=
+                        'media_player.woonkamer_sonos') }}
+                    - condition: state
+                      entity_id: media_player.woonkamer_tv
+                      state: "off"
               then:
                 - if:
                     - condition: template
@@ -376,3 +435,12 @@ fields:
     description: What should the notification say through TTS?
     required: true
     default: Dit is een testbericht.
+  notify_tv:
+    selector:
+      select:
+        options:
+          - lg_tv_woonkamer
+    name: Notify TV
+    description: Notify through which TV?
+    required: true
+    default: lg_tv_woonkamer

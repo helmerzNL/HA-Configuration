@@ -4,6 +4,7 @@
   - [General](#general)
   - [iPhone Notification](#iphone-notification)
   - [Sonos Notification](#sonos-notification)
+  - [All-in-One Notification Script](#integrated-notification-script)
   - [Integrate iOS Alarm with Home Assistant](#integrate-ios-alarm-with-home-assistant)
   - [Thanks](#thanks-and-contact)  
   - [Buy Me A Coffee](#buy-me-a-coffee)
@@ -35,22 +36,6 @@ If you want to edit those fields, just Edit the script (when you've imported it)
 **Example**
 I've had, again, included an example [here](/Packages/notification/iphone_service_example.yaml) that shows an example of a service that you could use in your automation.
 
-## Integrate iOS Alarm with Home Assistant
-Would it be nice if you could just configure the alarm on your iPhone and when it is time to go to bed, that time automatically syncs to your HA instance. And then in the morning, when your iPhone alarm goes off, your Sonos speaker starts playing music and your Philips HUE lights slowly turns on (and/or any other device you want to activate when you wake up).
-
-On the official [HA Community forum](https://community.home-assistant.io/t/sync-next-ios16-alarm-clock-in-ha-with-shortcuts-and-companion-app/494726/62) I've found a way (with the help of some Apple Shortcuts) to achieve this. 
-
-The configuration consists of two Shortcuts :
-
-- [Configure HA Alarm](https://www.icloud.com/shortcuts/ee37cd7e90904b38a467a723279665a9) - Configures the Boolean in HA when 'Sleep mode' is turned on. 
-- [Turn HA Alarm Off](https://www.icloud.com/shortcuts/ca72d93ecfc7405cab005059c6f0c97c) - Turns Off the Sonos/HUE when you turn off the iOS Alarm (when it sounds)
-
-And a few automations and helpers, which you can find [here](/Packages/house/rooms/bedroom)
-
-Please make sure you edit the Shortcuts to fit your needs:
-- entity_id -> use your own input_boolean here, in the shortcut above it is set to input_datetime.ios_alarm (and in my scripts I use input_boolean.wekker_iphone)
-- Label -> Edit the label where the Shortcut is looking for, in my example I use *Wekker*
-
 ## Sonos Notification
 I’ve been using Sonos speakers in my house quiet some time, but with this Sonos Notification script I've made notifications a bit 'smarter'.
 To use all features, please make sure you have [ESPresense](https://espresense.com) configured/in use in your house, since the *person priority* part makes use of ESPresense. If you use another solution to track occupancy of a room, you probably have to make some adjustments to the script.
@@ -71,6 +56,47 @@ When u have an Apple TV (or other media player) using the Sonos speaker for audi
 *to be added in the future*
 
 Please let me know if you have any questions.
+
+## Integrated Notification Script
+I've updated my Notification script (again). This time I consolidated the [Sonos Notification](#sonos-notification) and [iPhone Notification](#iphone-notification) in a single script. 
+
+With this script it is possible to select the devices you want to use for the notification. Currently you can select:
+* Sonos Speaker
+* iPhone
+* TV Toast
+* MS Teams
+
+For which (for now) only te first two are fully configured.
+
+![Notify the following devices](../../images/notification10_devices.png)
+
+Next you can select in which rooms you want the notification be displayed (right now this only being used if you select Sonos Speaker as a notifying device).
+
+![Select the rooms where the notification should be executed](../../images/notification10_rooms.png)
+
+You can also use this script (in combination with ESPresense) to play the notification only in the room where you (or any person you select) are residing. 
+
+![Who should receive the notification? And do you require Person Priority?](../../images/notification10_person.png)
+
+You can also select the mobile devices to which the notification should be sent. Another thing to mention (at least if you have an iOS device), are the actionable notifications. This is optional, but you can configure up to 3 notification options (for which you should also configure automations which use a iOS notification trigger).
+
+![Actionable Notifications](../../images/notification10_actionablenotification.png)
+
+## Integrate iOS Alarm with Home Assistant
+Would it be nice if you could just configure the alarm on your iPhone and when it is time to go to bed, that time automatically syncs to your HA instance. And then in the morning, when your iPhone alarm goes off, your Sonos speaker starts playing music and your Philips HUE lights slowly turns on (and/or any other device you want to activate when you wake up).
+
+On the official [HA Community forum](https://community.home-assistant.io/t/sync-next-ios16-alarm-clock-in-ha-with-shortcuts-and-companion-app/494726/62) I've found a way (with the help of some Apple Shortcuts) to achieve this. 
+
+The configuration consists of two Shortcuts :
+
+- [Configure HA Alarm](https://www.icloud.com/shortcuts/ee37cd7e90904b38a467a723279665a9) - Configures the Boolean in HA when 'Sleep mode' is turned on. 
+- [Turn HA Alarm Off](https://www.icloud.com/shortcuts/ca72d93ecfc7405cab005059c6f0c97c) - Turns Off the Sonos/HUE when you turn off the iOS Alarm (when it sounds)
+
+And a few automations and helpers, which you can find [here](/Packages/house/rooms/bedroom)
+
+Please make sure you edit the Shortcuts to fit your needs:
+- entity_id -> use your own input_boolean here, in the shortcut above it is set to input_datetime.ios_alarm (and in my scripts I use input_boolean.wekker_iphone)
+- Label -> Edit the label where the Shortcut is looking for, in my example I use *Wekker*
 
 ## Thanks and contact
 

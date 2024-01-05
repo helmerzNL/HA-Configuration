@@ -53,11 +53,9 @@ sequence:
                           conditions:
                             - condition: state
                               entity_id: media_player.woonkamer_sonos
-                              state: playing
-                            - condition: state
-                              entity_id: media_player.woonkamer_sonos
                               attribute: source
                               state: TV
+                              enabled: false
                             - condition: template
                               value_template: >-
                                 {{ (media_player_entity ==
@@ -71,6 +69,17 @@ sequence:
                                   state: XBOX
                                   enabled: true
                                   attribute: source
+                            - condition: or
+                              conditions:
+                                - condition: state
+                                  entity_id: media_player.woonkamer_sonos
+                                  state: playing
+                                - condition: state
+                                  entity_id: media_player.woonkamer_sonos
+                                  state: paused
+                                - condition: state
+                                  entity_id: media_player.woonkamer_sonos
+                                  state: "on"
                       then:
                         - service: script.notificatie_lg_tv_1
                           data:
@@ -123,11 +132,11 @@ sequence:
               else:
                 - repeat:
                     sequence:
-                      - service: script.determine_speaker_name_v1
+                      - service: script.sonos_determine_speaker_name
                         data:
                           media_room: "{{repeat.item}}"
                         response_variable: sonos_speaker
-                        enabled: true
+                        enabled: false
                       - variables:
                           ruimte: >
                             {% set mediaruimte = repeat.item %} {% if
@@ -139,7 +148,7 @@ sequence:
                             JaneDoe' %} werkkamer_JaneDoe {% elif mediaruimte ==
                             'Woonkamer' %} woonkamer {% else %} woonkamer {%
                             endif %}
-                          media_player_entity2: >
+                          media_player_entity: >
                             {% set mediaplayer = repeat.item %} {% if
                             mediaplayer == 'Badkamer' %}
                             media_player.badkamer_sonos {% elif mediaplayer ==
@@ -153,8 +162,119 @@ sequence:
                             mediaplayer == 'Woonkamer' %}
                             media_player.woonkamer_sonos {% else %}
                             media_player.woonkamer_sonos {% endif %}        
-                          media_player_entity: |
-                            {{ sonos_speaker.value }}
+                      - if:
+                          - condition: template
+                            value_template: >-
+                              {{ (media_player_entity ==
+                              'media_player.woonkamer_sonos') }}
+                        then:
+                          - if:
+                              - condition: and
+                                conditions:
+                                  - condition: state
+                                    entity_id: media_player.woonkamer_sonos
+                                    state: "on"
+                                  - condition: state
+                                    entity_id: media_player.woonkamer_sonos
+                                    attribute: source
+                                    state: TV
+                                    enabled: false
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (media_player_entity ==
+                                      'media_player.woonkamer_sonos') }}
+                                  - condition: or
+                                    conditions:
+                                      - condition: template
+                                        value_template: "{{ message_tts_priority != true }}"
+                                      - condition: state
+                                        entity_id: media_player.woonkamer_tv
+                                        state: XBOX
+                                        enabled: true
+                                        attribute: source
+                            then:
+                              - service: script.notificatie_lg_tv_1
+                                data:
+                                  notify_tv: "{{notify_tv}}"
+                                  message_tv_body: "{{message_tv_body}}"
+                        enabled: true
+                      - if:
+                          - condition: template
+                            value_template: >-
+                              {{ (states("input_boolean.voice_response_" ~
+                              ruimte) == 'on') }}
+                          - condition: or
+                            conditions:
+                              - condition: and
+                                conditions:
+                                  - condition: template
+                                    value_template: "{{ media_priority == true }}"
+                                  - condition: template
+                                    value_template: >-
+                                      {{ (media_player_entity ==
+                                      'media_player.woonkamer_sonos') }}
+                              - condition: template
+                                value_template: >-
+                                  {{ (media_player_entity !=
+                                  'media_player.woonkamer_sonos') }}
+                              - condition: state
+                                entity_id: media_player.woonkamer_tv
+                                state: "off"
+                        then:
+                          - if:
+                              - condition: template
+                                value_template: |
+                                  {{ message_tts_pre_notify == true }}
+                            then:
+                              - service: tts.microsoft_say
+                                data:
+                                  cache: false
+                                  entity_id: "{{media_player_entity}}"
+                                  message: Let op!
+                              - delay:
+                                  hours: 0
+                                  minutes: 0
+                                  seconds: 0
+                                  milliseconds: 900
+                          - service: tts.microsoft_say
+                            data:
+                              cache: false
+                              entity_id: "{{media_player_entity}}"
+                              message: "{{message_tts_body}}"
+                    for_each: "{{message_room}}"
+                  enabled: false
+                - repeat:
+                    sequence:
+                      - service: script.sonos_determine_speaker_name
+                        data:
+                          media_room: "{{repeat.item}}"
+                        response_variable: sonos_speaker
+                        enabled: false
+                      - variables:
+                          ruimte: >
+                            {% set mediaruimte = repeat.item %} {% if
+                            mediaruimte == 'Badkamer' %} badkamer {% elif
+                            mediaruimte == 'Keuken' %} keuken {% elif
+                            mediaruimte == 'Slaapkamer' %} slaapkamer_JohnDoe {%
+                            elif mediaruimte == 'Werkkamer JohnDoe' %}
+                            werkkamer_JohnDoe {% elif mediaruimte == 'Werkkamer
+                            JaneDoe' %} werkkamer_JaneDoe {% elif mediaruimte ==
+                            'Woonkamer' %} woonkamer {% else %} woonkamer {%
+                            endif %}
+                          media_player_entity: >
+                            {% set mediaplayer = repeat.item %} {% if
+                            mediaplayer == 'Badkamer' %}
+                            media_player.badkamer_sonos {% elif mediaplayer ==
+                            'Keuken' %} media_player.keuken_sonos {% elif
+                            mediaplayer == 'Slaapkamer' %}
+                            media_player.slaapkamer_JohnDoe_sonos {% elif
+                            mediaplayer == 'Werkkamer JohnDoe' %}
+                            media_player.werkkamer_JohnDoe_sonos {% elif
+                            mediaplayer == 'Werkkamer JaneDoe' %}
+                            media_player.werkkamer_JaneDoe_sonos {% elif
+                            mediaplayer == 'Woonkamer' %}
+                            media_player.woonkamer_sonos {% else %}
+                            media_player.woonkamer_sonos {% endif %}        
                       - if:
                           - condition: template
                             value_template: >-
@@ -238,40 +358,15 @@ sequence:
             - condition: template
               value_template: "{{ repeat.item == \"iPhone\"}}"
           then:
-            - service: script.notificatie_iphone_v6
-              data:
-                action_phone_action_enabled: none
-                ruimte: Werkkamer JohnDoe
-                notify_phone: iphone_JohnDoe
-                persoon: JohnDoe
-                notify_location: away
-                message_phone_body: iPhone
-                message_phone_tag: notify_device_iphone
-                message_phone_group: notify_device
-                message_phone_persistent: true
-                action_1_phone_single: BMW_I4_LOCK_CAR
-                action_1_phone_title: BMW i4 op slot doen
-                action_1_phone_activationmode: background
-                action_1_phone_icon: sfsymbols:envelope.badge
-                action_1_phone_destructive: false
-                action_2_phone_single: BMW_I4_FLASH_LIGHT
-                action_2_phone_title: Knipper lampen
-                action_2_phone_activationmode: background
-                action_2_phone_icon: sfsymbols:lightbulb
-                action_2_phone_destructive: false
-                action_3_phone_single: BMW_I4_HORN_SOUND
-                action_3_phone_title: Gebruik claxon
-                action_3_phone_activationmode: background
-                action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
-                action_3_phone_destructive: false
-                message_phone_title: Phone
-              enabled: false
             - repeat:
                 sequence:
-                  - service: script.determine_ios_name_v1
-                    data:
-                      notify_iosdevice: "{{repeat.item}}"
-                    response_variable: iosdevice
+                  - variables:
+                      iosdevice: >
+                        {% set iosdevice = notify_ios_device %} {% if iosdevice
+                        == 'iPhone JaneDoe' %} iphone_JaneDoe {% elif iosdevice ==
+                        'iPhone JohnDoe' %} iphone_JohnDoe {% elif iosdevice ==
+                        'iPad Pro JohnDoe' %} ipad_pro_JohnDoe  {% else %}
+                        all_JohnDoe {% endif %}          
                   - choose:
                       - conditions:
                           - condition: template
@@ -287,7 +382,7 @@ sequence:
                                       {{ (states("person." ~ message_person ~
                                       "_zandbergen") == 'home') }}
                                 then:
-                                  - service: notify.{{iosdevice.value}}
+                                  - service: notify.{{iosdevice}}
                                     data:
                                       message: "{{message_phone_body}}"
                                       title: "{{message_phone_title}}"
@@ -295,7 +390,7 @@ sequence:
                                         tag: "{{message_phone_tag}}"
                                         group: "{{message_phone_group}}"
                             else:
-                              - service: notify.{{iosdevice.value}}
+                              - service: notify.{{iosdevice}}
                                 data:
                                   message: "{{message_phone_body}}"
                                   title: "{{message_phone_title}}"
@@ -316,7 +411,7 @@ sequence:
                                       {{ (states("person." ~ message_person ~
                                       "_zandbergen") == 'home') }}
                                 then:
-                                  - service: notify.{{iosdevice.value}}
+                                  - service: notify.{{repeat.item}}
                                     data:
                                       message: "{{message_phone_body}}"
                                       title: "{{message_phone_title}}"
@@ -336,7 +431,7 @@ sequence:
                                             critical: 0
                                             volume: 1
                             else:
-                              - service: notify.{{iosdevice.value}}
+                              - service: notify.{{repeat.item}}
                                 data:
                                   message: "{{message_phone_body}}"
                                   title: "{{message_phone_title}}"
@@ -359,7 +454,7 @@ sequence:
                           - condition: template
                             value_template: "{{ (action_phone_action_enabled == 'two') }}"
                         sequence:
-                          - service: notify.{{iosdevice.value}}
+                          - service: notify.{{repeat.item}}
                             data:
                               message: "{{message_phone_body}}"
                               title: "{{message_phone_title}}"
@@ -394,7 +489,7 @@ sequence:
                                       {{ (states("person." ~ message_person ~
                                       "_zandbergen") == 'home') }}
                                 then:
-                                  - service: notify.{{iosdevice.value}}
+                                  - service: notify.{{repeat.item}}
                                     data:
                                       message: "{{message_phone_body}}"
                                       title: "{{message_phone_title}}"
@@ -419,7 +514,7 @@ sequence:
                                             critical: 0
                                             volume: 1
                             else:
-                              - service: notify.{{iosdevice.value}}
+                              - service: notify.{{repeat.item}}
                                 data:
                                   message: "{{message_phone_body}}"
                                   title: "{{message_phone_title}}"
@@ -447,7 +542,7 @@ sequence:
                           - condition: template
                             value_template: "{{ (action_phone_action_enabled == 'three') }}"
                         sequence:
-                          - service: notify.{{iosdevice.value}}
+                          - service: notify.{{repeat.item}}
                             data:
                               message: "{{message_phone_body}}"
                               title: "{{message_phone_title}}"
@@ -487,7 +582,7 @@ sequence:
                                       {{ (states("person." ~ message_person ~
                                       "_zandbergen") == 'home') }}
                                 then:
-                                  - service: notify.{{iosdevice.value}}
+                                  - service: notify.{{repeat.item}}
                                     data:
                                       message: "{{message_phone_body}}"
                                       title: "{{message_phone_title}}"
@@ -517,7 +612,7 @@ sequence:
                                             critical: 0
                                             volume: 1
                             else:
-                              - service: notify.{{iosdevice.value}}
+                              - service: notify.{{repeat.item}}
                                 data:
                                   message: "{{message_phone_body}}"
                                   title: "{{message_phone_title}}"
@@ -547,7 +642,7 @@ sequence:
                                         critical: 0
                                         volume: 1
                     default:
-                      - service: notify.{{iosdevice.value}}
+                      - service: notify.{{repeat.item}}
                         data:
                           message: "{{message_phone_body}}"
                           title: "{{message_phone_title}}"
@@ -555,38 +650,11 @@ sequence:
                             tag: "{{message_phone_tag}}"
                             group: "{{message_phone_group}}"
                         enabled: true
-                for_each: "{{notify_phone}}"
+                for_each: "{{notify_ios_device}}"
         - if:
             - condition: template
               value_template: "{{ repeat.item == \"TV Toast\"}}"
-          then:
-            - service: script.notificatie_iphone_v6
-              data:
-                action_phone_action_enabled: none
-                ruimte: Werkkamer JohnDoe
-                notify_phone: iphone_JohnDoe
-                persoon: JohnDoe
-                notify_location: away
-                message_phone_title: TV Toast
-                message_phone_tag: notify_device_tvtoast
-                message_phone_group: notify_device
-                message_phone_persistent: true
-                action_1_phone_single: BMW_I4_LOCK_CAR
-                action_1_phone_title: BMW i4 op slot doen
-                action_1_phone_activationmode: background
-                action_1_phone_icon: sfsymbols:envelope.badge
-                action_1_phone_destructive: false
-                action_2_phone_single: BMW_I4_FLASH_LIGHT
-                action_2_phone_title: Knipper lampen
-                action_2_phone_activationmode: background
-                action_2_phone_icon: sfsymbols:lightbulb
-                action_2_phone_destructive: false
-                action_3_phone_single: BMW_I4_HORN_SOUND
-                action_3_phone_title: Gebruik claxon
-                action_3_phone_activationmode: background
-                action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
-                action_3_phone_destructive: false
-                message_phone_body: TV Toast
+          then: []
       for_each: "{{notify_device}}"
 icon: mdi:alert-decagram
 mode: parallel
@@ -603,7 +671,7 @@ fields:
         multiple: true
     name: Notify following devices
     description: Select the devices you want to use for notifications
-    default: iPhone
+    default: []
     required: true
   message_room:
     selector:
@@ -663,7 +731,7 @@ fields:
     selector:
       select:
         options:
-          - lg_tv_woonkamer
+          - woonkamer_tv
     name: Notify TV
     description: Notify through which TV?
     required: true
@@ -696,7 +764,7 @@ fields:
     name: Phone Action Enabled
     description: The number of response options.
     default: none
-  notify_phone:
+  notify_ios_device:
     selector:
       select:
         mode: dropdown
@@ -710,8 +778,7 @@ fields:
       Selecteer het device (of de device group) waar de notificaties naartoe
       gestuurd moeten worden.
     required: true
-    default:
-      - iPhone JohnDoe
+    default: []
   notify_location:
     selector:
       select:

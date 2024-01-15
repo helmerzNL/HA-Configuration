@@ -1,0 +1,8 @@
+sensor:
+  - platform: template
+    sensors:
+#Sonos Currently Playing
+      sonos_currently_playing_wk_JohnDoe:
+        friendly_name: "Sonos - Currently Playing WK JohnDoe"
+        value_template: >
+          {{ state_attr('media_player.werkkamer_JohnDoe_sonos', 'media_artist') }} - {{ state_attr('media_player.werkkamer_JohnDoe_sonos','media_title') }}

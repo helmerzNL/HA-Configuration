@@ -1,0 +1,57 @@
+alias: Test voor Collega
+description: Test of wisselende track werkt
+trigger:
+  - platform: state
+    entity_id:
+      - media_player.werkkamer_JohnDoe_sonos
+    to: playing
+    attribute: media_title
+  - platform: state
+    entity_id:
+      - media_player.werkkamer_JohnDoe_sonos
+    attribute: media_title
+condition:
+  - condition: template
+    value_template: >-
+      {{ state_attr('media_player.werkkamer_JohnDoe_sonos', 'media_content_type')
+      == "music" }}
+action:
+  - service: script.notification_script_v10
+    metadata: {}
+    data:
+      notify_device:
+        - iPhone
+      message_room:
+        - Werkkamer JohnDoe
+      message_person: JohnDoe
+      message_person_priority: true
+      notify_tv: woonkamer_tv
+      message_tts_pre_notify: false
+      message_tts_body: Dit is een testbericht.
+      action_phone_action_enabled: none
+      notify_ios_device:
+        - iPhone JohnDoe
+      notify_location: home
+      message_phone_body: >-
+        {{ state_attr('media_player.werkkamer_JohnDoe_sonos', 'media_artist') }}
+        - {{ state_attr('media_player.werkkamer_JohnDoe_sonos','media_title') }}
+      message_phone_title: Titel
+      message_phone_tag: device_status
+      message_phone_group: device
+      message_phone_persistent: true
+      action_1_phone_single: BMW_I4_LOCK_CAR
+      action_1_phone_title: BMW i4 op slot doen
+      action_1_phone_activationmode: background
+      action_1_phone_icon: sfsymbols:envelope.badge
+      action_1_phone_destructive: false
+      action_2_phone_single: BMW_I4_FLASH_LIGHT
+      action_2_phone_title: Knipper lampen
+      action_2_phone_activationmode: background
+      action_2_phone_icon: sfsymbols:lightbulb
+      action_2_phone_destructive: false
+      action_3_phone_single: BMW_I4_HORN_SOUND
+      action_3_phone_title: Gebruik claxon
+      action_3_phone_activationmode: background
+      action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+      action_3_phone_destructive: false
+mode: single

@@ -28,7 +28,7 @@ Now, press (F12, to open the Developer Tools) and click the url to open it in a 
 
 Copy this url and paste it in the *resource* field in the [laadpaal_rest.yaml](./Packages/house/car/laadpaal_rest.yaml) file.
 
-Now restart Home Assistant and create a card showing the created sensors.
+Now restart Home Assistant and create a card showing the created sensors. You can find an example card [here](./Packages/house/car/laadpaal_card.yaml).
 
 ![Laadpaal](./images/laadpaal01.png)
 

@@ -1,0 +1,55 @@
+input_boolean:
+#Enable or Disable the Room Delay
+  occupance_toilet:
+    name: Occupance - Toilet
+    icon: mdi:paper-roll
+  occupance_woonkamer:
+    name: Occupance - Woonkamer
+    icon: mdi:sofa
+  occupance_keuken:
+    name: Occupance - TKeuken
+    icon: mdi:stove
+
+#Configured Delay after which occupancy is reset.
+input_number:
+  delay_toilet_occupance:
+    name: Occupance Delay - Toilet
+    initial: 5
+    min: 1
+    max: 30
+    step: 1
+    mode: slider
+  delay_woonkamer_occupance:
+    name: Occupance Delay - Woonkamer
+    initial: 5
+    min: 1
+    max: 30
+    step: 1
+    mode: slider
+  delay_keuken_occupance:
+    name: Occupance Delay - Keuken
+    initial: 5
+    min: 1
+    max: 30
+    step: 1
+    mode: slider
+
+counter:
+  occupance_toilet:
+    name: Occupance - Toilet
+    icon: mdi:paper-roll    
+    initial: 0
+    step: 1  
+    restore: true     
+  occupance_woonkamer:
+    name: Occupance - Woonkamer
+    icon: mdi:sofa   
+    initial: 0
+    step: 1  
+    restore: true
+  occupance_keuken:
+    name: Occupance - Keuken
+    icon: mdi:stove   
+    initial: 0
+    step: 1  
+    restore: true          

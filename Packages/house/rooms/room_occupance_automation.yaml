@@ -1,0 +1,84 @@
+alias: Room Occupancy Detection
+description: >-
+  Switch on an Input_Boolean the moment a room is occupied and turn if of after
+  a few minutes (unless new occupance is detected).
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.hue_motion_sensor_toilet_motion
+    to: "on"
+    id: toilet_guest
+  - platform: state
+    entity_id:
+      - binary_sensor.woonkamer_mmwave_motion_presence
+    to: "on"
+    id: woonkamer
+  - platform: state
+    entity_id:
+      - sensor.woonkamer_mmwave_motion_presence_state
+    to: moving
+    id: woonkamer
+  - platform: state
+    entity_id:
+      - sensor.woonkamer_mmwave_motion_presence_state
+    to: present
+    id: woonkamer
+condition: []
+action:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id:
+              - toilet_guest
+        sequence:
+          - if:
+              - condition: state
+                entity_id: input_boolean.occupance_toilet
+                state: "off"
+            then:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.occupance_toilet
+                data: {}
+              - service: counter.increment
+                metadata: {}
+                data: {}
+                target:
+                  entity_id: counter.occupance_toilet
+          - delay:
+              hours: 0
+              minutes: "{{ states('input_number.delay_toilet_occupance') | round(0) }}"
+              seconds: 0
+              milliseconds: 0
+          - service: input_boolean.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: input_boolean.occupance_toilet
+      - conditions:
+          - condition: trigger
+            id:
+              - woonkamer
+        sequence:
+          - if:
+              - condition: state
+                entity_id: input_boolean.occupance_woonkamer
+                state: "off"
+            then:
+              - service: input_boolean.turn_on
+                target:
+                  entity_id: input_boolean.occupance_woonkamer
+                data: {}
+          - delay:
+              hours: 0
+              minutes: >-
+                {{ states('input_number.delay_woonkamer_occupance') | round(0)
+                }}
+              seconds: 0
+              milliseconds: 0
+          - service: input_boolean.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: input_boolean.occupance_woonkamer
+mode: restart

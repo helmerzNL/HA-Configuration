@@ -25,7 +25,7 @@ sequence:
                         - condition: template
                           value_template: "{{ message_person == \"JohnDoe\" }}"
                         - condition: template
-                          value_template: "{{ message_person == \"JaneDoe\" }}"
+                          value_template: "{{ message_person == \"JaneDoea\" }}"
               then:
                 - variables:
                     ruimte: |
@@ -38,7 +38,7 @@ sequence:
                       == 'slaapkamer' %} media_player.slaapkamer_JohnDoe_sonos {%
                       elif mediaplayer == 'werkkamer_JohnDoe' %}
                       media_player.werkkamer_JohnDoe_sonos {% elif mediaplayer ==
-                      'werkkamer_JohnDoe' %} media_player.werkkamer_JaneDoe_sonos
+                      'werkkamer_JohnDoe' %} media_player.werkkamer_JaneDoea_sonos
                       {% elif mediaplayer == 'woonkamer' %}
                       media_player.woonkamer_sonos {% else %}
                       media_player.woonkamer_sonos {% endif %}        
@@ -145,7 +145,7 @@ sequence:
                             mediaruimte == 'Slaapkamer' %} slaapkamer_JohnDoe {%
                             elif mediaruimte == 'Werkkamer JohnDoe' %}
                             werkkamer_JohnDoe {% elif mediaruimte == 'Werkkamer
-                            JaneDoe' %} werkkamer_JaneDoe {% elif mediaruimte ==
+                            JaneDoea' %} werkkamer_JaneDoea {% elif mediaruimte ==
                             'Woonkamer' %} woonkamer {% else %} woonkamer {%
                             endif %}
                           media_player_entity: >
@@ -157,8 +157,8 @@ sequence:
                             media_player.slaapkamer_JohnDoe_sonos {% elif
                             mediaplayer == 'Werkkamer JohnDoe' %}
                             media_player.werkkamer_JohnDoe_sonos {% elif
-                            mediaplayer == 'Werkkamer JaneDoe' %}
-                            media_player.werkkamer_JaneDoe_sonos {% elif
+                            mediaplayer == 'Werkkamer JaneDoea' %}
+                            media_player.werkkamer_JaneDoea_sonos {% elif
                             mediaplayer == 'Woonkamer' %}
                             media_player.woonkamer_sonos {% else %}
                             media_player.woonkamer_sonos {% endif %}        
@@ -258,7 +258,7 @@ sequence:
                             mediaruimte == 'Slaapkamer' %} slaapkamer_JohnDoe {%
                             elif mediaruimte == 'Werkkamer JohnDoe' %}
                             werkkamer_JohnDoe {% elif mediaruimte == 'Werkkamer
-                            JaneDoe' %} werkkamer_JaneDoe {% elif mediaruimte ==
+                            JaneDoea' %} werkkamer_JaneDoea {% elif mediaruimte ==
                             'Woonkamer' %} woonkamer {% else %} woonkamer {%
                             endif %}
                           media_player_entity: >
@@ -270,8 +270,8 @@ sequence:
                             media_player.slaapkamer_JohnDoe_sonos {% elif
                             mediaplayer == 'Werkkamer JohnDoe' %}
                             media_player.werkkamer_JohnDoe_sonos {% elif
-                            mediaplayer == 'Werkkamer JaneDoe' %}
-                            media_player.werkkamer_JaneDoe_sonos {% elif
+                            mediaplayer == 'Werkkamer JaneDoea' %}
+                            media_player.werkkamer_JaneDoea_sonos {% elif
                             mediaplayer == 'Woonkamer' %}
                             media_player.woonkamer_sonos {% else %}
                             media_player.woonkamer_sonos {% endif %}        
@@ -363,7 +363,7 @@ sequence:
                   - variables:
                       iosdevice: >
                         {% set iosdevice = notify_ios_device %} {% if iosdevice
-                        == 'iPhone JaneDoe' %} iphone_JaneDoe {% elif iosdevice ==
+                        == 'iPhone JaneDoea' %} iphone_JaneDoea {% elif iosdevice ==
                         'iPhone JohnDoe' %} iphone_JohnDoe {% elif iosdevice ==
                         'iPad Pro JohnDoe' %} ipad_pro_JohnDoe  {% else %}
                         all_JohnDoe {% endif %}          
@@ -679,7 +679,7 @@ fields:
         options:
           - Woonkamer
           - Werkkamer JohnDoe
-          - Werkkamer JaneDoe
+          - Werkkamer JaneDoea
           - Keuken
           - Badkamer
           - Slaapkamer
@@ -693,7 +693,7 @@ fields:
       select:
         options:
           - JohnDoe
-          - JaneDoe
+          - JaneDoea
         multiple: true
     name: Who needs to hear the message?
     description: >-
@@ -770,7 +770,7 @@ fields:
         mode: dropdown
         options:
           - iPhone JohnDoe
-          - iPhone JaneDoe
+          - iPhone JaneDoea
           - iPad Pro JohnDoe
         multiple: true
     name: Notify Device

@@ -2,6 +2,7 @@
 
 - My HA Creations
   - [Background](#background)
+  - [AI Automations]
   - [Charging Pole](#charging-pole)
   - [Charge Reminder](#charge-reminder)
   - [Notification Scripts](#notification-scripts)
@@ -14,8 +15,12 @@ ___
 
 I noticed a screenshot from a colleague showing his HA dashboard in which wrote a nice hack to give him some insights of the status of the nearby public charging poles. So I asked him to share some code with me, which he did. 
 
-This is the result my adoption of his code to my HA instance. You can find the code [here](https://github.com/helmerzNL/HA-Configuration/tree/main/Packages/house/car). Feel free to re-use it.
+This is the result my adoption of his code to my HA instance. You can find the code [here](https://github.com/helmerzNL/HA-Configuration/tree/main/). Feel free to re-use it.
 
+## AI Automations
+Before you can use these automations, you will need to install the [Open AI Converstation](https://www.home-assistant.io/integrations/openai_conversation) integration. Follow the instructions and create an API, when this is done you are ready to start using the automations.
+
+You can find all my AI Automations [here](./Packages/ai_automations/).
 
 ## Charging Pole
 When you download the code, please notice that you need to change the [resource](./Packages/house/car/laadpaal_rest.yaml) parameter. Visit [Nextcharge.app](https://nextcharge.app/) and look for the charging pole you would like to add.

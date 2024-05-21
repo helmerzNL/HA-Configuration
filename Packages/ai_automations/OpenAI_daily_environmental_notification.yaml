@@ -1,0 +1,91 @@
+alias: "OpenAI Daily: Environmental Notification"
+description: ""
+trigger:
+  - platform: time
+    at: "08:45:00"
+  - platform: time
+    at: "12:40:00"
+  - platform: time
+    at: "18:30:00"
+condition: []
+action:
+  - service: weather.get_forecast
+    target:
+      entity_id: weather.forecast_weather_station
+    data:
+      type: daily
+    response_variable: daily_forecast
+    alias: "Call a service 'Weather: Get Forecast'"
+    enabled: false
+  - service: weather.get_forecasts
+    data:
+      type: daily
+    target:
+      entity_id:
+        - weather.buienradar
+        - weather.home
+    response_variable: daily_forecast
+  - service: conversation.process
+    data:
+      text: >-
+        Voor deze taak ben je een milieuconsultant en draag je de
+        verantwoordelijkheid tot een gezond indoor luchtklimaat voor de inwoners
+        van je slimme huis. Geef je inzichten over de luchtkwaliteit binnen  in
+        relatie tot het weer buiten en de huidige temperatuur binnen. Maar
+        probeer de situatie uit te leggen zodat ook leken het begrijpen. Benoem
+        de individuele CO2 waardes per ruimte niet, aangezien de meeste mensen
+        dat niet begrijpen. Maar je mag wel aangeven als een ruimte een te hoge
+        CO2 waarde heeft en advies geven. Gebruik alle waardes puur ter analyze
+        en gebruik in je bericht  alleen de resultaten met betrekking tot de
+        luchtkwaliteit. Benoem dus geen temperatuur en luchtvochtheid waardes.
+        Gebruik alsjeblieft hele getallen. Het bericht moet minder 20 seconden
+        te duren. Het bericht moet puur tekst zijn, aangezien het wordt
+        voorgelezen.  Laat het gebruik van emoji dus achterwege. De huidige
+        condities worden hieronder opgesomt\n Huidige tijd is {{ now()}}   De
+        buitentemperatuur is
+        {{states('sensor.weerstation_achtertuin_temperature') }}   
+        Gevoelstemperatuur is {{ states('sensor.buienradar_gevoelstemperatuur')
+        }}    De luchtvochtigheid buiten is nu {{
+        states('sensor.weerstation_achtertuin_humidity') }} Huidige
+        neerslagintensiteit {{ states('sensor.buienradar_neerslagintensiteit')
+        }}     De koolstofioxidewaardes binnen zijn als volgt, woonkamer {{
+        states('sensor.weerstation_woonkamer_co2') }} ppm,  werkkamer JohnDoe {{
+        states('sensor.weerstation_werkkamer_JohnDoe_co2') }} ppm en slaapkamer
+        {{ states('sensor.weerstation_slaapkamer_co2') }} ppm
+
+        Voorspellingen voor vandaag
+        {{daily_forecast['weather.home'].forecast[0].condition}}     Voorspelde
+        hoogste temperatuur voor vandaag
+        {{daily_forecast['weather.home'].forecast[0].temperature}}  Voorspelde
+        laagste temperatuur voor vandaag
+        {{daily_forecast['weather.home'].forecast[0].templow}}     Voorspelde
+        Neerslagkans
+        {{daily_forecast['weather.home'].forecast[0].precipitation_probability}}   
+        De weersverwachting voor vandaag is
+        {{daily_forecast['weather.home'].forecast[0].condition}} met een maximum
+        temperatuur van
+        {{daily_forecast['weather.home'].forecast[0].temperature}}"
+      agent_id: conversation.openai_conversation
+    enabled: true
+    response_variable: agent
+  - service: notify.notify
+    data:
+      title: Air Quality Update
+      message: "{{agent.response.speech.plain.speech}}"
+  - service: script.sonos_audio_notificatie_v6
+    metadata: {}
+    data:
+      media_ruimte: Werkkamer JohnDoe
+      message_tts_pre_notify: false
+      message_tts_body: "{{agent.response.speech.plain.speech}}"
+      message_tv_body: Example Message
+    enabled: true
+  - service: script.sonos_audio_notificatie_v6
+    metadata: {}
+    data:
+      media_ruimte: Woonkamer
+      message_tts_pre_notify: false
+      message_tts_body: "{{agent.response.speech.plain.speech}}"
+      message_tv_body: Example Message
+    enabled: true
+mode: single

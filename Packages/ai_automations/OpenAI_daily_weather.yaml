@@ -1,0 +1,73 @@
+alias: OpenAI - Weerbericht NL
+description: ""
+trigger:
+  - platform: time
+    at: "08:30:00"
+condition: []
+action:
+  - service: weather.get_forecasts
+    data:
+      type: daily
+    target:
+      entity_id:
+        - weather.buienradar
+        - weather.home
+    response_variable: daily_forecast
+  - service: conversation.process
+    data:
+      agent_id: conversation.openai_conversation
+      text: >-
+        Je bent een zeer geavanceerd slim huis met een ingebouwd weerstation.
+        Weerberichten worden hardop uitgeproken en moet feitelijk correct zijn
+        en  uitgesproken worden alsof je het weer voorleest als Piet Paulusma.
+        Gebruik alsjeblieft hele getallen.  Het bericht moet minder dan 1 minuut
+        duren. Het bericht moet puur tekst zijn, aangezien het wordt
+        voorgelezen.  Laat het gebruik van emoji dus achterwege. Als je de
+        huidige tijd gebruikt, gebruik dan alleen het hele uur en laat  de
+        minuten achterwege en benoem dan ook dat het het weerbericht is van dat
+        uur. Gebruik voor de uren het 12-uur formaat. En benoem de tijd nadat je
+        de datum hebt genoemd. \n De huidige condities worden hieronder
+        opgesomt\n  Huidige tijd is {{ now()}} Temperatuur is {{
+        states('sensor.weerstation_achtertuin_temperature') }}  
+        Gevoelstemperatuur is {{ states('sensor.buienradar_gevoelstemperatuur')
+        }}   Luchtvochtigheid is {{
+        states('sensor.weerstation_achtertuin_humidity') }}   Huidige
+        neerslagintensiteit {{ states('sensor.buienradar_neerslagintensiteit')
+        }}  Voorspellingen voor vandaag
+        {{daily_forecast['weather.home'].forecast[0].condition}} Voorspelde
+        hoogste temperatuur voor vandaag
+        {{daily_forecast['weather.home'].forecast[0].temperature}} Voorspelde
+        laagste temperatuur voor vandaag 
+        {{daily_forecast['weather.home'].forecast[0].templow}} Voorspelde kans
+        op neerslag
+        {{daily_forecast['weather.home'].forecast[0].precipitation_probability}}
+    response_variable: agent
+  - service: input_text.set_value
+    metadata: {}
+    data:
+      value: "{{agent.response.speech.plain.speech}}"
+    target:
+      entity_id: input_text.openai_weerbericht
+  - service: tts.microsoft_say
+    data:
+      cache: false
+      entity_id: media_player.werkkamer_JohnDoe_sonos
+      message: "{{agent.response.speech.plain.speech}}"
+    enabled: false
+  - service: script.1716215162458
+    metadata: {}
+    data:
+      media_ruimte: Werkkamer JohnDoe
+      message_tts_pre_notify: false
+      message_tts_body: "{{agent.response.speech.plain.speech}}"
+      message_tv_body: Example Message
+    enabled: true
+  - service: script.1716215162458
+    metadata: {}
+    data:
+      media_ruimte: Woonkamer
+      message_tts_pre_notify: false
+      message_tts_body: "{{agent.response.speech.plain.speech}}"
+      message_tv_body: Example Message
+    enabled: true
+mode: single

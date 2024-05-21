@@ -2,7 +2,7 @@
 
 - My HA Creations
   - [Background](#background)
-  - [AI Automations]
+  - [AI Automations](#ai-automations)
   - [Charging Pole](#charging-pole)
   - [Charge Reminder](#charge-reminder)
   - [Notification Scripts](#notification-scripts)

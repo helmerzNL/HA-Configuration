@@ -48,7 +48,7 @@ action:
         }}    De luchtvochtigheid buiten is nu {{
         states('sensor.weerstation_achtertuin_humidity') }} Huidige
         neerslagintensiteit {{ states('sensor.buienradar_neerslagintensiteit')
-        }}     De koolstofioxidewaardes binnen zijn als volgt, woonkamer {{
+        }}     De koolstofdioxidewaardes binnen zijn als volgt, woonkamer {{
         states('sensor.weerstation_woonkamer_co2') }} ppm,  werkkamer JohnDoe {{
         states('sensor.weerstation_werkkamer_JohnDoe_co2') }} ppm en slaapkamer
         {{ states('sensor.weerstation_slaapkamer_co2') }} ppm

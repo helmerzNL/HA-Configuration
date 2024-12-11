@@ -59,7 +59,7 @@ Please let me know if you have any questions.
 
 Feel free to contact me if you have any questions.
 * [Threads](https://www.threads.net/@helmernl)
-* [BlueSky](https://bsky.app/helmer.msgeek.nl)
+* [BlueSky](https://bsky.app/profile/helmer.msgeek.nl)
 
 ## Buy me a Coffee
 

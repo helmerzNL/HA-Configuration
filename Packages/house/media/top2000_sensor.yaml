@@ -1,9 +1,18 @@
-sensor:
-# Create a new sensor met de volgende inhoud.
-# Top 2000 huidige song
+template:
+  - sensor:
+      - name: "Top 2000 - Actief"
+        unique_id: top2000-tijd-2tuyf8c   
+        state: >
+          {% set current_date = now().strftime('%Y-%m-%d') %}
+          {% set start_date = '12-25' %}
+          {% set end_date = '12-31' %}
+          {% set month_day = now().strftime('%m-%d') %}
+          {{ start_date <= month_day <= end_date }}
+
+
 
 rest:
-  - scan_interval: 60
+  - scan_interval: 10
     method: GET
     headers:
       User-Agent: Home Assistant
@@ -11,13 +20,23 @@ rest:
     resource: https://www.nporadio2.nl/api/miniplayer/info?channel=npo-radio-2
     sensor:
       - name: Top 2000 - Huidige song - basic
+        unique_id: top2000-234df8c   
         json_attributes_path: "$.data.radioTrackPlays.data[0].radioTracks"
         json_attributes:
           - artist
           - name
-          - coverUrl              
-        value_template: "OK"              
+          - coverUrl            
+        value_template: "OK"      
+      - name: Top 2000 - Huidige song - artiestinfo
+        unique_id: top2000-2123fg324c 
+        json_attributes_path: "$.data.radioTrackPlays.data[0].radioTracks"
+        json_attributes:
+          - artist
+          - name
+          - coverUrl
+        value_template: "OK"          
       - name: Top 2000 - Huidige song - extra
+        unique_id: top2000-234jhlh 
         json_attributes_path: "$.data.radioTrackPlays.data[0].cmsChartEditionPositions"
         json_attributes:
           - position
@@ -25,13 +44,23 @@ rest:
           - totalPositions    
         value_template: "OK"          
       - name: Top 2000 - Vorige song - basic
+        unique_id: top2000-2324hlcx 
         json_attributes_path: "$.data.radioTrackPlays.data[1].radioTracks"
         json_attributes:
           - artist
           - name
           - coverUrl
-        value_template: "OK"        
+        value_template: "OK"
+      - name: Top 2000 - Vorige song - artiestinfo
+        unique_id: top2000-24xcvxc 
+        json_attributes_path: "$.data.radioTrackPlays.data[1].radioTracks"
+        json_attributes:
+          - artist
+          - name
+          - coverUrl
+        value_template: "OK"     
       - name: Top 2000 - Vorige song - extra
+        unique_id: top2000-989sesdxc 
         json_attributes_path: "$.data.radioTrackPlays.data[1].cmsChartEditionPositions"
         json_attributes:
           - position
@@ -39,6 +68,7 @@ rest:
           - totalPositions    
         value_template: "OK"          
       - name: Top 2000 - Huidige Programma
+        unique_id: top2000-zxqng23h 
         json_attributes_path: "$.data.radioBroadcasts.data[0]"
         json_attributes:
           - name
@@ -46,16 +76,19 @@ rest:
           - until
         value_template: "OK"          
       - name: Top 2000 - Huidige Programma Logo
+        unique_id: top2000-2xcjkl12
         json_attributes_path: "$.data.radioBroadcasts.data[0].radioPhotoAssets"
         json_attributes:
-          - url
+          - url1200
         value_template: "OK"           
       - name: Top 2000 - Huidige Presentator
+        unique_id: top2000-jk13l45
         json_attributes_path: "$.data.radioBroadcasts.data[0].radioPresenters[0]"
         json_attributes:
           - name
         value_template: "OK"             
       - name: Top 2000 - Volgende Programma
+        unique_id: top2000-2iozpxc
         json_attributes_path: "$.data.upcomingBroadcasts.data[0]"
         json_attributes:
           - name
@@ -63,12 +96,14 @@ rest:
           - until
         value_template: "OK"            
       - name: Top 2000 - Volgende Programma Logo
+        unique_id: top2000-23zjxhck89
         json_attributes_path: "$.data.upcomingBroadcasts.data[0].radioPhotoAssets"
         json_attributes:
-          - url
+          - url1200
         value_template: "OK"     
       - name: Top 2000 - Volgende Presentator
+        unique_id: top2000-jk1l1345453
         json_attributes_path: "$.data.upcomingBroadcasts.data[0].radioPresenters[0]"
         json_attributes:
           - name
-        value_template: "OK"   
+        value_template: "OK"    

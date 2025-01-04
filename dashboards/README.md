@@ -4,6 +4,7 @@ For now it's just one Dashboard that I'm sharing, maybe in the future there will
 
 ## Living Room Dashboard v2025
 
+
 ![Screenshot of the Homepage](../images/dashboard-wo-25-main.png)
 
 Not sure if the dashboard has an official name. Just to be clear, I didn't design it myself. I downloaded it from a HA community group where it was shared by a Danish HA enthousiast. 

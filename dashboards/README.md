@@ -27,3 +27,15 @@ This panel does come with a number of custom cards and integrations (for most of
 ###Download the Dashboard
 - [Wo-25.yaml](/dashboards/yaml/wo25.yaml) - this contains the code you need to copy in the empty dashboard
 - [images](/dashboards/images/) - download the __wo-25__ folder with all images and place that folder in the __config/www__ folder in your Home Assistant instance.
+
+## Some Screenshots
+
+Below you can find some screenshots of several of the (customized) screens of the dashboard. 
+
+![WallPanel Screensaver](../images/dashboard-wo-25-screensaver.png)
+
+![Screenshot of the Homepage](../images/dashboard-wo-25-main.png)
+
+![Screenshot of the Energy page](../images/dashboard-wo-25-energie.png)
+
+![Screenshot of the Devices page](../images/dashboard-wo-25-devices.png)

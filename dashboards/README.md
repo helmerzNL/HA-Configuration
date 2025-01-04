@@ -6,7 +6,7 @@ For now it's just one Dashboard that I'm sharing, maybe in the future there will
 
 ![Screenshot of the Homepage](../images/dashboard-wo-25-main.png)
 
-Not sure if the dashboard has an official name. Just to be clear, I didn't design it myself. I downloaded it from a HA community group where it was shared by a Danish HA enthousiast. 
+Not sure if the dashboard has an official name. Just to be clear, I didn't design it myself. I downloaded it from a HA community group where it was shared by [Thomas Mølbæk Johansen](https://github.com/storebatfar) from Denmark.. 
 
 To use the dashboard, you just need to create a new HA dashboard by going to __Settings__ > __Dashboards__ > __Add Dashboard__ (or follow [these](https://www.home-assistant.io/dashboards/dashboards/#creating-a-new-dashboard) instructions).
 

@@ -14,7 +14,15 @@ To use the dashboard, you just need to create a new HA dashboard by going to __S
 
  ![RAW Configuration Editor](../images/dashboard-rawconfig.png)
 
-This panel does come with a number of custom cards and integrations (for some of which you will need to install [HACS](https://hacs.xyz/)). The installation/configuration of those integrations and custom cards is not something I'm going to cover. I'll try to list all of them (at some later stage) on this page, so you know what cards and integrations you could/should install when using this dashboard.
+This panel does come with a number of custom cards and integrations (for most of which you will need to install [HACS](https://hacs.xyz/)). The installation/configuration of those integrations and custom cards is not something I'm going to cover. I'll try to list all of them (at some later stage) on this page, so you know what cards and integrations you could/should install when using this dashboard.
+
+**Prerequisites**
+- Integrations
+  - [WallPanel](https://github.com/j-a-n/lovelace-wallpanel)
+- Cards
+  - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
+  - [Button-card](https://github.com/custom-cards/button-card)
+  - [Swipe-card](https://github.com/bramkragten/swipe-card)
 
 ###Download the Dashboard
 - [Wo-25.yaml](/dashboards/yaml/wo25.yaml) - this contains the code you need to copy in the empty dashboard

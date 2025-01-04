@@ -1,7 +1,10 @@
 # My HA Creations
 
+On this Git you'll find the __Automations__, __Scripts__, __Dashboards__ and other Home Assistant related stuff I created over the years. If you have any questions (or if something doesn't work anymore), feel free to reach out to me.
+
 - My HA Creations
   - [Background](#background)
+  - [Dashboards](#dashboards)
   - [AI Automations](#ai-automations)
   - [Charging Pole](#charging-pole)
   - [Charge Reminder](#charge-reminder)
@@ -16,6 +19,10 @@ ___
 I noticed a screenshot from a colleague showing his HA dashboard in which wrote a nice hack to give him some insights of the status of the nearby public charging poles. So I asked him to share some code with me, which he did. 
 
 This is the result my adoption of his code to my HA instance. You can find the code [here](https://github.com/helmerzNL/HA-Configuration/tree/main/). Feel free to re-use it.
+
+## Dashboards
+
+I've been working (or customizing existing) dashboards from which I shared images. Since it's still difficult to re-create a dashboard yourself from just a few images, I'll share the code of those dashboards with you [here](/dashboards/).
 
 ## AI Automations
 Before you can use these automations, you will need to install the [Open AI Converstation](https://www.home-assistant.io/integrations/openai_conversation) integration. Follow the instructions and create an API, when this is done you are ready to start using the automations.
@@ -59,10 +66,10 @@ Please let me know if you have any questions.
 
 Feel free to contact me if you have any questions.
 * [Threads](https://www.threads.net/@helmernl)
-* [BlueSky](https://bsky.app/profile/helmer.msgeek.nl)
+* [Bluesky](https://bsky.app/profile/helmer.msgeek.nl)
 
 ## Buy me a Coffee
 
-If you would like to thank me and think I deserve a coffee, fee fry to by me one. Thanks a lot!
+If you would like to thank me and think I deserve a coffee, feel fry to by me one. Thanks a lot!
 
 <a href="https://www.buymeacoffee.com/HelmerNL" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="41" width="174"></a>

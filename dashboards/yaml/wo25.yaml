@@ -382,19 +382,19 @@ wallpanel:
 
                   {% if status == 'GFT' %}
 
-                  /local/wo-25/afval//groen.jpeg
+                  /local/wo-25/afval/groen.jpeg
 
                   {% elif status == 'PBD'  %}
 
-                  /local/wo-25/afval//oranje.jpeg
+                  /local/wo-25/afval/oranje.jpeg
 
                   {% elif status == 'Papier'  %}
 
-                  /local/wo-25/afval//blauw.jpeg
+                  /local/wo-25/afval/blauw.jpeg
 
                   {% else %}
 
-                  /local/wo-25/afval//lege_afvalbak.jpeg
+                  /local/wo-25/afval/lege_afvalbak.jpeg
 
 
                   {% endif %}
@@ -600,7 +600,7 @@ views:
         title: FAMILIE
         cards:
           - type: custom:mushroom-person-card
-            entity: person.JohnDoe
+            entity: person.John_Doe
             layout: vertical
             icon_type: entity-picture
             primary_info: none
@@ -614,7 +614,7 @@ views:
                 content:
                   type: map
                   entities:
-                    - entity: person.JohnDoe
+                    - entity: person.John_Doe
                   theme_mode: auto
                 timeout: 30000
               target: {}
@@ -627,7 +627,7 @@ views:
                   background: transparent;
                 }
           - type: custom:mushroom-person-card
-            entity: person.JaneDoe
+            entity: person.Jane_Doe
             layout: vertical
             icon_type: entity-picture
             primary_info: none
@@ -641,7 +641,7 @@ views:
                 content:
                   type: map
                   entities:
-                    - entity: person.JaneDoe
+                    - entity: person.Jane_Doe
                   theme_mode: auto
                 timeout: 30000
               target: {}
@@ -4413,7 +4413,7 @@ views:
                                 - border: none
                                 - margin-top: '-110px'
                                 - position: absolute
-                                - left: 140px
+                                - left: 90px
                               icon:
                                 - width: 50px
                                 - color: >
@@ -4421,6 +4421,91 @@ views:
                                     states['light.ruimte_woonkamer'].state ===
                                     'on' ? 
                                     `rgb(${states['light.ruimte_woonkamer'].attributes.rgb_color.join(',
+                                    ')})` :  'white'; ]]]
+                view_layout:
+                  column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_keuken
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: navigate
+                          navigation_path: /wo-25/keuken
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: true
+                        fill_container: false
+                        icon: mdi:stove
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_keuken_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_keuken
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Sluk
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: >
+                                    [[[ return
+                                    states['light.ruimte_keuken'].state === 'on'
+                                    ? 
+                                    `rgb(${states['light.ruimte_keuken'].attributes.rgb_color.join(',
                                     ')})` :  'white'; ]]]
                 view_layout:
                   column: 1
@@ -4514,7 +4599,7 @@ views:
                                 - border: none
                                 - margin-top: '-110px'
                                 - position: absolute
-                                - left: 140px
+                                - left: 90px
                               icon:
                                 - width: 50px
                                 - color: >
@@ -4599,23 +4684,18 @@ views:
                                 - border: none
                                 - margin-top: '-110px'
                                 - position: absolute
-                                - left: 140px
+                                - left: 90px
                               icon:
                                 - width: 50px
-                                - color: >
-                                    [[[ return
-                                    states['light.ruimte_slaapkamer'].state ===
-                                    'on' ? 
-                                    `rgb(${states['light.ruimte_slaapkamer'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
+                                - color: orange
+                view_layout:
+                  column: 1
                 card_mod:
                   style: |
                     ha-card {
                       background-color: none;
                     }
-                view_layout:
-                  column: 1
-            columns: 3
+            columns: 4
           - square: false
             type: grid
             cards:
@@ -4626,19 +4706,19 @@ views:
                     columns: 1
                     cards:
                       - type: custom:mushroom-light-card
-                        entity: light.ruimte_keuken
+                        entity: light.ruimte_werkkamer_John
                         show_brightness_control: true
                         collapsible_controls: false
                         tap_action:
                           action: navigate
-                          navigation_path: /wo-25/keuken
+                          navigation_path: /wo-25/wk_John
                         hold_action:
                           action: none
                         double_tap_action:
                           action: none
                         use_light_color: true
                         fill_container: false
-                        icon: mdi:stove
+                        icon: mdi:desk
                         show_color_control: false
                         card_mod:
                           style: |
@@ -4653,7 +4733,7 @@ views:
                           - type: custom:mushroom-chips-card
                             chips:
                               - type: entity
-                                entity: sensor.ruimte_keuken_powersensor
+                                entity: sensor.ruimte_wk_John_powersensor
                                 use_entity_picture: false
                                 icon: mdi:lightning-bolt
                                 tap_action:
@@ -4672,7 +4752,7 @@ views:
                                   margin-top: -20px;
                                 }
                           - type: custom:button-card
-                            entity: light.ruimte_keuken
+                            entity: light.ruimte_werkkamer_John
                             show_name: false
                             show_state: false
                             icon: mdi:power
@@ -4688,22 +4768,97 @@ views:
                                 - border: none
                                 - margin-top: '-110px'
                                 - position: absolute
-                                - left: 140px
+                                - left: 90px
                               icon:
                                 - width: 50px
-                                - color: >
-                                    [[[ return
-                                    states['light.ruimte_keuken'].state === 'on'
-                                    ? 
-                                    `rgb(${states['light.ruimte_keuken'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
+                                - color: orange
+                view_layout:
+                  column: 1
                 card_mod:
                   style: |
                     ha-card {
                       background-color: none;
                     }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_werkkamer_Jane
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: navigate
+                          navigation_path: /wo-25/wk_Jane
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: true
+                        fill_container: false
+                        icon: mdi:monitor
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_wk_Jane_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_werkkamer_Jane
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Sluk
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: orange
                 view_layout:
                   column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
               - type: custom:vertical-stack-in-card
                 cards:
                   - square: false
@@ -4773,14 +4928,257 @@ views:
                                 - border: none
                                 - margin-top: '-110px'
                                 - position: absolute
-                                - left: 140px
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: orange
+                view_layout:
+                  column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_berging
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: navigate
+                          navigation_path: /wo-25/berging
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: true
+                        fill_container: false
+                        icon: mdi:garage
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_berging_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_berging
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Sluk
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: orange
+                view_layout:
+                  column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
+            columns: 4
+          - square: false
+            type: grid
+            cards:
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_hal
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: toggle
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: false
+                        fill_container: false
+                        icon: mdi:door-sliding-open
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_hal_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_hal
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Uitgeschakeld
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: orange
+                view_layout:
+                  column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_toilet_gang
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: navigate
+                          navigation_path: /wo-25/opholdsrum
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: true
+                        fill_container: false
+                        icon: mdi:toilet
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_toilet_gang_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_toilet_gang
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Sluk
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
                               icon:
                                 - width: 50px
                                 - color: >
                                     [[[ return
-                                    states['light.ruimte_bijkeuken'].state ===
+                                    states['light.ruimte_toilet_gang'].state ===
                                     'on' ? 
-                                    `rgb(${states['light.ruimte_bijkeuken'].attributes.rgb_color.join(',
+                                    `rgb(${states['light.ruimte_toilet_gang'].attributes.rgb_color.join(',
                                     ')})` :  'white'; ]]]
                 view_layout:
                   column: 1
@@ -4789,6 +5187,174 @@ views:
                     ha-card {
                       background-color: none;
                     }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_gang
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: toggle
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: false
+                        fill_container: false
+                        icon: mdi:door-closed
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_gang_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_gang
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Uitgeschakeld
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: orange
+                view_layout:
+                  column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
+              - type: custom:vertical-stack-in-card
+                cards:
+                  - square: false
+                    type: grid
+                    columns: 1
+                    cards:
+                      - type: custom:mushroom-light-card
+                        entity: light.ruimte_toilet_hal
+                        show_brightness_control: true
+                        collapsible_controls: false
+                        tap_action:
+                          action: navigate
+                          navigation_path: /wo-25/opholdsrum
+                        hold_action:
+                          action: none
+                        double_tap_action:
+                          action: none
+                        use_light_color: true
+                        fill_container: false
+                        icon: mdi:toilet
+                        show_color_control: false
+                        card_mod:
+                          style: |
+                            ha-card {
+                              background-color: transparent !important;
+                              box-shadow: none; /* Remove shadow if any */
+                            }
+                      - square: false
+                        type: grid
+                        columns: 2
+                        cards:
+                          - type: custom:mushroom-chips-card
+                            chips:
+                              - type: entity
+                                entity: sensor.ruimte_toilet_hal_powersensor
+                                use_entity_picture: false
+                                icon: mdi:lightning-bolt
+                                tap_action:
+                                  action: none
+                                hold_action:
+                                  action: none
+                                double_tap_action:
+                                  action: none
+                            alignment: start
+                            card_mod:
+                              style: |
+                                ha-card {
+                                  --chip-border-width: 0;
+                                  --chip-box-shadow: none;
+                                  --chip-background: none;
+                                  margin-top: -20px;
+                                }
+                          - type: custom:button-card
+                            entity: light.ruimte_toilet_hal
+                            show_name: false
+                            show_state: false
+                            icon: mdi:power
+                            name: Sluk
+                            tap_action:
+                              action: toggle
+                            styles:
+                              card:
+                                - height: 45px
+                                - width: 45px
+                                - background: none
+                                - box-shadow: none
+                                - border: none
+                                - margin-top: '-110px'
+                                - position: absolute
+                                - left: 90px
+                              icon:
+                                - width: 50px
+                                - color: >
+                                    [[[ return
+                                    states['light.ruimte_toilet_hal'].state ===
+                                    'on' ? 
+                                    `rgb(${states['light.ruimte_toilet_hal'].attributes.rgb_color.join(',
+                                    ')})` :  'white'; ]]]
+                view_layout:
+                  column: 1
+                card_mod:
+                  style: |
+                    ha-card {
+                      background-color: none;
+                    }
+            columns: 4
+          - square: false
+            type: grid
+            cards:
               - type: custom:vertical-stack-in-card
                 cards:
                   - square: false
@@ -4871,7 +5437,7 @@ views:
                                 - border: none
                                 - margin-top: '-110px'
                                 - position: absolute
-                                - left: 140px
+                                - left: 90px
                               icon:
                                 - width: 50px
                                 - color: >
@@ -4887,590 +5453,7 @@ views:
                     ha-card {
                       background-color: none;
                     }
-            columns: 3
-          - square: false
-            type: grid
-            cards:
-              - type: custom:vertical-stack-in-card
-                cards:
-                  - square: false
-                    type: grid
-                    columns: 1
-                    cards:
-                      - type: custom:mushroom-light-card
-                        entity: light.have
-                        show_brightness_control: true
-                        collapsible_controls: false
-                        tap_action:
-                          action: navigate
-                          navigation_path: /wo-25/have
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                        use_light_color: true
-                        fill_container: false
-                        icon: mdi:tree
-                        show_color_control: false
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: transparent !important;
-                              box-shadow: none; /* Remove shadow if any */
-                            }
-                      - square: false
-                        type: grid
-                        columns: 2
-                        cards:
-                          - type: custom:mushroom-chips-card
-                            chips:
-                              - type: entity
-                                entity: sensor.lights_power_have
-                                use_entity_picture: false
-                                icon: mdi:lightning-bolt
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                              - type: template
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                                content: >-
-                                  {{ states('sensor.lights_on_have') }} / {{
-                                  states('sensor.lights_in_have') }}
-                                icon: mdi:lightbulb-on
-                            alignment: start
-                            card_mod:
-                              style: |
-                                ha-card {
-                                  --chip-border-width: 0;
-                                  --chip-box-shadow: none;
-                                  --chip-background: none;
-                                  margin-top: -20px;
-                                }
-                          - type: custom:button-card
-                            entity: light.have
-                            show_name: false
-                            show_state: false
-                            icon: mdi:power
-                            name: Sluk
-                            tap_action:
-                              action: toggle
-                            styles:
-                              card:
-                                - height: 45px
-                                - width: 45px
-                                - background: none
-                                - box-shadow: none
-                                - border: none
-                                - margin-top: '-110px'
-                                - position: absolute
-                                - left: 140px
-                              icon:
-                                - width: 50px
-                                - color: |
-                                    [[[ 
-                                      return states['light.have'] && states['light.have'].state === 'on'
-                                        ? (states['light.have'].attributes.rgb_color 
-                                           ? `rgb(${states['light.have'].attributes.rgb_color.join(', ')})`
-                                           : 'rgb(255, 146, 39)')
-                                        : 'white'; 
-                                    ]]]
-                view_layout:
-                  column: 1
-                card_mod:
-                  style: |
-                    ha-card {
-                      background-color: none;
-                    }
-              - type: custom:vertical-stack-in-card
-                cards:
-                  - square: false
-                    type: grid
-                    columns: 1
-                    cards:
-                      - type: custom:mushroom-light-card
-                        entity: light.julian
-                        show_brightness_control: true
-                        collapsible_controls: false
-                        tap_action:
-                          action: navigate
-                          navigation_path: /wo-25/julian
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                        use_light_color: true
-                        fill_container: false
-                        icon: mdi:teddy-bear
-                        show_color_control: false
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: transparent !important;
-                              box-shadow: none; /* Remove shadow if any */
-                            }
-                      - square: false
-                        type: grid
-                        columns: 2
-                        cards:
-                          - type: custom:mushroom-chips-card
-                            chips:
-                              - type: entity
-                                entity: sensor.lights_power_julian
-                                use_entity_picture: false
-                                icon: mdi:lightning-bolt
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                              - type: template
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                                content: >-
-                                  {{ states('sensor.lights_on_julian') }} / {{
-                                  states('sensor.lights_in_julian') }}
-                                icon: mdi:lightbulb-on
-                            alignment: start
-                            card_mod:
-                              style: |
-                                ha-card {
-                                  --chip-border-width: 0;
-                                  --chip-box-shadow: none;
-                                  --chip-background: none;
-                                  margin-top: -20px;
-                                }
-                          - type: custom:button-card
-                            entity: light.julian
-                            show_name: false
-                            show_state: false
-                            icon: mdi:power
-                            name: Sluk
-                            tap_action:
-                              action: toggle
-                            styles:
-                              card:
-                                - height: 45px
-                                - width: 45px
-                                - background: none
-                                - box-shadow: none
-                                - border: none
-                                - margin-top: '-110px'
-                                - position: absolute
-                                - left: 140px
-                              icon:
-                                - width: 50px
-                                - color: >
-                                    [[[ return states['light.julian'].state ===
-                                    'on' ? 
-                                    `rgb(${states['light.julian'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
-                view_layout:
-                  column: 1
-                card_mod:
-                  style: |
-                    ha-card {
-                      background-color: none;
-                    }
-              - type: custom:vertical-stack-in-card
-                cards:
-                  - square: false
-                    type: grid
-                    columns: 1
-                    cards:
-                      - type: custom:mushroom-light-card
-                        entity: light.kokken
-                        show_brightness_control: true
-                        collapsible_controls: false
-                        tap_action:
-                          action: navigate
-                          navigation_path: /wo-25/kokken
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                        use_light_color: true
-                        fill_container: false
-                        icon: mdi:pot-steam
-                        show_color_control: false
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: transparent !important;
-                              box-shadow: none; /* Remove shadow if any */
-                            }
-                      - square: false
-                        type: grid
-                        columns: 2
-                        cards:
-                          - type: custom:mushroom-chips-card
-                            chips:
-                              - type: entity
-                                entity: sensor.lights_power_koekken
-                                use_entity_picture: false
-                                icon: mdi:lightning-bolt
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                              - type: template
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                                content: >-
-                                  {{ states('sensor.lights_on_koekken') }} / {{
-                                  states('sensor.lights_in_koekken') }}
-                                icon: mdi:lightbulb-on
-                            alignment: start
-                            card_mod:
-                              style: |
-                                ha-card {
-                                  --chip-border-width: 0;
-                                  --chip-box-shadow: none;
-                                  --chip-background: none;
-                                  margin-top: -20px;
-                                }
-                          - type: custom:button-card
-                            entity: light.kokken
-                            show_name: false
-                            show_state: false
-                            icon: mdi:power
-                            name: Sluk
-                            tap_action:
-                              action: toggle
-                            styles:
-                              card:
-                                - height: 45px
-                                - width: 45px
-                                - background: none
-                                - box-shadow: none
-                                - border: none
-                                - margin-top: '-110px'
-                                - position: absolute
-                                - left: 140px
-                              icon:
-                                - width: 50px
-                                - color: >
-                                    [[[ return states['light.kokken'].state ===
-                                    'on' ? 
-                                    `rgb(${states['light.kokken'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
-                view_layout:
-                  column: 1
-                card_mod:
-                  style: |
-                    ha-card {
-                      background-color: none;
-                    }
-            columns: 3
-          - square: false
-            type: grid
-            cards:
-              - type: custom:vertical-stack-in-card
-                cards:
-                  - square: false
-                    type: grid
-                    columns: 1
-                    cards:
-                      - type: custom:mushroom-light-card
-                        entity: light.opholdsrum
-                        show_brightness_control: true
-                        collapsible_controls: false
-                        tap_action:
-                          action: navigate
-                          navigation_path: /wo-25/opholdsrum
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                        use_light_color: true
-                        fill_container: false
-                        icon: mdi:human-male-female-child
-                        show_color_control: false
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: transparent !important;
-                              box-shadow: none; /* Remove shadow if any */
-                            }
-                      - square: false
-                        type: grid
-                        columns: 2
-                        cards:
-                          - type: custom:mushroom-chips-card
-                            chips:
-                              - type: entity
-                                entity: sensor.lights_power_opholdsrum
-                                use_entity_picture: false
-                                icon: mdi:lightning-bolt
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                              - type: template
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                                content: >-
-                                  {{ states('sensor.lights_on_opholdsrum') }} /
-                                  {{ states('sensor.lights_in_opholdsrum') }}
-                                icon: mdi:lightbulb-on
-                            alignment: start
-                            card_mod:
-                              style: |
-                                ha-card {
-                                  --chip-border-width: 0;
-                                  --chip-box-shadow: none;
-                                  --chip-background: none;
-                                  margin-top: -20px;
-                                }
-                          - type: custom:button-card
-                            entity: light.opholdsrum
-                            show_name: false
-                            show_state: false
-                            icon: mdi:power
-                            name: Sluk
-                            tap_action:
-                              action: toggle
-                            styles:
-                              card:
-                                - height: 45px
-                                - width: 45px
-                                - background: none
-                                - box-shadow: none
-                                - border: none
-                                - margin-top: '-110px'
-                                - position: absolute
-                                - left: 140px
-                              icon:
-                                - width: 50px
-                                - color: >
-                                    [[[ return states['light.opholdsrum'].state
-                                    === 'on' ? 
-                                    `rgb(${states['light.opholdsrum'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
-                view_layout:
-                  column: 1
-                card_mod:
-                  style: |
-                    ha-card {
-                      background-color: none;
-                    }
-              - type: custom:vertical-stack-in-card
-                cards:
-                  - square: false
-                    type: grid
-                    columns: 1
-                    cards:
-                      - type: custom:mushroom-light-card
-                        entity: light.sovevaerelse
-                        show_brightness_control: true
-                        collapsible_controls: false
-                        tap_action:
-                          action: navigate
-                          navigation_path: /wo-25/sovevarelse
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                        use_light_color: true
-                        fill_container: false
-                        icon: mdi:bed
-                        show_color_control: false
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: transparent !important;
-                              box-shadow: none; /* Remove shadow if any */
-                            }
-                      - square: false
-                        type: grid
-                        columns: 2
-                        cards:
-                          - type: custom:mushroom-chips-card
-                            chips:
-                              - type: entity
-                                entity: sensor.lights_power_sovevaerelse
-                                use_entity_picture: false
-                                icon: mdi:lightning-bolt
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                              - type: template
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                                content: >-
-                                  {{ states('sensor.lights_on_sovevaerelse') }}
-                                  / {{ states('sensor.lights_in_sovevaerelse')
-                                  }}
-                                icon: mdi:lightbulb-on
-                            alignment: start
-                            card_mod:
-                              style: |
-                                ha-card {
-                                  --chip-border-width: 0;
-                                  --chip-box-shadow: none;
-                                  --chip-background: none;
-                                  margin-top: -20px;
-                                }
-                          - type: custom:button-card
-                            entity: light.sovevaerelse
-                            show_name: false
-                            show_state: false
-                            icon: mdi:power
-                            name: Sluk
-                            tap_action:
-                              action: toggle
-                            styles:
-                              card:
-                                - height: 45px
-                                - width: 45px
-                                - background: none
-                                - box-shadow: none
-                                - border: none
-                                - margin-top: '-110px'
-                                - position: absolute
-                                - left: 140px
-                              icon:
-                                - width: 50px
-                                - color: >
-                                    [[[ return
-                                    states['light.sovevaerelse'].state === 'on'
-                                    ? 
-                                    `rgb(${states['light.sovevaerelse'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
-                view_layout:
-                  column: 1
-                card_mod:
-                  style: |
-                    ha-card {
-                      background-color: none;
-                    }
-              - type: custom:vertical-stack-in-card
-                cards:
-                  - square: false
-                    type: grid
-                    columns: 1
-                    cards:
-                      - type: custom:mushroom-light-card
-                        entity: light.stue
-                        show_brightness_control: true
-                        collapsible_controls: false
-                        tap_action:
-                          action: navigate
-                          navigation_path: /wo-25/stue
-                        hold_action:
-                          action: none
-                        double_tap_action:
-                          action: none
-                        use_light_color: true
-                        fill_container: false
-                        icon: mdi:sofa
-                        show_color_control: false
-                        card_mod:
-                          style: |
-                            ha-card {
-                              background-color: transparent !important;
-                              box-shadow: none; /* Remove shadow if any */
-                            }
-                      - square: false
-                        type: grid
-                        columns: 2
-                        cards:
-                          - type: custom:mushroom-chips-card
-                            chips:
-                              - type: entity
-                                entity: sensor.lights_power_stue
-                                use_entity_picture: false
-                                icon: mdi:lightning-bolt
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                              - type: template
-                                tap_action:
-                                  action: none
-                                hold_action:
-                                  action: none
-                                double_tap_action:
-                                  action: none
-                                content: >-
-                                  {{ states('sensor.lights_on_stue') }} / {{
-                                  states('sensor.lights_in_stue') }}
-                                icon: mdi:lightbulb-on
-                            alignment: start
-                            card_mod:
-                              style: |
-                                ha-card {
-                                  --chip-border-width: 0;
-                                  --chip-box-shadow: none;
-                                  --chip-background: none;
-                                  margin-top: -20px;
-                                }
-                          - type: custom:button-card
-                            entity: light.stue
-                            show_name: false
-                            show_state: false
-                            icon: mdi:power
-                            name: Sluk
-                            tap_action:
-                              action: toggle
-                            styles:
-                              card:
-                                - height: 45px
-                                - width: 45px
-                                - background: none
-                                - box-shadow: none
-                                - border: none
-                                - margin-top: '-110px'
-                                - position: absolute
-                                - left: 140px
-                              icon:
-                                - width: 50px
-                                - color: >
-                                    [[[ return states['light.stue'].state ===
-                                    'on' ? 
-                                    `rgb(${states['light.stue'].attributes.rgb_color.join(',
-                                    ')})` :  'white'; ]]]
-                view_layout:
-                  column: 1
-                card_mod:
-                  style: |
-                    ha-card {
-                      background-color: none;
-                    }
-            columns: 3
+            columns: 4
         columns: 1
       - type: custom:mod-card
         card_mod:

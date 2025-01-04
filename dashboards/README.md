@@ -21,10 +21,12 @@ This panel does come with a number of custom cards and integrations (for most of
 **Prerequisites**
 - Integrations
   - [WallPanel](https://github.com/j-a-n/lovelace-wallpanel)
+  - (missing integrations will be added)
 - Cards
   - [Mushroom](https://github.com/piitaya/lovelace-mushroom)
   - [Button-card](https://github.com/custom-cards/button-card)
   - [Swipe-card](https://github.com/bramkragten/swipe-card)
+  - (missing cards will be added)
 
 ###Download the Dashboard
 - [Wo-25.yaml](/dashboards/yaml/wo25.yaml) - this contains the code you need to copy in the empty dashboard

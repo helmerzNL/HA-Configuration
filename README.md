@@ -30,7 +30,7 @@ Before you can use these automations, you will need to install the [Open AI Conv
 
 You can find all my AI Automations [here](./Packages/ai_automations/).
 
-##Solar Edge Limit
+## Solar Edge Limit
 When you have a Solar Edge inverter and you want to limit the Solar Export (in case of you get a fine when you export energy, or you just don't want to), a Home Assistant peer shared his automation with the community and I did some small adjustments to the code and added a button which made it possible to disable the automation when you always want to export your solar power.
 The automation will make sure that you can limit the export of solar energy, if it's a really sunny day. The automation will automatically adjust how much solar energy is will be generated. I will add some more info at a later stage and probably also mention the requirements here).
 

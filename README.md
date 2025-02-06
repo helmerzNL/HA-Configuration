@@ -6,6 +6,7 @@ On this Git you'll find the __Automations__, __Scripts__, __Dashboards__ and oth
   - [Background](#background)
   - [Dashboards](#dashboards)
   - [AI Automations](#ai-automations)
+  - [Solar Edge Limit Export](#solar-edge-limit)
   - [Charging Pole](#charging-pole)
   - [Charge Reminder](#charge-reminder)
   - [Notification Scripts](#notification-scripts)
@@ -28,6 +29,12 @@ I've been working (or customizing existing) dashboards from which I shared image
 Before you can use these automations, you will need to install the [Open AI Converstation](https://www.home-assistant.io/integrations/openai_conversation) integration. Follow the instructions and create an API, when this is done you are ready to start using the automations.
 
 You can find all my AI Automations [here](./Packages/ai_automations/).
+
+##Solar Edge Limit
+When you have a Solar Edge inverter and you want to limit the Solar Export (in case of you get a fine when you export energy, or you just don't want to), a Home Assistant peer shared his automation with the community and I did some small adjustments to the code and added a button which made it possible to disable the automation when you always want to export your solar power.
+The automation will make sure that you can limit the export of solar energy, if it's a really sunny day. The automation will automatically adjust how much solar energy is will be generated. I will add some more info at a later stage and probably also mention the requirements here).
+
+There is an Automation that you will need to create, which you can find [here](./Packages/house/energy), in that folder you can also find a yaml file with a helpers you will need. 
 
 ## Charging Pole
 When you download the code, please notice that you need to change the [resource](./Packages/house/car/laadpaal_rest.yaml) parameter. Visit [Nextcharge.app](https://nextcharge.app/) and look for the charging pole you would like to add.

@@ -1,1 +1,34 @@
-test
+
+input_boolean:
+#Enable Limit Solar Export Automation
+  solar_limit_export:
+    name: Auto Limit Solar Export
+    icon: mdi:solar-power
+
+
+template:
+  - sensor:
+    - name: Current Energy used by house
+      unique_id: energy_used_house_dgio234ywu886sgs
+      unit_of_measurement: "W"      
+      icon: mdi:solar-power
+      state: >
+          {% set supply_grid = states('sensor.p1_meter_vermogen') | float %}
+          {% set supply_solar = states('sensor.solaredge_ac_power') | float %}
+          {{ (supply_grid + supply_solar)| round(0, default=0) }}
+    - name: Solar Usage Setpoint
+      unique_id: solar_usage_setpoint_356nvnywu886sgs
+      unit_of_measurement: "%"      
+      icon: mdi:solar-power
+      state: >
+          {% set e_usage = states('sensor.current_energy_used_by_house') | float %}å
+          {{ (e_usage / 35)| round(2, default=0) }}         
+
+
+sensor: 
+  - platform: average
+    name: 'Gemiddelde Solar Setpoint'
+    unique_id: Gemiddelde_solar_setpoint_23h4u2h34lk
+    duration: 5
+    entities:
+     - sensor.solar_usage_setpoint

@@ -1,0 +1,67 @@
+alias: SolarEdge - Automatic Limit Solar Export
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - sensor.p1_meter_vermogen
+  - trigger: state
+    entity_id:
+      - input_boolean.solar_limit_export
+    to: "off"
+    id: auto limit off
+  - trigger: state
+    entity_id:
+      - input_boolean.solar_limit_export
+    to: "on"
+    id: auto limit on
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: sun
+            after: sunrise
+          - condition: state
+            entity_id: input_boolean.solar_limit_export
+            state: "on"
+        sequence:
+          - variables:
+              current_limit: "{{ states('number.solaredge_active_power_limit') | float(1) }}"
+              p1_value: "{{ states('sensor.p1_meter_vermogen') | float(0) }}"
+              step: 100
+              step_change: "{{ (p1_value / step) | round(0) | float }}"
+              new_limit: "{{ (current_limit + step_change) | float }}"
+              final_limit: >
+                {{ new_limit if new_limit >= 1 and new_limit <= 100 else (1 if
+                new_limit < 1 else 100) }}
+          - if:
+              - condition: template
+                value_template: "{{ final_limit != current_limit }}"
+            then:
+              - action: number.set_value
+                metadata: {}
+                data:
+                  value: "{{ final_limit }}"
+                target:
+                  entity_id: number.solaredge_active_power_limit
+      - conditions:
+          - condition: sun
+            after: sunset
+        sequence:
+          - action: number.set_value
+            metadata: {}
+            data:
+              value: "100"
+            target:
+              entity_id: number.solaredge_active_power_limit
+      - conditions:
+          - condition: state
+            entity_id: input_boolean.solar_limit_export
+            state: "off"
+        sequence:
+          - action: number.set_value
+            metadata: {}
+            data:
+              value: "100"
+            target:
+              entity_id: number.solaredge_active_power_limit
+mode: single

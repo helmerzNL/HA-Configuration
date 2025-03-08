@@ -1,0 +1,43 @@
+alias: BMW - Opwarmen voor vertrek naar afspraak.
+description: >-
+  Een half uur voor de het vertrek naar een afspraak vragen of de BMW opgewarmd
+  moet worden.
+triggers:
+  - at: sensor.waze_event_vertrek_climage_reminder
+    trigger: time
+conditions:
+  - condition: template
+    value_template: "{{ not is_state('sensor.waze_event_locatie', 'thuis')}}"
+    enabled: true
+actions:
+  - data:
+      action_phone_action_enabled: two
+      ruimte: Werkkamer Helmer
+      notify_phone: iphone_helmer
+      persoon: helmer
+      notify_location: away
+      message_phone_body: >-
+        Je moet over een half uur vertrekken. Moet ik de BMW alvast
+        acclimatiseren?
+      message_phone_title: BMW Airco
+      message_phone_tag: bmw_bereik
+      message_phone_group: laadpaal
+      message_phone_persistent: true
+      action_1_phone_single: AIRCO_JA
+      action_1_phone_activationmode: background
+      action_1_phone_icon: sfsymbols:checkmark.seal.fill
+      action_1_phone_destructive: false
+      action_2_phone_single: AIRCO_NEE
+      action_2_phone_activationmode: background
+      action_2_phone_icon: sfsymbols:multiply
+      action_2_phone_destructive: false
+      action_3_phone_single: BMW_I4_HORN_SOUND
+      action_3_phone_title: Gebruik claxon
+      action_3_phone_activationmode: background
+      action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+      action_3_phone_destructive: false
+      action_1_phone_title: JA
+      action_2_phone_title: NEE
+    enabled: true
+    action: script.notificatie_iphone_v7
+mode: single

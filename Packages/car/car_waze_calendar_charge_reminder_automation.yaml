@@ -1,0 +1,145 @@
+alias: BMW - Niet voldoende bereik voor de geplande rit
+description: >-
+  Check in de agenda en als de afstand van de volgende afspraak (heen en terug)
+  > de range van de BMW, dan een notificatie melden.
+triggers:
+  - at: "19:00:00"
+    trigger: time
+conditions: []
+actions:
+  - variables:
+      bmw_laadtijd: |
+        {% if is_state('sensor.i4_edrive40_charging_end_time', 'charging') %}
+            {% set time_diff = ((as_timestamp(states('sensor.i4_edrive40_charging_end_time')) -
+            as_timestamp(now())) / 60) | int %} {% if time_diff > 60 %}
+              {{(time_diff / 60) | int}} uur en {{(time_diff % 60) }} minuten
+            {% else %}
+              {{time_diff}} minuten
+            {% endif %}
+        {% endif %}
+  - if:
+      - condition: template
+        value_template: >-
+          {{ ((state_attr("sensor.m365_event_travel_time", "distance") |
+          round(0)) * 2) >
+          int(states('sensor.i4_edrive40_remaining_range_electric'))}}
+    then:
+      - if:
+          - condition: and
+            conditions:
+              - condition: not
+                conditions:
+                  - condition: state
+                    entity_id: binary_sensor.i4_edrive40_connection_status
+                    state: "on"
+              - condition: not
+                conditions:
+                  - condition: state
+                    entity_id: sensor.i4_edrive40_charging_status
+                    state: CHARGING
+        then:
+          - data:
+              action_phone_action_enabled: none
+              ruimte: Werkkamer Helmer
+              notify_phone: iphone_helmer
+              persoon: helmer
+              notify_location: away
+              message_phone_body: >
+                Voor de afspraak, {{ states('sensor.waze_event_onderwerp') }},
+                heeft de auto niet voldoende bereik. De range van de BMW is
+                ongeveer {{
+                states('sensor.i4_edrive40_remaining_range_electric') }}
+                kilometer, maar er is ongeveer {{
+                (state_attr("sensor.m365_event_travel_time", "distance") |
+                round(0)) * 2}} kilometer bereik nodig.
+              message_phone_title: BMW bereik
+              message_phone_tag: bmw_bereik
+              message_phone_group: laadpaal
+              message_phone_persistent: true
+              action_1_phone_single: BMW_I4_LOCK_CAR
+              action_1_phone_title: BMW i4 op slot doen
+              action_1_phone_activationmode: background
+              action_1_phone_icon: sfsymbols:envelope.badge
+              action_1_phone_destructive: false
+              action_2_phone_single: BMW_I4_FLASH_LIGHT
+              action_2_phone_title: Knipper lampen
+              action_2_phone_activationmode: background
+              action_2_phone_icon: sfsymbols:lightbulb
+              action_2_phone_destructive: false
+              action_3_phone_single: BMW_I4_HORN_SOUND
+              action_3_phone_title: Gebruik claxon
+              action_3_phone_activationmode: background
+              action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+              action_3_phone_destructive: false
+            enabled: true
+            action: script.notificatie_iphone_v7
+        else:
+          - data:
+              action_phone_action_enabled: none
+              ruimte: Werkkamer Helmer
+              notify_phone: iphone_helmer
+              persoon: helmer
+              notify_location: away
+              message_phone_body: >
+                Voor de afspraak, {{ states('sensor.waze_event_onderwerp') }},
+                heeft de auto niet voldoende bereik. Er is {{
+                (state_attr("sensor.m365_event_travel_time", "distance") |
+                round(0)) * 2}} kilometer bereik nodig. De auto wordt nu
+                opgeladen  tot {{ states('sensor.i4_edrive40_charging_target')
+                }}% en dat zou over ongeveer {{ bmw_laadtijd }} klaar moeten
+                zijn.
+              message_phone_title: BMW bereik
+              message_phone_tag: bmw_bereik
+              message_phone_group: laadpaal
+              message_phone_persistent: true
+              action_1_phone_single: BMW_I4_LOCK_CAR
+              action_1_phone_title: BMW i4 op slot doen
+              action_1_phone_activationmode: background
+              action_1_phone_icon: sfsymbols:envelope.badge
+              action_1_phone_destructive: false
+              action_2_phone_single: BMW_I4_FLASH_LIGHT
+              action_2_phone_title: Knipper lampen
+              action_2_phone_activationmode: background
+              action_2_phone_icon: sfsymbols:lightbulb
+              action_2_phone_destructive: false
+              action_3_phone_single: BMW_I4_HORN_SOUND
+              action_3_phone_title: Gebruik claxon
+              action_3_phone_activationmode: background
+              action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+              action_3_phone_destructive: false
+            action: script.notificatie_iphone_v7
+    else:
+      - data:
+          action_phone_action_enabled: none
+          ruimte: Werkkamer Helmer
+          notify_phone: iphone_helmer
+          persoon: helmer
+          notify_location: away
+          message_phone_body: >
+            Voor de afspraak, {{ states('sensor.waze_event_onderwerp') }}, heeft
+            de auto niet voldoende bereik. De range van de BMW is ongeveer {{
+            states('sensor.i4_edrive40_remaining_range_electric') }} kilometer,
+            maar er is ongeveer {{ (state_attr("sensor.m365_event_travel_time",
+            "distance") | round(0)) * 2}} kilometer bereik nodig.
+          message_phone_title: BMW bereik
+          message_phone_tag: bmw_bereik
+          message_phone_group: laadpaal
+          message_phone_persistent: true
+          action_1_phone_single: BMW_I4_LOCK_CAR
+          action_1_phone_title: BMW i4 op slot doen
+          action_1_phone_activationmode: background
+          action_1_phone_icon: sfsymbols:envelope.badge
+          action_1_phone_destructive: false
+          action_2_phone_single: BMW_I4_FLASH_LIGHT
+          action_2_phone_title: Knipper lampen
+          action_2_phone_activationmode: background
+          action_2_phone_icon: sfsymbols:lightbulb
+          action_2_phone_destructive: false
+          action_3_phone_single: BMW_I4_HORN_SOUND
+          action_3_phone_title: Gebruik claxon
+          action_3_phone_activationmode: background
+          action_3_phone_icon: sfsymbols:speaker.badge.exclamationmark
+          action_3_phone_destructive: false
+        enabled: true
+        action: script.notificatie_iphone_v7
+mode: single

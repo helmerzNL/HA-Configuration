@@ -1,0 +1,54 @@
+template:
+  - sensor:
+    - name: Waze Event Locatie
+      unique_id: waze_event_locatie_xcv2k4xcvk3423wusgs
+      state: >
+        {% set events = state_attr('calendar.m365_familie_agenda','data') %}
+        {% set next_event = events[0] %}
+        {% if next_event.location %}
+          {{ next_event.location }}, Netherlands
+        {% else %}
+          thuis
+        {% endif %}
+    - name: Waze Event Starttijd
+      unique_id: waze_event_starttijd_xii45upcvk3423wcb   
+      state: >
+        {% set event_start= states.calendar.m365_familie_agenda.attributes.data[0].start %}
+        {{ as_timestamp(event_start) | timestamp_custom("%H:%M") }}
+    - name: Waze Event Startdatum
+      unique_id: waze_event_starttijd_xii45upcvk3423wcb   
+      state: >
+        {% set event_start= states.calendar.m365_familie_agenda.attributes.data[0].start %}
+        {{ as_timestamp(event_start) | timestamp_custom("%d-%m-%Y") }}          
+    - name: Waze Event Starttijd Timestamp
+      unique_id: waze_event_starttijd_timestamp_xii45upcvk342wer   
+      state: >
+        {% set event_start= states.calendar.m365_familie_agenda.attributes.data[0].start %}
+        {{ as_timestamp(event_start) }}          
+    - name: Waze Event Onderwerp
+      unique_id: waze_event_onderwerp_2iwerhocvk342wer   
+      state: >
+        {% set onderwerp = states.calendar.m365_familie_agenda.attributes.data[0].summary %}
+        {{ onderwerp }}
+    - name: Waze Event Vertrektijd
+      unique_id: waze_event_vertrektijd_2xv799ocvoert3   
+      state: >
+        {{ ((states("sensor.waze_event_starttijd_timestamp") | float ) - ((states("sensor.m365_event_travel_time") | float) * 60)) | timestamp_custom("%H:%M") }}
+    - name: Waze Event Vertrekdatum
+      unique_id: waze_event_vertrekdatum_vb2356799bmneoert3   
+      state: >
+        {{ ((states("sensor.waze_event_starttijd_timestamp") | float ) - ((states("sensor.m365_event_travel_time") | float) * 60)) | timestamp_custom("%d-%m-%Y") }}
+    - name: Waze Event Vertrek Timestamp
+      unique_id: waze_event_vertrek_timestamp_nv3356799bmnevbni9p   
+      state: >
+        {{ ((states("sensor.waze_event_starttijd_timestamp") | float ) - ((states("sensor.m365_event_travel_time") | float) * 60)) | as_datetime | as_local}}
+    - name: Waze Event Vertrek Climage Reminder
+      unique_id: waze_event_vertrek_climate_reminder_xcby5679vcn4evbni9p   
+      device_class: timestamp
+      state: >
+        {{ ((states("sensor.waze_event_starttijd_timestamp") | float ) - ((states("sensor.m365_event_travel_time") | float) * 60) - ( 30 * 60) ) | as_datetime | as_local}}
+    - name: Waze Event Vertrek Climage Reminder Time
+      unique_id: waze_event_vertrek_climate_reminder_time_cvb324679vcn4evbnccio
+      state: >
+        {{ ((states("sensor.waze_event_starttijd_timestamp") | float ) - ((states("sensor.m365_event_travel_time") | float) * 60) - ( 30 * 60) ) | timestamp_custom("%H:%M") }}
+

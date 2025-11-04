@@ -1,0 +1,120 @@
+alias: AI - Deurbel Motion - Pakket- of Boodschappenbezorger
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.g4_doorbell_pro_beweging
+    to: "on"
+  - trigger: event
+    event_type: status_change
+    event_data:
+      event_data:
+        entity_id: event.g4_doorbell_pro_poe_doorbell
+conditions: []
+actions:
+  - action: advanced_snapshot.take_snapshot
+    metadata: {}
+    data:
+      setting_font_path: Arial.ttf
+      setting_font_size: auto
+      setting_font_color: black
+      setting_bar_height: 7%
+      setting_bar_color: white
+      setting_bar_position: bottom
+      crop_aspect_ratio: "16:9"
+      camera_entity_id: camera.g4_doorbell_pro_high_resolution_channel
+      file_path_backup: "{{ now().strftime('%y%m%d')}}-delivery_voordeur_deurbel.jpg"
+      file_path: "{{ now().strftime('%y%m%d')}}-delivery_voordeur_deurbel.jpg"
+      add_bar: true
+      custom_text_left: Deurbel
+      custom_text_middle: "{{ states('sensor.weerstation_achtertuin_temperature') }} °C"
+      custom_text_right: "{{ now().strftime('%d-%m-%y %H:%M:%S') }}"
+    enabled: true
+  - action: ai_task.generate_data
+    metadata: {}
+    data:
+      task_name: Deurbelomschrijving
+      instructions: >-
+        Er staat iemand bij de voordeur.
+
+
+        Instructies:
+
+        - Omschrijf het voertuig wat in beeld staat, kijk goed naar eventuele
+        herkenbare logo's zoals Albert Heijn, Jumbo Supermarkt, PostNL, UPS, DPD
+        of DHL. Let ook op de kleur van het voortuig. Als je een van de logo's
+        herkend, vermeld dan ook de naam van het bedrijf. Gebruik voor je
+        antwoord altijd minder dan 150 characters.
+
+        - negeer het aantal personen of dieren in de afbeelding, focus je puur
+        op het bestelbusje of vrachtwagentje in beeld.
+
+        - als er geen bestelbusje of vrachtwagen in beeld is, geef dat dan ook
+        aan in je antwoord.
+
+
+        Als je twijfeld over informatie, laat deze informatie dan achterwege.
+        Kentekens alleen benoemen als je 100% zeker bent. 
+
+
+        - benoem het bezorgbedrijf
+      entity_id: ai_task.google_ai_task
+      structure:
+        summary:
+          description: >-
+            Omschrijving van het bezorgvoertuig en de naam van het
+            bezorgbedrijf.
+          selector:
+            text: null
+        delivery_company:
+          description: Naam van het bezorgbedrijf
+          selector:
+            text: null
+      attachments:
+        media_content_id: media-source://camera/camera.g4_doorbell_pro_high_resolution_channel
+        media_content_type: application/vnd.apple.mpegurl
+        metadata:
+          title: Camer Voordeurbel High resolution channel
+          thumbnail: /api/camera_proxy/camera.g4_doorbell_pro_high_resolution_channel
+          media_class: video
+          children_media_class: null
+          navigateIds:
+            - {}
+            - media_content_type: app
+              media_content_id: media-source://camera
+    response_variable: ai
+  - action: input_text.set_value
+    metadata: {}
+    data:
+      value: "{{ai.data.summary}}"
+    target:
+      entity_id: input_text.ai_deurbel_delivery_summary
+  - action: input_text.set_value
+    metadata: {}
+    data:
+      value: "{{ai.data.delivery_company}}"
+    target:
+      entity_id: input_text.ai_deurbel_delivery_company
+  - if:
+      - condition: template
+        value_template: >-
+          {{ states('input_text.ai_deurbel_delivery_company') not in ['unknown',
+          'unavailable', 'onbekend', 'Onbekend', 'Geen','geen', '', none] and
+          states('input_text.ai_deurbel_delivery_company') | length > 1 }}
+    then:
+      - if:
+          - condition: state
+            entity_id: input_boolean.ai_notification_deurbel_delivery
+            state: "on"
+        then:
+          - action: notify.mobile_app_just_a_phone_max
+            metadata: {}
+            data:
+              message: "{{ai.data.summary}}"
+              title: Deurbel bezorger ({{ai.delivery_company}})
+              data:
+                tag: ai_deurbel_bezorger
+                image: >-
+                  /local/snapshots/{{
+                  now().strftime('%y%m%d')}}-delivery_voordeur_deurbel.jpg
+mode: single

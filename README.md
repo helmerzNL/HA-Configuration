@@ -26,7 +26,7 @@ This is the result my adoption of his code to my HA instance. You can find the c
 I've been working (or customizing existing) dashboards from which I shared images. Since it's still difficult to re-create a dashboard yourself from just a few images, I'll share the code of those dashboards with you [here](/dashboards/README.md).
 
 ## AI Automations
-Before you can use these automations, you will need to install the [Open AI Converstation](https://www.home-assistant.io/integrations/openai_conversation) integration. Follow the instructions and create an API, when this is done you are ready to start using the automations.
+Before you can use these automations, you will need to install the [Open AI Converstation](https://www.home-assistant.io/integrations/openai_conversation) or [Google Gemini](https://www.home-assistant.io/integrations/google_generative_ai_conversation/)  integration. Follow the instructions and create an API, when this is done you are ready to start using the automations.
 
 You can find all my AI Automations [here](./Packages/ai_automations/).
 

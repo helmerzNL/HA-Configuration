@@ -5,6 +5,7 @@ On this Git you'll find the __Automations__, __Scripts__, __Dashboards__ and oth
 - My HA Creations
   - [Background](#background)
   - [Dashboards](#dashboards)
+  - [BluePrints](#blueprints)
   - [AI Automations](#ai-automations)
   - [Solar Edge Limit Export](#solar-edge-limit)
   - [Charging Pole](#charging-pole)
@@ -24,6 +25,10 @@ This is the result my adoption of his code to my HA instance. You can find the c
 ## Dashboards
 
 I've been working (or customizing existing) dashboards from which I shared images. Since it's still difficult to re-create a dashboard yourself from just a few images, I'll share the code of those dashboards with you [here](/dashboards/README.md).
+
+## Blueprints
+
+I've been working on a few Blueprints for HA, which you can find [here](/blueprints/readme.md).
 
 ## AI Automations
 Before you can use these automations, you will need to install the [Open AI Converstation](https://www.home-assistant.io/integrations/openai_conversation) or [Google Gemini](https://www.home-assistant.io/integrations/google_generative_ai_conversation/)  integration. Follow the instructions and create an API, when this is done you are ready to start using the automations.

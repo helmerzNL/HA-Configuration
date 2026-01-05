@@ -1,0 +1,30 @@
+alias: Twinkly Effect Rotation
+description: ""
+triggers:
+  - trigger: time_pattern
+    minutes: /5
+conditions:
+  - condition: time
+    before: "23:30:00"
+  - condition: sun
+    after: sunset
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: light.kerstboom_vlaggenmast
+        state: "on"
+  - condition: state
+    entity_id: input_boolean.new_years_eve_program
+    state:
+      - "on"
+    enabled: false
+actions:
+  - action: light.turn_on
+    data_template:
+      entity_id: light.twinkly_voortuin
+      effect: >
+        {% set effects = state_attr('light.twinkly_voortuin', 'effect_list') %}
+        {% set current_effect = state_attr('light.twinkly_voortuin', 'effect')
+        %} {% set next_index = (effects.index(current_effect) + 1) % effects |
+        length %} {{ effects[next_index] }}
+mode: single

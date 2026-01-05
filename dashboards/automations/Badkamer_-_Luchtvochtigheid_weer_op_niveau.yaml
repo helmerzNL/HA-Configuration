@@ -1,0 +1,29 @@
+alias: Badkamer - Luchtvochtigheid weer op niveau - Duco Box terug naar Default
+description: Na een reboot van HA of na een check elke 2 uur start hij de fan.
+triggers:
+  - entity_id:
+      - sensor.open_air_mini_badkamer_humidity
+    below: 62
+    trigger: numeric_state
+  - trigger: homeassistant
+    event: start
+  - trigger: time_pattern
+    hours: /2
+conditions:
+  - condition: and
+    conditions:
+      - condition: numeric_state
+        entity_id: sensor.open_air_mini_badkamer_humidity
+        above: 0
+        below: 62
+      - condition: state
+        entity_id: input_boolean.ducobox_fan_manual_override
+        state: "off"
+actions:
+  - target:
+      entity_id:
+        - fan.open_air_mini_open_air_mini
+    data:
+      percentage: 15
+    action: fan.turn_on
+mode: single

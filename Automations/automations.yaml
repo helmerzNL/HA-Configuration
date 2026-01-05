@@ -449,12 +449,12 @@
     id: HelmerFocus
   - platform: state
     entity_id:
-    - person.helmer_zandbergen
+    - person.john_doe
     id: HelmerChange
   - platform: state
     entity_id:
-    - person.regina_zandbergen
-    id: ReginaChange
+    - person.jane_doe
+    id: janeChange
   condition:
   - condition: numeric_state
     entity_id: zone.home
@@ -532,12 +532,12 @@
     id: HelmerFocus
   - platform: state
     entity_id:
-    - person.helmer_zandbergen
+    - person.john_doe
     id: HelmerChange
   - platform: state
     entity_id:
-    - person.regina_zandbergen
-    id: ReginaChange
+    - person.jane_doe
+    id: janeChange
   condition:
   - condition: numeric_state
     entity_id: zone.home
@@ -627,10 +627,10 @@
   - condition: or
     conditions:
     - condition: zone
-      entity_id: person.helmer_zandbergen
+      entity_id: person.john_doe
       zone: zone.home
     - condition: zone
-      entity_id: person.helmer_zandbergen
+      entity_id: person.john_doe
       zone: zone.landgoed_de_woldberg
   actions:
   - metadata: {}
@@ -781,7 +781,7 @@
         action: hue.activate_scene
   mode: single
 - id: '1676399288643'
-  alias: Slaapkamer - Remote Regina
+  alias: Slaapkamer - Remote jane
   description: ''
   use_blueprint:
     path: Malte/zha-ikea-four-button-remote-styrbar-for-lights-e2001-e2002.yaml
@@ -794,7 +794,7 @@
       force_brightness: true
       brightness: 10
       light:
-        entity_id: light.slaapkamer_wled_bed_regina
+        entity_id: light.slaapkamer_wled_bed_jane
 - id: '1676480994191'
   alias: Laadpaal - Notificatie als Laadpaal beschikbaar komt.
   description: ''
@@ -1441,7 +1441,7 @@
         media_content_type: playlist
       35-7C-2E-04:
         media_action: sonos
-        source: Station van Regina
+        source: Station van jane
         media_content_type: playlist
       53-BD-2E-FD-70-00-01:
         media_action: sonos
@@ -1457,7 +1457,7 @@
         media_content_type: playlist
       15-6D-2E-04:
         media_action: sonos
-        source: Favorietenmix Regina
+        source: Favorietenmix jane
         media_content_type: playlist
 - id: '1685276892126'
   alias: Notificatie test v5
@@ -1598,7 +1598,7 @@
         - service: input_boolean.turn_off
           data: {}
           target:
-            entity_id: input_boolean.voice_response_werkkamer_regina
+            entity_id: input_boolean.voice_response_werkkamer_jane
     - conditions:
       - condition: trigger
         id: voice_aan
@@ -1631,7 +1631,7 @@
         - service: input_boolean.turn_on
           data: {}
           target:
-            entity_id: input_boolean.voice_response_werkkamer_regina
+            entity_id: input_boolean.voice_response_werkkamer_jane
   mode: restart
 - id: '1685316965791'
   alias: Template - Clear iOS Notification
@@ -1804,7 +1804,7 @@
   - data:
       notify_phone:
       - iPhone Helmer
-      - iPhone Regina
+      - iPhone jane
       message_phone_tag: wasdroger_klaar
     action: script.notificatie_clear_iphone_v3
   mode: single
@@ -2196,8 +2196,8 @@
   - platform: state
     entity_id:
     - sensor.presence_iphone_helmer
-    from: werkkamer_regina
-    id: from-wk_regina
+    from: werkkamer_jane
+    id: from-wk_jane
   - platform: state
     entity_id:
     - sensor.presence_iphone_helmer
@@ -2334,23 +2334,23 @@
     - conditions:
       - condition: trigger
         id:
-        - from-wk_regina
+        - from-wk_jane
       sequence:
       - data:
-          previous_room: werkkamer_regina
+          previous_room: werkkamer_jane
           current_room: '{{ states(''sensor.presence_iphone_helmer'')}}'
           person: helmer
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
-          previous_room: werkkamer_regina
+          previous_room: werkkamer_jane
           current_room: '{{ states(''sensor.presence_iphone_helmer'')}}'
           person: helmer
         action: script.presense_follow_music
       - metadata: {}
         data:
           person: Helmer
-          previous_room: werkkamer_regina
+          previous_room: werkkamer_jane
         action: script.espresense_update_previous_current_room_v2
     - conditions:
       - condition: trigger
@@ -2637,82 +2637,82 @@
         entity_id: input_boolean.iphone_helmer_focus_media_player_playing
   mode: single
 - id: '1688153879373'
-  alias: ESPresense - Regina Room Change
+  alias: ESPresense - jane Room Change
   description: ''
   trigger:
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: werkkamer_helmer
     id: from-wk_helmer
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: woonkamer
     id: from-woonkamer
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: keuken
     id: from-keuken
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: slaapkamer
     id: from-slaapkamer
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
-    from: werkkamer_regina
-    id: from-wk_regina
+    - sensor.presence_iphone_jane
+    from: werkkamer_jane
+    id: from-wk_jane
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: gang
     id: from-gang
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: hal
     id: from-hal
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: bijkeuken
     id: from-bijkeuken
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: berging
     id: from-berging
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: badkamer
     id: from-badkamer
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: vliering
     id: from-vliering
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: voortuin
     id: from-voortuin
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: achtertuin
     id: from-achtertuin
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: toilet_gang
     id: from-toilet_gang
   - platform: state
     entity_id:
-    - sensor.presence_iphone_regina
+    - sensor.presence_iphone_jane
     from: toilet_hal
     id: from-toilet_hal
   condition: []
@@ -2725,18 +2725,18 @@
       sequence:
       - data:
           previous_room: slaapkamer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: slaapkamer_helmer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: slaapkamer
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2746,18 +2746,18 @@
       sequence:
       - data:
           previous_room: werkkamer_helmer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: werkkamer_helmer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: werkkamer_helmer
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2766,18 +2766,18 @@
       sequence:
       - data:
           previous_room: woonkamer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: woonkamer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: woonkamer
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2786,40 +2786,40 @@
       sequence:
       - data:
           previous_room: keuken
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: keuken
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: keuken
         action: script.espresense_update_previous_current_room_v2
     - conditions:
       - condition: trigger
         id:
-        - from-wk_regina
+        - from-wk_jane
       sequence:
       - data:
-          previous_room: werkkamer_regina
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          previous_room: werkkamer_jane
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
-          previous_room: werkkamer_regina
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          previous_room: werkkamer_jane
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
-          previous_room: werkkamer_regina
+          person: jane
+          previous_room: werkkamer_jane
         action: script.espresense_update_previous_current_room_v2
     - conditions:
       - condition: trigger
@@ -2828,18 +2828,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: gang
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2849,18 +2849,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: hal
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: hal
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2870,18 +2870,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: bijkeuken
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: bijkeuken
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2891,18 +2891,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: bijkeuken
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: berging
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2912,18 +2912,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: badkamer
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: badkamer
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2933,18 +2933,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: vliering
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: vliering
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2954,18 +2954,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: voortuin
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: voortuin
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2975,18 +2975,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: achtertuin
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: achtertuin
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -2996,18 +2996,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: toilet_gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: toilet_gang
         action: script.espresense_update_previous_current_room_v2
     - conditions:
@@ -3017,18 +3017,18 @@
       sequence:
       - data:
           previous_room: gang
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         enabled: false
         action: script.presense_update_previous_and_current_room
       - data:
           previous_room: toilet_hal
-          current_room: '{{ states.sensor.presence_iphone_regina.state}}'
-          person: regina
+          current_room: '{{ states.sensor.presence_iphone_jane.state}}'
+          person: jane
         action: script.presense_follow_music
       - metadata: {}
         data:
-          person: regina
+          person: jane
           previous_room: toilet_hal
         action: script.espresense_update_previous_current_room_v2
   mode: restart
@@ -3405,7 +3405,7 @@
     state: Silence of the LANs
     enabled: true
   - condition: state
-    entity_id: person.helmer_zandbergen
+    entity_id: person.john_doe
     state: home
     enabled: true
   - condition: state
@@ -4130,7 +4130,7 @@
         mediaplayer == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer ==
         'Slaapkamer' %} media_player.slaapkamer_helmer_sonos {% elif mediaplayer ==
         'Werkkamer Helmer' %} media_player.werkkamer_helmer_sonos {% elif mediaplayer
-        == 'Werkkamer Regina' %} media_player.werkkamer_regina_sonos {% elif mediaplayer
+        == 'Werkkamer jane' %} media_player.werkkamer_jane_sonos {% elif mediaplayer
         == 'Woonkamer' %} media_player.woonkamer_sonos {% else %} media_player.woonkamer_sonos
         {% endif %}  \n"
       symfonisk_remote_device_ieee: 38:5b:44:ff:fe:7f:b6:00
@@ -4319,8 +4319,8 @@
         entity_id: input_boolean.notificatie_symfonish_status_change_remote_wk_helmer
   mode: restart
 - id: '1697906337935'
-  alias: Symfonisk Remote WK Regina
-  description: Symfonisk Remote Gen 2 voor Werkkamer Regina
+  alias: Symfonisk Remote WK jane
+  description: Symfonisk Remote Gen 2 voor Werkkamer jane
   trigger:
   - platform: event
     event_type: zha_event
@@ -4431,10 +4431,10 @@
   condition: []
   action:
   - variables:
-      symfonisk_media_speler: media_player.werkkamer_regina_sonos
+      symfonisk_media_speler: media_player.werkkamer_jane_sonos
       symfonisk_remote_id: f1a3d745b641ed589f4b632b85713bf2
-      symfonisk_remote_room: werkkamer_regina
-      symfonisk_remote_user: regina
+      symfonisk_remote_room: werkkamer_jane
+      symfonisk_remote_user: jane
       button_one_dot_single_press_playlist: Pure focus
       button_two_dot_single_press_playlist: Qmusic
   - choose:
@@ -4505,7 +4505,7 @@
           entity_id: '{{symfonisk_media_speler}}'
   mode: single
 - id: '1697921924982'
-  alias: Media Remote - Symfonisk Remote Gen 2 (Regina)
+  alias: Media Remote - Symfonisk Remote Gen 2 (jane)
   description: ''
   trigger:
   - platform: event
@@ -4643,19 +4643,19 @@
   condition: []
   action:
   - variables:
-      symfonisk_media_speler: "{% set mediaplayer = states('input_select.current_selected_speaker_symfonisk_remote_wk_regina')
+      symfonisk_media_speler: "{% set mediaplayer = states('input_select.current_selected_speaker_symfonisk_remote_wk_jane')
         %} {% if mediaplayer == 'Badkamer' %} media_player.badkamer_sonos {% elif
         mediaplayer == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer ==
         'Slaapkamer' %} media_player.slaapkamer_helmer_sonos {% elif mediaplayer ==
         'Werkkamer Helmer' %} media_player.werkkamer_helmer_sonos {% elif mediaplayer
-        == 'Werkkamer Regina' %} media_player.werkkamer_regina_sonos {% elif mediaplayer
+        == 'Werkkamer jane' %} media_player.werkkamer_jane_sonos {% elif mediaplayer
         == 'Woonkamer' %} media_player.woonkamer_sonos {% else %} media_player.woonkamer_sonos
         {% endif %}  \n"
       symfonisk_remote_device_ieee_wk_helmer: 38:5b:44:ff:fe:7f:b6:00
-      symfonisk_remote_device_ieee_wk_regina: 38:5b:44:ff:fe:55:6c:8b
-      symfonisk_remote_user: regina
-      button_one_dot_single_press_playlist: '{{states(''input_select.sonos_favorites_symfonisk_remote_wk_regina'')}}'
-      button_two_dot_single_press_playlist: '{{ states(''input_text.two_dot_active_playlist_remote_wk_regina'')}}'
+      symfonisk_remote_device_ieee_wk_jane: 38:5b:44:ff:fe:55:6c:8b
+      symfonisk_remote_user: jane
+      button_one_dot_single_press_playlist: '{{states(''input_select.sonos_favorites_symfonisk_remote_wk_jane'')}}'
+      button_two_dot_single_press_playlist: '{{ states(''input_text.two_dot_active_playlist_remote_wk_jane'')}}'
   - choose:
     - conditions:
       - condition: trigger
@@ -4691,27 +4691,27 @@
       sequence:
       - if:
         - condition: state
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
           state: Speaker
         then:
         - service: input_select.select_previous
           data:
             cycle: true
           target:
-            entity_id: input_select.current_selected_speaker_symfonisk_remote_wk_regina
+            entity_id: input_select.current_selected_speaker_symfonisk_remote_wk_jane
       - if:
         - condition: state
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
           state: Playlist
         then:
         - service: input_select.select_previous
           data:
             cycle: true
           target:
-            entity_id: input_select.sonos_favorites_symfonisk_remote_wk_regina
+            entity_id: input_select.sonos_favorites_symfonisk_remote_wk_jane
       - if:
         - condition: state
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
           state: Track
         then:
         - service: media_player.media_previous_track
@@ -4725,27 +4725,27 @@
       sequence:
       - if:
         - condition: state
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
           state: Speaker
         then:
         - service: input_select.select_next
           data:
             cycle: true
           target:
-            entity_id: input_select.current_selected_speaker_symfonisk_remote_wk_regina
+            entity_id: input_select.current_selected_speaker_symfonisk_remote_wk_jane
       - if:
         - condition: state
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
           state: Playlist
         then:
         - service: input_select.select_next
           data:
             cycle: true
           target:
-            entity_id: input_select.sonos_favorites_symfonisk_remote_wk_regina
+            entity_id: input_select.sonos_favorites_symfonisk_remote_wk_jane
       - if:
         - condition: state
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
           state: Track
         then:
         - service: media_player.media_next_track
@@ -4781,7 +4781,7 @@
         data:
           cycle: true
         target:
-          entity_id: input_select.current_status_symfonisk_remote_wk_regina
+          entity_id: input_select.current_status_symfonisk_remote_wk_jane
     - conditions:
       - condition: trigger
         id:
@@ -4789,8 +4789,8 @@
       sequence:
       - service: input_text.set_value
         data_template:
-          value: '{{states(''input_select.sonos_favorites_symfonisk_remote_wk_regina'')}}'
-          entity_id: input_text.two_dot_active_playlist_remote_wk_regina
+          value: '{{states(''input_select.sonos_favorites_symfonisk_remote_wk_jane'')}}'
+          entity_id: input_text.two_dot_active_playlist_remote_wk_jane
   mode: single
 - id: '1698742203471'
   alias: Media Remote - Symfonisk Remote Gen 2 (Helmer) BETA
@@ -4936,7 +4936,7 @@
         mediaplayer == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer ==
         'Slaapkamer' %} media_player.slaapkamer_helmer_sonos {% elif mediaplayer ==
         'Werkkamer Helmer' %} media_player.werkkamer_helmer_sonos {% elif mediaplayer
-        == 'Werkkamer Regina' %} media_player.werkkamer_regina_sonos {% elif mediaplayer
+        == 'Werkkamer jane' %} media_player.werkkamer_jane_sonos {% elif mediaplayer
         == 'Woonkamer' %} media_player.woonkamer_sonos {% else %} media_player.woonkamer_sonos
         {% endif %}  \n"
       symfonisk_remote_device_ieee: 38:5b:44:ff:fe:7f:b6:00
@@ -5283,14 +5283,14 @@
         mediaplayer == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer ==
         'Slaapkamer' %} media_player.slaapkamer_helmer_sonos {% elif mediaplayer ==
         'Werkkamer Helmer' %} media_player.werkkamer_helmer_sonos {% elif mediaplayer
-        == 'Werkkamer Regina' %} media_player.werkkamer_regina_sonos {% elif mediaplayer
+        == 'Werkkamer jane' %} media_player.werkkamer_jane_sonos {% elif mediaplayer
         == 'Woonkamer' %} media_player.woonkamer_sonos {% else %} media_player.woonkamer_sonos
         {% endif %}  \n"
       symfonisk_ruimte: "{% set mediaplayer = states('input_select.current_selected_room_symfonisk_remote_wk_helmer')
         %} {% if mediaplayer == 'Badkamer' %} badkamer {% elif mediaplayer == 'Keuken'
         %} keuken {% elif mediaplayer == 'Slaapkamer' %} slaapkamer {% elif mediaplayer
         == 'Werkkamer Helmer' %}werkkamer_helmer{% elif mediaplayer == 'Werkkamer
-        Regina' %} werkkamer_regina {% elif mediaplayer == 'Woonkamer' %} woonkamer
+        jane' %} werkkamer_jane {% elif mediaplayer == 'Woonkamer' %} woonkamer
         {% else %} woonkamer {% endif %}  \n"
       symfonisk_remote_device_ieee: 38:5b:44:ff:fe:7f:b6:00
       symfonisk_remote_user: helmer
@@ -5626,12 +5626,12 @@
           - condition: not
             conditions:
             - condition: zone
-              entity_id: person.helmer_zandbergen
+              entity_id: person.john_doe
               zone: zone.home
           - condition: not
             conditions:
             - condition: zone
-              entity_id: person.regina_zandbergen
+              entity_id: person.jane_doe
               zone: zone.home
         then:
         - service: input_boolean.turn_on
@@ -6061,14 +6061,14 @@
         mediaplayer == 'Keuken' %} media_player.keuken_sonos {% elif mediaplayer ==
         'Slaapkamer' %} media_player.slaapkamer_helmer_sonos {% elif mediaplayer ==
         'Werkkamer Helmer' %} media_player.werkkamer_helmer_sonos {% elif mediaplayer
-        == 'Werkkamer Regina' %} media_player.werkkamer_regina_sonos {% elif mediaplayer
+        == 'Werkkamer jane' %} media_player.werkkamer_jane_sonos {% elif mediaplayer
         == 'Woonkamer' %} media_player.woonkamer_sonos {% else %} media_player.woonkamer_sonos
         {% endif %}  \n"
       symfonisk_ruimte: "{% set mediaplayer = states('input_select.current_selected_room_symfonisk_remote_wk_helmer')
         %} {% if mediaplayer == 'Badkamer' %} badkamer {% elif mediaplayer == 'Keuken'
         %} keuken {% elif mediaplayer == 'Slaapkamer' %} slaapkamer {% elif mediaplayer
         == 'Werkkamer Helmer' %}werkkamer_helmer{% elif mediaplayer == 'Werkkamer
-        Regina' %} werkkamer_regina {% elif mediaplayer == 'Woonkamer' %} woonkamer
+        jane' %} werkkamer_jane {% elif mediaplayer == 'Woonkamer' %} woonkamer
         {% else %} woonkamer {% endif %}  \n"
       symfonisk_remote_device_ieee: 38:5b:44:ff:fe:7f:b6:00
       symfonisk_remote_user: helmer
@@ -6766,7 +6766,7 @@
       action: script.sonos_audio_notificatie_v6
     - metadata: {}
       data:
-        media_ruimte: Werkkamer Regina
+        media_ruimte: Werkkamer jane
         message_tts_pre_notify: false
         message_tts_body: De deurbel gaat. Er staat iemand voor de deur.
         message_tts_priority: true
@@ -6794,7 +6794,7 @@
     - service: script.sonos_audio_notificatie_v6
       metadata: {}
       data:
-        media_ruimte: Werkkamer Regina
+        media_ruimte: Werkkamer jane
         message_tts_pre_notify: true
         message_tts_body: De timer van de oven loopt over ongeveer 1 minuut af. Het
           gerecht is dus bijna gereed.
@@ -6823,7 +6823,7 @@
     - service: script.sonos_audio_notificatie_v6
       metadata: {}
       data:
-        media_ruimte: Werkkamer Regina
+        media_ruimte: Werkkamer jane
         message_tts_pre_notify: true
         message_tts_body: Haal het gerecht uit de oven.
       enabled: true
@@ -7152,8 +7152,8 @@
     id: helmer
   - platform: state
     entity_id:
-    - sensor.presence_regina_iphone
-    id: regina
+    - sensor.presence_jane_iphone
+    id: jane
   condition:
   - condition: template
     value_template: '{{ trigger.from_state.state != trigger.to_state.state }}'
@@ -7186,12 +7186,12 @@
     - conditions:
       - condition: trigger
         id:
-        - regina
+        - jane
       sequence:
       - action: script.espresense_update_previous_current_room_v2
         metadata: {}
         data:
-          person: Regina
+          person: jane
           previous_room: '{{ trigger.from_state.state }}
 
             '
@@ -7205,7 +7205,7 @@
           current_room: '{{ trigger.to_state.state }}
 
             '
-          person: regina
+          person: jane
         action: script.presense_follow_music
   mode: single
 - id: '1723592320643'
@@ -7575,7 +7575,7 @@
     en dat melden
   trigger:
   - platform: zone
-    entity_id: person.helmer_zandbergen
+    entity_id: person.john_doe
     zone: zone.home
     event: leave
   condition: []
@@ -7718,7 +7718,7 @@
       data:
         action_phone_action_enabled: two
         ruimte: Werkkamer Helmer
-        notify_phone: iphone_regina
+        notify_phone: iphone_jane
         persoon: helmer
         notify_location: home
         message_phone_title: Afwasmachine
@@ -7781,7 +7781,7 @@
       data:
         action_phone_action_enabled: one
         ruimte: Werkkamer Helmer
-        notify_phone: iphone_regina
+        notify_phone: iphone_jane
         persoon: helmer
         notify_location: away
         message_phone_title: Afwasmachine
@@ -7844,7 +7844,7 @@
       data:
         action_phone_action_enabled: one
         ruimte: Werkkamer Helmer
-        notify_phone: iphone_regina
+        notify_phone: iphone_jane
         persoon: helmer
         notify_location: away
         message_phone_title: Afwasmachine
@@ -7930,8 +7930,8 @@
       data:
         action_phone_action_enabled: none
         ruimte: Werkkamer Helmer
-        notify_phone: iphone_regina
-        persoon: regina
+        notify_phone: iphone_jane
+        persoon: jane
         notify_location: away
         message_phone_title: Afwasmachine
         message_phone_tag: afwasmachine_uitgesteld
@@ -7997,8 +7997,8 @@
         data:
           action_phone_action_enabled: none
           ruimte: Werkkamer Helmer
-          notify_phone: iphone_regina
-          persoon: regina
+          notify_phone: iphone_jane
+          persoon: jane
           notify_location: away
           message_phone_title: Afwasmachine
           message_phone_tag: afwasmachine_uitgesteld
@@ -8054,8 +8054,8 @@
         data:
           action_phone_action_enabled: one
           ruimte: Werkkamer Helmer
-          notify_phone: iphone_regina
-          persoon: regina
+          notify_phone: iphone_jane
+          persoon: jane
           notify_location: away
           message_phone_title: Afwasmachine
           message_phone_tag: afwasmachine_uitgesteld
@@ -8120,7 +8120,7 @@
       data:
         action_phone_action_enabled: none
         ruimte: Werkkamer Helmer
-        notify_phone: iphone_regina
+        notify_phone: iphone_jane
         persoon: helmer
         notify_location: away
         message_phone_title: Afwasmachine
@@ -8186,8 +8186,8 @@
         data:
           action_phone_action_enabled: none
           ruimte: Werkkamer Helmer
-          notify_phone: iphone_regina
-          persoon: regina
+          notify_phone: iphone_jane
+          persoon: jane
           notify_location: home
           message_phone_title: Afwasmachine
           message_phone_tag: afwasmachine_uitgesteld
@@ -8243,7 +8243,7 @@
         data:
           action_phone_action_enabled: one
           ruimte: Werkkamer Helmer
-          notify_phone: iphone_regina
+          notify_phone: iphone_jane
           persoon: helmer
           notify_location: home
           message_phone_title: Afwasmachine
@@ -9791,7 +9791,7 @@
     enabled: false
   mode: single
 - id: '1742727428693'
-  alias: Notificatie (Kritiek - Regina) - Combi-Stoomoven - Gerecht over 5 minuten
+  alias: Notificatie (Kritiek - jane) - Combi-Stoomoven - Gerecht over 5 minuten
     klaar
   description: ''
   use_blueprint:
@@ -9842,7 +9842,7 @@
             entity_id: sensor.keuken_combi_stoomoven_programma
             state: '99'
       - condition: state
-        entity_id: input_boolean.notificatie_kritische_meldingen_voor_regina
+        entity_id: input_boolean.notificatie_kritische_meldingen_voor_jane
         state: 'on'
       - condition: state
         entity_id: input_boolean.guest_mode
@@ -9923,7 +9923,7 @@
       after_time: 09:00:00
       before_time: '22:00:00'
 - id: '1742728791529'
-  alias: Notificatie (Kritiek - Regina) - Combi-Stoomoven - De oven is klaar!
+  alias: Notificatie (Kritiek - jane) - Combi-Stoomoven - De oven is klaar!
   description: ''
   use_blueprint:
     path: Blackshome/notifications-and-announcements.yaml
@@ -9971,7 +9971,7 @@
             state: '7942'
             enabled: true
       - condition: state
-        entity_id: input_boolean.notificatie_kritische_meldingen_voor_regina
+        entity_id: input_boolean.notificatie_kritische_meldingen_voor_jane
         state: 'on'
       - condition: state
         entity_id: input_boolean.guest_mode
@@ -11095,7 +11095,7 @@
             state: '7942'
             enabled: true
       - condition: state
-        entity_id: input_boolean.notificatie_kritische_meldingen_voor_regina
+        entity_id: input_boolean.notificatie_kritische_meldingen_voor_jane
         state: 'on'
       - condition: state
         entity_id: input_boolean.guest_mode
